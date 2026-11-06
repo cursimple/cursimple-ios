@@ -11,6 +11,9 @@
 "schedule.nextWeek" = "下一周";
 "schedule.noTerm.title" = "还没有学期";
 "schedule.noTerm.message" = "先在设置里新建一个学期，再开始排课。";
+"schedule.empty.title" = "这学期还没有课程";
+"schedule.empty.message" = "点下面的按钮添加第一门课，或直接点课表里的空格子。";
+"schedule.addFirst" = "添加第一门课";
 
 /* Week */
 "week.number" = "第 %d 周";
@@ -136,8 +139,8 @@
 "common.add" = "添加";
 "common.done" = "完成";
 "list.separator" = "、";
-"schedule.period" = "第 %d 节";
-"schedule.periodRange" = "第 %d–%d 节";
+"schedule.period" = "第%d节";
+"schedule.periodRange" = "第%d–%d节";
 "schedule.periodSlots" = "共 %d 节";
 "duration.lessThanMinute" = "不足 1 分钟";
 "duration.minutes" = "%d 分钟";
@@ -145,3 +148,47 @@
 "duration.hoursMinutes" = "%d 小时 %d 分钟";
 "term.season.spring" = "春";
 "term.season.autumn" = "秋";
+
+/* App shell */
+"app.name" = "课简";
+"drawer.open" = "打开菜单";
+"drawer.termStartUnset" = "未设置开学日期";
+"drawer.currentWeek" = "第 %d 周";
+"drawer.beforeTerm" = "距开学还有 %d 周";
+"common.back" = "返回";
+
+/* Shared schedule chrome */
+"week.thisWeek" = "本周";
+"schedule.switchWeek" = "切换周次";
+"schedule.weekShort" = "周";
+"schedule.dayShort" = "日";
+"schedule.monthUnit" = "月";
+"schedule.periodCompact" = "第%d节";
+
+/* Settings grid */
+"settings.common" = "常用";
+"settings.courseAndTime" = "课程与时间";
+"settings.appearanceSection" = "外观";
+"settings.timingValue" = "%d 节";
+"settings.termData" = "学期数据";
+"settings.termData.value" = "%@ · %d 周";
+"settings.display" = "显示";
+"settings.weekendOn" = "显示周末";
+"settings.weekendOff" = "隐藏周末";
+"settings.term.currentWeek" = "当前周次";
+
+/* About */
+"about.tagline" = "课表、今日概览与提醒，一个应用装下整个学期";
+"about.github" = "GitHub 仓库";
+"about.license" = "开源许可";
+
+/* Course */
+"course.optional" = "可选";
+"course.title.required" = "请填写课程名称";
+
+"schedule.overlap.title" = "重叠的课程";
+"schedule.overlap.count" = "%d 项";
+
+"course.conflict.message" = "与「%@」时间冲突（%@）";
+
+"term.courseCountLabel" = "课程数";

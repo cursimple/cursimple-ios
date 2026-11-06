@@ -2,52 +2,62 @@ import XCTest
 
 final class CurSimpleUITests: XCTestCase {
 
-    func testLaunchShowsScheduleTab() throws {
+    private func launch(_ arguments: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(zh-Hans)"]
+        app.launchArguments += ["-AppleLanguages", "(zh-Hans)", "-AppleLocale", "zh_CN"]
+        app.launchArguments += arguments
         app.launch()
-
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 10))
-        XCTAssertTrue(app.tabBars.buttons["课表"].exists)
-        XCTAssertTrue(app.tabBars.buttons["设置"].exists)
+        return app
     }
 
-    func testAddCourseThroughEditor() throws {
-        let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(zh-Hans)"]
-        app.launch()
+    func testLaunchShowsScheduleChrome() {
+        let app = launch()
 
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["打开菜单"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["添加课程"].exists)
+        XCTAssertTrue(app.buttons["切换到日视图"].exists)
+    }
 
-        // Open the course editor from the toolbar plus button.
-        let addButton = app.navigationBars.buttons.matching(NSPredicate(format: "label CONTAINS '添加'")).firstMatch
-        if addButton.exists {
-            addButton.tap()
-        } else {
-            app.buttons.matching(NSPredicate(format: "label CONTAINS '添加课程'")).firstMatch.tap()
-        }
+    func testDrawerNavigatesToSettings() {
+        let app = launch()
+
+        let menu = app.buttons["打开菜单"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 15))
+        menu.tap()
+
+        let settings = app.buttons["设置"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 5))
+        settings.tap()
+
+        XCTAssertTrue(app.staticTexts["常用"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["课程与时间"].exists)
+    }
+
+    func testAddCourseThroughEditor() {
+        let app = launch()
+
+        let add = app.buttons["添加课程"]
+        XCTAssertTrue(add.waitForExistence(timeout: 15))
+        add.tap()
 
         let titleField = app.textFields["课程名称"]
         XCTAssertTrue(titleField.waitForExistence(timeout: 5))
         titleField.tap()
-        titleField.typeText("高等数学")
 
+        let title = "测试课程\(Int(Date().timeIntervalSince1970))"
+        titleField.typeText(title)
         app.buttons["保存"].tap()
 
-        // The new course should appear on the week grid.
-        XCTAssertTrue(app.staticTexts["高等数学"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts[title].waitForExistence(timeout: 5))
     }
 
-    func testSettingsTabsAndAppearance() throws {
-        let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(zh-Hans)"]
-        app.launch()
+    func testDayViewFromWeekHeader() {
+        let app = launch()
 
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 10))
-        app.tabBars.buttons["设置"].tap()
+        let dayToggle = app.buttons["切换到日视图"]
+        XCTAssertTrue(dayToggle.waitForExistence(timeout: 15))
+        dayToggle.tap()
 
-        XCTAssertTrue(app.staticTexts["学期"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["节次作息"].exists)
-        XCTAssertTrue(app.staticTexts["外观"].exists)
+        XCTAssertTrue(app.staticTexts["今日概览"].waitForExistence(timeout: 5))
     }
 }

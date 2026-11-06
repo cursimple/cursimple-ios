@@ -88,6 +88,59 @@ public func weekGridBlocks(courses: [CourseItem], week: Int) -> [GridCourseBlock
     return blocks
 }
 
+/// Courses that touch in the same day, drawn as one stacked card with a count badge.
+public struct GridCourseCluster: Identifiable, Hashable, Sendable {
+
+    public let courses: [CourseItem]
+
+    public init(courses: [CourseItem]) {
+        self.courses = courses
+    }
+
+    public var id: String { courses.map(\.id).joined(separator: "|") }
+    public var primary: CourseItem { courses[0] }
+    public var count: Int { courses.count }
+}
+
+/// Overlapping courses grouped for the stacked presentation.
+public func weekGridClusters(courses: [CourseItem], week: Int) -> [GridCourseCluster] {
+    let active = courses.filter { !$0.hidden && $0.isActive(inWeek: week) }
+    var clusters: [GridCourseCluster] = []
+
+    for day in 1...7 {
+        let dayCourses = active
+            .filter { $0.time.dayOfWeek == day }
+            .sorted {
+                ($0.time.nodeRange.lowerBound, $0.time.nodeRange.upperBound, $0.id)
+                    < ($1.time.nodeRange.lowerBound, $1.time.nodeRange.upperBound, $1.id)
+            }
+
+        var groups: [[CourseItem]] = []
+        for course in dayCourses {
+            var merged = [course]
+            var remaining: [[CourseItem]] = []
+            for group in groups {
+                if group.contains(where: { overlaps($0.time.nodeRange, course.time.nodeRange) }) {
+                    merged.append(contentsOf: group)
+                } else {
+                    remaining.append(group)
+                }
+            }
+            groups = remaining + [merged]
+        }
+
+        for group in groups {
+            let sorted = group.sorted {
+                ($0.time.nodeRange.lowerBound, $0.time.nodeRange.upperBound, $0.id)
+                    < ($1.time.nodeRange.lowerBound, $1.time.nodeRange.upperBound, $1.id)
+            }
+            clusters.append(GridCourseCluster(courses: sorted))
+        }
+    }
+
+    return clusters
+}
+
 /// Total rows the grid must render, including nodes referenced only by courses.
 public func weekGridNodeCount(profile: TimingProfile, courses: [CourseItem]) -> Int {
     let courseMax = courses

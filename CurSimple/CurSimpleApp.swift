@@ -7,6 +7,21 @@ struct CurSimpleApp: App {
     @State private var store: AppStore
 
     init() {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-seedSampleCourses") {
+            let storage = AppStore.defaultStorageURL()
+                .deletingLastPathComponent()
+                .appendingPathComponent("sample-state.json")
+            try? FileManager.default.removeItem(at: storage)
+            let sampleStore = AppStore(storageURL: storage, defaultTermName: "2026-2027 第1学期")
+            for course in SampleData.courses() {
+                sampleStore.addCourse(course)
+            }
+            _store = State(initialValue: sampleStore)
+            return
+        }
+        #endif
+
         _store = State(initialValue: AppStore(defaultTermName: Self.defaultTermName()))
     }
 

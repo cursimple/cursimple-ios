@@ -9,7 +9,7 @@ public struct AppPreferences: Codable, Hashable, Sendable {
     public var showSaturday: Bool
 
     public init(
-        accent: AccentTheme = .teal,
+        accent: AccentTheme = .green,
         paletteStyle: CoursePaletteStyle = .standard,
         weekStart: WeekStartDay = .monday,
         showWeekend: Bool = true,
@@ -28,7 +28,7 @@ public struct AppPreferences: Codable, Hashable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        accent = (try? container.decodeIfPresent(AccentTheme.self, forKey: .accent)) ?? .teal
+        accent = (try? container.decodeIfPresent(AccentTheme.self, forKey: .accent)) ?? .green
         paletteStyle = (try? container.decodeIfPresent(CoursePaletteStyle.self, forKey: .paletteStyle)) ?? .standard
         weekStart = (try? container.decodeIfPresent(WeekStartDay.self, forKey: .weekStart)) ?? .monday
         showWeekend = try container.decodeIfPresent(Bool.self, forKey: .showWeekend) ?? true

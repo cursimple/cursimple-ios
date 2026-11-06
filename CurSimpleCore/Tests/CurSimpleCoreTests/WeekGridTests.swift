@@ -55,6 +55,20 @@ struct WeekGridTests {
         #expect(weekGridBlocks(courses: [hidden], week: 1).isEmpty)
     }
 
+    @Test("Overlapping courses form one cluster")
+    func clusters() {
+        let first = makeCourse(id: "a", day: 1, start: 1, end: 2)
+        let second = makeCourse(id: "b", day: 1, start: 2, end: 3)
+        let third = makeCourse(id: "c", day: 1, start: 4, end: 5)
+
+        let clusters = weekGridClusters(courses: [first, second, third], week: 1)
+
+        #expect(clusters.count == 2)
+        #expect(clusters[0].count == 2)
+        #expect(clusters[0].primary.id == "a")
+        #expect(clusters[1].count == 1)
+    }
+
     @Test("Node count covers courses beyond the profile")
     func nodeCount() {
         let profile = TimingProfile(id: "p", slots: [

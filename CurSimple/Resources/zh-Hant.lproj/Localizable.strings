@@ -11,6 +11,9 @@
 "schedule.nextWeek" = "下一週";
 "schedule.noTerm.title" = "還沒有學期";
 "schedule.noTerm.message" = "先在設定裡建立一個學期，再開始排課。";
+"schedule.empty.title" = "這學期還沒有課程";
+"schedule.empty.message" = "點下面的按鈕新增第一門課，或直接點課表裡的空格子。";
+"schedule.addFirst" = "新增第一門課";
 
 /* Week */
 "week.number" = "第 %d 週";
@@ -136,8 +139,8 @@
 "common.add" = "新增";
 "common.done" = "完成";
 "list.separator" = "、";
-"schedule.period" = "第 %d 節";
-"schedule.periodRange" = "第 %d–%d 節";
+"schedule.period" = "第%d節";
+"schedule.periodRange" = "第%d–%d節";
 "schedule.periodSlots" = "共 %d 節";
 "duration.lessThanMinute" = "不足 1 分鐘";
 "duration.minutes" = "%d 分鐘";
@@ -145,3 +148,47 @@
 "duration.hoursMinutes" = "%d 小時 %d 分鐘";
 "term.season.spring" = "春";
 "term.season.autumn" = "秋";
+
+/* App shell */
+"app.name" = "課簡";
+"drawer.open" = "開啟選單";
+"drawer.termStartUnset" = "未設定開學日期";
+"drawer.currentWeek" = "第 %d 週";
+"drawer.beforeTerm" = "距開學還有 %d 週";
+"common.back" = "返回";
+
+/* Shared schedule chrome */
+"week.thisWeek" = "本週";
+"schedule.switchWeek" = "切換週次";
+"schedule.weekShort" = "週";
+"schedule.dayShort" = "日";
+"schedule.monthUnit" = "月";
+"schedule.periodCompact" = "第%d節";
+
+/* Settings grid */
+"settings.common" = "常用";
+"settings.courseAndTime" = "課程與時間";
+"settings.appearanceSection" = "外觀";
+"settings.timingValue" = "%d 節";
+"settings.termData" = "學期資料";
+"settings.termData.value" = "%@ · %d 週";
+"settings.display" = "顯示";
+"settings.weekendOn" = "顯示週末";
+"settings.weekendOff" = "隱藏週末";
+"settings.term.currentWeek" = "目前週次";
+
+/* About */
+"about.tagline" = "課表、今日概覽與提醒，一個應用裝下整個學期";
+"about.github" = "GitHub 儲存庫";
+"about.license" = "開源授權";
+
+/* Course */
+"course.optional" = "可選";
+"course.title.required" = "請填寫課程名稱";
+
+"schedule.overlap.title" = "重疊的課程";
+"schedule.overlap.count" = "%d 項";
+
+"course.conflict.message" = "與「%@」時間衝突（%@）";
+
+"term.courseCountLabel" = "課程數";

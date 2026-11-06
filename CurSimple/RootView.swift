@@ -1,22 +1,156 @@
 import CurSimpleCore
 import SwiftUI
 
+enum AppScreen: String, CaseIterable {
+    case schedule
+    case settings
+
+    var titleKey: LocalizedStringKey {
+        switch self {
+        case .schedule: "tab.schedule"
+        case .settings: "tab.settings"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .schedule: "calendar"
+        case .settings: "gearshape"
+        }
+    }
+}
+
 struct RootView: View {
 
     @Environment(AppStore.self) private var store
+    @Environment(\.colorScheme) private var colorScheme
+
+    @State private var screen: AppScreen = ProcessInfo.processInfo.arguments.contains("-startSettings") ? .settings : .schedule
+    @State private var drawerOpen = ProcessInfo.processInfo.arguments.contains("-openDrawer")
 
     var body: some View {
-        TabView {
-            ScheduleView()
-                .tabItem {
-                    Label("tab.schedule", systemImage: "calendar")
+        ZStack(alignment: .leading) {
+            Group {
+                switch screen {
+                case .schedule:
+                    ScheduleView(onOpenDrawer: openDrawer)
+                case .settings:
+                    SettingsView(onOpenDrawer: openDrawer)
                 }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            SettingsView()
-                .tabItem {
-                    Label("tab.settings", systemImage: "gearshape")
-                }
+            if drawerOpen {
+                Color.black.opacity(0.32)
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: closeDrawer)
+                    .transition(.opacity)
+
+                DrawerView(screen: $screen, isOpen: $drawerOpen)
+                    .transition(.move(edge: .leading))
+                    .zIndex(2)
+            }
         }
-        .tint(store.preferences.accent.color)
+        .animation(.easeOut(duration: 0.24), value: drawerOpen)
+    }
+
+    private func openDrawer() {
+        withAnimation(.easeOut(duration: 0.24)) {
+            drawerOpen = true
+        }
+    }
+
+    private func closeDrawer() {
+        withAnimation(.easeOut(duration: 0.22)) {
+            drawerOpen = false
+        }
+    }
+}
+
+struct DrawerView: View {
+
+    @Binding var screen: AppScreen
+    @Binding var isOpen: Bool
+
+    @Environment(AppStore.self) private var store
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
+        let width = min(UIScreen.main.bounds.width * 0.78, 320)
+
+        VStack(alignment: .leading, spacing: 6) {
+            Text("app.name")
+                .font(AppFont.appTitle)
+                .foregroundStyle(colors.onSurface)
+                .padding(.top, 58)
+
+            Text(weekSubtitle)
+                .font(AppFont.bodySmall)
+                .foregroundStyle(colors.onSurfaceVariant)
+                .padding(.bottom, 10)
+
+            ForEach(AppScreen.allCases, id: \.self) { item in
+                drawerItem(item, colors: colors)
+            }
+
+            Spacer(minLength: 12)
+
+            Divider().overlay(colors.outlineVariant)
+
+            HStack(spacing: 8) {
+                Image(systemName: "info.circle")
+                    .font(.system(size: 14))
+                Text("app.version")
+                    .font(AppFont.label)
+            }
+            .foregroundStyle(colors.onSurfaceVariant)
+            .padding(.vertical, 12)
+        }
+        .padding(.horizontal, 14)
+        .frame(width: width)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(colors.surface)
+        .ignoresSafeArea()
+    }
+
+    private func drawerItem(_ item: AppScreen, colors: AppColors) -> some View {
+        let selected = screen == item
+        return Button {
+            screen = item
+            withAnimation(.easeOut(duration: 0.2)) {
+                isOpen = false
+            }
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: item.icon)
+                    .font(.system(size: 17, weight: .medium))
+                    .frame(width: 22)
+                Text(item.titleKey)
+                    .font(.system(size: 14, weight: .medium))
+                Spacer()
+            }
+            .foregroundStyle(selected ? colors.onPrimaryContainer : colors.onSurface)
+            .padding(.horizontal, 12)
+            .frame(height: 46)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(selected ? colors.primaryContainer : .clear)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var weekSubtitle: String {
+        guard let term = store.activeTerm,
+              let start = term.startDateValue else {
+            return String(localized: "drawer.termStartUnset")
+        }
+        let week = ScheduleCalendar.teachingWeekNumber(termStart: start, date: .now)
+        if week >= 1 {
+            return String(format: String(localized: "drawer.currentWeek"), week)
+        }
+        return String(format: String(localized: "drawer.beforeTerm"), 1 - week)
     }
 }

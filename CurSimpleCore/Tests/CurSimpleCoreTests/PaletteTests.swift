@@ -4,47 +4,64 @@ import Testing
 @Suite("Palette")
 struct PaletteTests {
 
-    @Test("Course hue is stable and in range")
-    func stableHue() {
-        let course = makeCourse(id: "stable-id")
-        let first = CoursePalette.hue(for: course)
-        let second = CoursePalette.hue(for: course)
-        #expect(first == second)
-        #expect((0..<360).contains(first))
+    @Test("Kotlin string hash picks the same palette slot")
+    func kotlinHashIndex() {
+        // "abc".hashCode() == 96354; 96354 mod 7 == 6.
+        #expect(CoursePalette.paletteIndex(forSeed: "abc", count: 7) == 6)
+        #expect(CoursePalette.paletteIndex(forSeed: "高等数学", count: 7) >= 0)
+        #expect(CoursePalette.paletteIndex(forSeed: "高等数学", count: 7) < 7)
     }
 
-    @Test("Explicit course color keeps its hue")
-    func explicitColor() {
-        let raw: UInt32 = 0xFFEB5757
-        let course = makeCourse(id: "a", colorArgb: raw)
-        let expectedHue = RGBColor(argb: raw).hsl.hue
+    @Test("Index is stable for the same course title")
+    func stableIndex() {
+        let first = CoursePalette.paletteIndex(forSeed: "数据结构", count: 7)
+        let second = CoursePalette.paletteIndex(forSeed: "数据结构", count: 7)
+        #expect(first == second)
+    }
 
-        for dark in [false, true] {
-            let colors = CoursePalette.colors(for: course, style: .standard, dark: dark)
-            #expect(abs(colors.accent.hsl.hue - expectedHue) < 1)
-            #expect(abs(colors.fill.hsl.hue - expectedHue) < 1)
+    @Test("Course entry follows the Android palette")
+    func entryMatchesPalette() {
+        let palette = CoursePalette.entries(for: .standard, dark: false)
+        #expect(palette.count == 7)
+        let course = makeCourse(id: "a", title: "abc")
+        let index = CoursePalette.paletteIndex(forSeed: "abc", count: palette.count)
+        let entry = CoursePalette.courseEntry(for: course, style: .standard, dark: false)
+        #expect(entry == palette[index])
+    }
+
+    @Test("Every palette style has seven entries in both modes")
+    func styleSizes() {
+        for style in CoursePaletteStyle.allCases {
+            #expect(CoursePalette.entries(for: style, dark: false).count == 7)
+            #expect(CoursePalette.entries(for: style, dark: true).count == 7)
         }
     }
 
-    @Test("Light fills are lighter than dark fills")
-    func lightness() {
-        let course = makeCourse(id: "a")
-        let light = CoursePalette.colors(for: course, style: .standard, dark: false)
-        let dark = CoursePalette.colors(for: course, style: .standard, dark: true)
-        #expect(light.fill.hsl.lightness > dark.fill.hsl.lightness)
+    @Test("Explicit color keeps the chosen fill")
+    func explicitColor() {
+        let raw: UInt32 = 0xFFEB5757
+        let course = makeCourse(id: "a", colorArgb: raw)
+        let entry = CoursePalette.courseEntry(for: course, style: .standard, dark: false)
+        #expect(entry.container.argb == raw)
     }
 
-    @Test("Color round trips through ARGB and hex")
-    func colorRoundTrip() {
-        let original = RGBColor(hex: "#2E8B9A")!
-        #expect(original.hex == "#2E8B9A")
-        #expect(RGBColor(argb: original.argb).hex == "#2E8B9A")
-        #expect(RGBColor(hex: "#GGGGGG") == nil)
+    @Test("Exam cards use the exam palette")
+    func examColor() {
+        let exam = makeCourse(id: "a", category: .exam)
+        let entry = CoursePalette.courseEntry(for: exam, style: .standard, dark: false)
+        #expect(entry == CoursePalette.examEntry(dark: false))
+    }
+
+    @Test("Light fills get dark content and dark fills get light content")
+    func readableContent() {
+        #expect(CoursePalette.readableOn(RGBColor(hex: "#DDEBFA")!).hex == "#1F2A24")
+        #expect(CoursePalette.readableOn(RGBColor(hex: "#243A52")!).hex == "#FFFFFF")
     }
 
     @Test("Accent presets are all distinct")
     func accentsDistinct() {
         let hexes = Set(AccentTheme.allCases.map(\.baseColor.hex))
         #expect(hexes.count == AccentTheme.allCases.count)
+        #expect(AccentTheme.allCases.contains(.green))
     }
 }

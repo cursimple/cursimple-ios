@@ -1,14 +1,25 @@
 import CurSimpleCore
 import SwiftUI
 
+struct CourseEditorTarget: Identifiable {
+    let id = UUID()
+    let course: CourseItem?
+    let slot: CourseTimeSlot
+}
+
 struct ScheduleView: View {
 
+    let onOpenDrawer: () -> Void
+
     @Environment(AppStore.self) private var store
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var displayWeekStart: Date = ScheduleCalendar.startOfDisplayWeek(containing: .now, weekStart: .monday)
-    @State private var viewMode: ScheduleViewMode = .week
-    @State private var editingCourse: CourseItem?
-    @State private var isAddingCourse = false
+    @State private var viewMode: ScheduleViewMode = ProcessInfo.processInfo.arguments.contains("-startDayView") ? .day : .week
+    @State private var selectedDay: Date = .now
+    @State private var editorTarget: CourseEditorTarget? = ProcessInfo.processInfo.arguments.contains("-openEditor")
+        ? CourseEditorTarget(course: nil, slot: CourseTimeSlot(dayOfWeek: 1, startNode: 1, endNode: 2))
+        : nil
     @State private var detailCourseID: String?
     @State private var showTermPicker = false
 
@@ -16,251 +27,379 @@ struct ScheduleView: View {
     private var term: Term? { store.activeTerm }
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if let term {
-                    scheduleContent(term: term)
-                } else {
-                    ContentUnavailableView(
-                        "schedule.noTerm.title",
-                        systemImage: "calendar.badge.plus",
-                        description: Text("schedule.noTerm.message")
-                    )
-                }
+        let colors = AppColors.resolve(accent: preferences.accent, dark: colorScheme == .dark)
+
+        ZStack {
+            colors.background.ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                topBar(colors: colors)
+                contentCard(colors: colors)
             }
-            .navigationTitle(navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar { toolbarContent }
-            .sheet(item: $editingCourse) { course in
-                CourseEditorView(
-                    editing: course.id.isEmpty ? nil : course,
-                    initialSlot: course.time
-                ) { result in
-                    apply(courseResult: result, replacing: course.id.isEmpty ? nil : course)
-                }
-                .presentationDetents([.large])
+        }
+        .tint(colors.primary)
+        .sheet(item: $editorTarget) { target in
+            CourseEditorView(editing: target.course, initialSlot: target.slot) { result in
+                commit(result, target: target)
             }
-            .sheet(item: Binding(
-                get: {
-                    detailCourseID.flatMap { id in
-                        store.activeTerm?.courses.first { $0.id == id }
-                    }
-                },
-                set: { detailCourseID = $0?.id }
-            )) { course in
-                CourseDetailView(course: course, term: term) { updated in
-                    store.updateCourse(updated)
-                } onDelete: {
-                    store.deleteCourse(id: course.id)
-                    detailCourseID = nil
-                } onHide: {
-                    var copy = course
-                    copy.hidden = true
-                    store.updateCourse(copy)
-                    detailCourseID = nil
+            .presentationDetents([.large])
+        }
+        .sheet(item: Binding(
+            get: {
+                detailCourseID.flatMap { id in
+                    store.activeTerm?.courses.first { $0.id == id }
                 }
+            },
+            set: { detailCourseID = $0?.id }
+        )) { course in
+            CourseDetailView(course: course, term: term) { updated in
+                store.updateCourse(updated)
+            } onDelete: {
+                store.deleteCourse(id: course.id)
+                detailCourseID = nil
+            } onHide: {
+                var copy = course
+                copy.hidden = true
+                store.updateCourse(copy)
+                detailCourseID = nil
+            }
+            .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $showTermPicker) {
+            TermPickerView()
                 .presentationDetents([.medium, .large])
-            }
-            .sheet(isPresented: $isAddingCourse) {
-                QuickAddView { course in
-                    store.addCourse(course)
-                }
-                .presentationDetents([.medium, .large])
-            }
-            .sheet(isPresented: $showTermPicker) {
-                TermPickerView()
-                    .presentationDetents([.medium, .large])
-            }
+        }
+        .onChange(of: term?.id) { _, _ in
+            displayWeekStart = ScheduleCalendar.startOfDisplayWeek(
+                containing: .now,
+                weekStart: preferences.weekStart
+            )
         }
     }
 
-    // MARK: - Content
+    // MARK: - Top bar
 
-    @ViewBuilder
-    private func scheduleContent(term: Term) -> some View {
-        VStack(spacing: 0) {
-            weekHeader(term: term)
-            if viewMode == .week {
-                WeekGridView(
-                    term: term,
-                    profile: store.timingProfile,
-                    preferences: preferences,
-                    displayWeekStart: displayWeekStart,
-                    onTapCourse: { detailCourseID = $0 },
-                    onLongPressCourse: { id in
-                        if let course = store.activeTerm?.courses.first(where: { $0.id == id }) {
-                            editingCourse = course
-                        }
-                    },
-                    onTapEmpty: { _, _ in isAddingCourse = true }
-                )
-            } else {
-                DayView(
-                    term: term,
-                    profile: store.timingProfile,
-                    date: selectedDay,
-                    onOpenCourse: { detailCourseID = $0 }
-                )
-            }
-        }
-    }
-
-    private var selectedDay: Date {
-        let today = Calendar.current.startOfDay(for: .now)
-        let weekDates = currentWeekDates()
-        if weekDates.contains(today) { return today }
-        return weekDates.first ?? today
-    }
-
-    private func currentWeekDates() -> [Date] {
-        let days = displayDays()
-        return (0..<days.count).compactMap { ScheduleCalendar.addDays($0, to: displayWeekStart) }
-    }
-
-    private func displayDays() -> [Int] {
-        var days: [Int]
-        if preferences.showWeekend {
-            let start = preferences.weekStart.isoDayOfWeek
-            days = (0..<7).map { (($0 + start - 2) % 7) + 1 }
-        } else if preferences.showSaturday {
-            days = [1, 2, 3, 4, 5, 6]
-        } else {
-            days = [1, 2, 3, 4, 5]
-        }
-        return days
-    }
-
-    // MARK: - Header
-
-    private var navigationTitle: String {
-        term?.name ?? String(localized: "schedule.title")
-    }
-
-    @ToolbarContentBuilder
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                showTermPicker = true
-            } label: {
-                HStack(spacing: 4) {
-                    Text(navigationTitle)
-                        .font(.headline)
-                        .lineLimit(1)
-                    Image(systemName: "chevron.down")
-                        .font(.caption2.weight(.semibold))
-                }
-                .foregroundStyle(Color.accentColor)
-            }
-        }
-
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            Button {
-                withAnimation(.easeInOut(duration: 0.22)) {
-                    viewMode = viewMode == .week ? .day : .week
-                }
-            } label: {
-                Image(systemName: viewMode == .week ? "rectangle.grid.1x2" : "calendar")
-            }
-            .accessibilityLabel(viewMode == .week ? "schedule.showDay" : "schedule.showWeek")
-
-            Button {
-                editingCourse = CourseItem(title: "", time: CourseTimeSlot(dayOfWeek: 1, startNode: 1, endNode: 2))
-            } label: {
-                Image(systemName: "plus")
-            }
-            .accessibilityLabel("schedule.addCourse")
-        }
-    }
-
-    private func weekHeader(term: Term) -> some View {
-        let days = displayDays()
-        let weekNumber = term.weekNumber(on: displayWeekStart, calendar: .current)
-
-        return VStack(spacing: 10) {
+    private func topBar(colors: AppColors) -> some View {
+        ZStack {
             HStack {
-                Text(weekHeaderText(weekNumber))
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(weekNumber.map { $0 >= 1 } == true ? Color.accentColor : Color.secondary)
+                Button(action: onOpenDrawer) {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.system(size: 21, weight: .medium))
+                        .foregroundStyle(colors.onBackground)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("drawer.open")
 
                 Spacer()
 
-                HStack(spacing: 4) {
-                    CircleIconButton(systemImage: "chevron.left", label: "schedule.previousWeek") {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            displayWeekStart = ScheduleCalendar.addWeeks(-1, to: displayWeekStart)
+                HStack(spacing: 8) {
+                    viewModeButton(colors: colors)
+                    addButton(colors: colors)
+                }
+            }
+
+            VStack(spacing: 2) {
+                weekPill(colors: colors)
+                Text(term?.name ?? String(localized: "schedule.title"))
+                    .font(AppFont.label)
+                    .foregroundStyle(colors.onSurfaceVariant)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 74)
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+    }
+
+    private func weekPill(colors: AppColors) -> some View {
+        let displayed = displayedWeekNumber
+        let current = currentWeekNumber
+        let isCurrent = displayed != nil && displayed == current
+
+        return Menu {
+            if let term {
+                ForEach(1...max(term.weekCount, 1), id: \.self) { week in
+                    Button {
+                        jump(to: week, term: term)
+                    } label: {
+                        if week == displayed {
+                            Label(String(format: String(localized: "week.number"), week), systemImage: "checkmark")
+                        } else {
+                            Text(String(format: String(localized: "week.number"), week))
                         }
                     }
-                    CircleIconButton(systemImage: "chevron.right", label: "schedule.nextWeek") {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            displayWeekStart = ScheduleCalendar.addWeeks(1, to: displayWeekStart)
+                }
+                Divider()
+            }
+            Button("term.picker") { showTermPicker = true }
+        } label: {
+            HStack(spacing: 6) {
+                Text(weekLabelText)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(isCurrent ? colors.onPrimaryContainer : colors.onSurface)
+
+                if isCurrent {
+                    Text("week.thisWeek")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(colors.onPrimary)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 1)
+                        .background(Capsule().fill(colors.primary))
+                }
+
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(isCurrent ? colors.onPrimaryContainer : colors.onSurfaceVariant)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 5)
+            .background(
+                Capsule().fill(isCurrent ? colors.primaryContainer : colors.surfaceVariant.opacity(0.55))
+            )
+            .overlay(
+                Capsule().stroke(
+                    isCurrent ? colors.primary.opacity(0.25) : colors.outlineVariant.opacity(0.45),
+                    lineWidth: 1
+                )
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("schedule.switchWeek")
+    }
+
+    private func viewModeButton(colors: AppColors) -> some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                if viewMode == .week {
+                    selectedDay = .now
+                    viewMode = .day
+                } else {
+                    viewMode = .week
+                }
+            }
+        } label: {
+            Text(viewMode == .week ? "schedule.weekShort" : "schedule.dayShort")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(colors.onSurface)
+                .frame(width: 40, height: 36)
+                .background(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(colors.surface)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(colors.outlineVariant, lineWidth: 1)
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(viewMode == .week ? "schedule.showDay" : "schedule.showWeek")
+    }
+
+    private func addButton(colors: AppColors) -> some View {
+        Button {
+            editorTarget = CourseEditorTarget(
+                course: nil,
+                slot: CourseTimeSlot(dayOfWeek: defaultDay, startNode: 1, endNode: 2)
+            )
+        } label: {
+            Image(systemName: "plus")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(colors.onSurface)
+                .frame(width: 40, height: 40)
+                .background(Circle().fill(colors.surface))
+                .overlay(Circle().stroke(colors.outlineVariant, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("schedule.addCourse")
+    }
+
+    private var defaultDay: Int {
+        if viewMode == .day {
+            return ScheduleCalendar.isoDayOfWeek(selectedDay)
+        }
+        return 1
+    }
+
+    // MARK: - Content card
+
+    private func contentCard(colors: AppColors) -> some View {
+        Group {
+            if let term {
+                if viewMode == .week {
+                    WeekGridView(
+                        term: term,
+                        profile: store.timingProfile,
+                        preferences: preferences,
+                        displayWeekStart: displayWeekStart,
+                        onTapCourse: { detailCourseID = $0 },
+                        onLongPressCourse: { id in
+                            guard let course = term.courses.first(where: { $0.id == id }) else { return }
+                            editorTarget = CourseEditorTarget(course: course, slot: course.time)
+                        },
+                        onTapEmpty: { slot in
+                            editorTarget = CourseEditorTarget(course: nil, slot: slot)
+                        },
+                        onSelectDay: { date in
+                            selectedDay = date
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewMode = .day
+                            }
                         }
+                    )
+                    .overlay {
+                        if term.courses.isEmpty {
+                            emptyOverlay(colors: colors)
+                        }
+                    }
+                } else {
+                    DayView(
+                        term: term,
+                        profile: store.timingProfile,
+                        date: selectedDay,
+                        onOpenCourse: { detailCourseID = $0 }
+                    )
+                }
+            } else {
+                ContentUnavailableView(
+                    "schedule.noTerm.title",
+                    systemImage: "calendar.badge.plus",
+                    description: Text("schedule.noTerm.message")
+                )
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .padding(.horizontal, 6)
+        .padding(.bottom, 6)
+        .gesture(horizontalSwipe)
+    }
+
+    private var horizontalSwipe: some Gesture {
+        DragGesture(minimumDistance: 40)
+            .onEnded { value in
+                guard abs(value.translation.width) > abs(value.translation.height) * 1.4 else { return }
+                let forward = value.translation.width < -50
+                let backward = value.translation.width > 50
+                guard forward || backward else { return }
+                let delta = forward ? 1 : -1
+
+                withAnimation(.easeOut(duration: 0.18)) {
+                    if viewMode == .week {
+                        displayWeekStart = ScheduleCalendar.addWeeks(delta, to: displayWeekStart)
+                    } else {
+                        selectedDay = ScheduleCalendar.addDays(delta, to: selectedDay)
                     }
                 }
             }
-            .padding(.horizontal, AppMetrics.pagePadding)
+    }
 
-            if viewMode == .week {
-                HStack(spacing: 0) {
-                    Text(Format.weekdayNarrow(days[0]))
-                        .frame(width: 34)
-                    ForEach(days, id: \.self) { day in
-                        dayColumnHeader(day: day)
-                    }
-                }
-                .font(.caption.weight(.medium))
-                .foregroundStyle(.secondary)
-                .padding(.bottom, 2)
+    private func emptyOverlay(colors: AppColors) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "calendar.badge.plus")
+                .font(.system(size: 26, weight: .regular))
+                .foregroundStyle(colors.primary)
+                .frame(width: 58, height: 58)
+                .background(Circle().fill(colors.primaryContainer))
+
+            Text("schedule.empty.title")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(colors.onSurface)
+
+            Text("schedule.empty.message")
+                .font(AppFont.bodySmall)
+                .foregroundStyle(colors.onSurfaceVariant)
+                .multilineTextAlignment(.center)
+
+            Button {
+                editorTarget = CourseEditorTarget(
+                    course: nil,
+                    slot: CourseTimeSlot(dayOfWeek: defaultDay, startNode: 1, endNode: 2)
+                )
+            } label: {
+                Text("schedule.addFirst")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(colors.onPrimary)
+                    .padding(.horizontal, 18)
+                    .frame(height: 40)
+                    .background(Capsule().fill(colors.primary))
             }
+            .buttonStyle(.plain)
+            .padding(.top, 2)
         }
-        .padding(.top, 8)
+        .padding(22)
+        .frame(maxWidth: 290)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(colors.surface)
+                .shadow(color: .black.opacity(0.10), radius: 18, y: 6)
+        )
+        .padding(24)
     }
 
-    private func dayColumnHeader(day: Int) -> some View {
-        let date = columnDate(for: day)
-        let isToday = Calendar.current.isDateInToday(date)
+    // MARK: - Week state
 
-        return VStack(spacing: 2) {
-            Text(Format.weekdayNarrow(day))
-            Text(date.formatted(.dateTime.day()))
-                .font(.caption2.weight(isToday ? .bold : .medium))
-                .foregroundStyle(isToday ? Color.white : Color.secondary)
-                .frame(width: 20, height: 20)
-                .background {
-                    if isToday {
-                        Circle().fill(Color.accentColor)
-                    }
-                }
-        }
-        .frame(maxWidth: .infinity)
+    private var displayedWeekNumber: Int? {
+        guard let start = term?.startDateValue else { return nil }
+        return displayWeekTermIndex(termStart: start, displayWeekStart: displayWeekStart)
     }
 
-    private func weekHeaderText(_ weekNumber: Int?) -> String {
-        guard let weekNumber else {
+    private var currentWeekNumber: Int? {
+        guard let start = term?.startDateValue else { return nil }
+        return ScheduleCalendar.teachingWeekNumber(termStart: start, date: .now)
+    }
+
+    private var weekLabelText: String {
+        guard let week = displayedWeekNumber else {
             return String(localized: "week.termStartMissing")
         }
-        if weekNumber < 1 {
+        if week < 1 {
             return String(localized: "week.notStarted")
         }
-        return String(format: String(localized: "week.number"), weekNumber)
+        return String(format: String(localized: "week.number"), week)
     }
 
-    private func columnDate(for day: Int) -> Date {
-        let startISO = preferences.weekStart.isoDayOfWeek
-        let offset = (day - startISO + 7) % 7
-        return ScheduleCalendar.addDays(offset, to: displayWeekStart)
+    private func displayedDays() -> [Date] {
+        let days = columnDayOfWeeks(
+            weekStart: preferences.weekStart,
+            showWeekend: preferences.showWeekend,
+            showSaturday: preferences.showSaturday
+        )
+        return days.map {
+            columnDate(
+                displayWeekStart: displayWeekStart,
+                dayOfWeek: $0,
+                weekStart: preferences.weekStart
+            )
+        }
+    }
+
+    private func jump(to week: Int, term: Term) {
+        guard let start = term.startDateValue else { return }
+        let termMonday = ScheduleCalendar.startOfTeachingWeek(containing: start)
+        let targetMonday = ScheduleCalendar.addWeeks(week - 1, to: termMonday)
+        withAnimation(.easeOut(duration: 0.2)) {
+            displayWeekStart = ScheduleCalendar.startOfDisplayWeek(
+                containing: targetMonday,
+                weekStart: preferences.weekStart
+            )
+        }
     }
 
     // MARK: - Editing
 
-    private func apply(courseResult: CourseEditorResult, replacing original: CourseItem?) {
-        if var course = courseResult.course {
-            if let original {
-                course.id = original.id
-                store.updateCourse(course)
+    private func commit(_ result: CourseEditorResult, target: CourseEditorTarget) {
+        if let course = result.course {
+            if let original = target.course {
+                var updated = course
+                updated.id = original.id
+                store.updateCourse(updated)
             } else {
                 store.addCourse(course)
             }
-        } else if let original, courseResult.deleted {
+        } else if result.deleted, let original = target.course {
             store.deleteCourse(id: original.id)
         }
     }

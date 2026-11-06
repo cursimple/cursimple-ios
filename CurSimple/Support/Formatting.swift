@@ -11,26 +11,6 @@ extension AccentTheme {
     var color: Color { baseColor.color }
 }
 
-enum AppMetrics {
-    static let pagePadding: CGFloat = 16
-    static let cardRadius: CGFloat = 16
-    static let cardPadding: CGFloat = 16
-    static let touchTarget: CGFloat = 44
-}
-
-extension View {
-    func appCard(
-        colorScheme: ColorScheme,
-        radius: CGFloat = AppMetrics.cardRadius,
-        fill: Color? = nil
-    ) -> some View {
-        background(
-            RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .fill(fill ?? Color(.secondarySystemGroupedBackground))
-        )
-    }
-}
-
 enum Format {
 
     static func weekday(_ day: Int) -> String {
@@ -118,9 +98,5 @@ enum Format {
 
     static func fullDate(_ date: Date) -> String {
         date.formatted(.dateTime.month(.wide).day().weekday(.wide))
-    }
-
-    static func weekRangeText(start: Date, end: Date) -> String {
-        "\(monthDay(start)) – \(monthDay(end))"
     }
 }

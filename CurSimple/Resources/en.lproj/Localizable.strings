@@ -145,3 +145,47 @@
 "duration.hoursMinutes" = "%d h %d min";
 "term.season.spring" = "Spring";
 "term.season.autumn" = "Fall";
+
+/* App shell */
+"app.name" = "CurSimple";
+"drawer.open" = "Open menu";
+"drawer.termStartUnset" = "Term start not set";
+"drawer.currentWeek" = "Week %d";
+"drawer.beforeTerm" = "%d weeks until term";
+"common.back" = "Back";
+
+/* Shared schedule chrome */
+"week.thisWeek" = "This week";
+"schedule.switchWeek" = "Switch week";
+"schedule.weekShort" = "W";
+"schedule.dayShort" = "D";
+"schedule.monthUnit" = "";
+"schedule.periodCompact" = "P%d";
+
+/* Settings grid */
+"settings.common" = "Common";
+"settings.courseAndTime" = "Courses & time";
+"settings.appearanceSection" = "Appearance";
+"settings.timingValue" = "%d periods";
+"settings.termData" = "Term data";
+"settings.termData.value" = "%@ · %d weeks";
+"settings.display" = "Display";
+"settings.weekendOn" = "Weekend shown";
+"settings.weekendOff" = "Weekend hidden";
+"settings.term.currentWeek" = "Current week";
+
+/* About */
+"about.tagline" = "Timetable, today overview and reminders — one app for the whole term";
+"about.github" = "GitHub repository";
+"about.license" = "License";
+
+/* Course */
+"course.optional" = "Optional";
+"course.title.required" = "Please enter a course name";
+
+"schedule.overlap.title" = "Overlapping courses";
+"schedule.overlap.count" = "%d items";
+
+"course.conflict.message" = "Conflicts with “%@” (%@)";
+
+"term.courseCountLabel" = "Courses";
