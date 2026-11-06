@@ -311,3 +311,34 @@
 "override.invalid" = "请检查日期与课程";
 
 "schedule.holidayShort" = "休";
+
+"settings.dataSection" = "数据";
+"settings.share" = "课表分享";
+"settings.share.value" = "分享码 · 二维码 · 导入";
+"share.pageTitle" = "课表分享";
+"share.export.title" = "分享当前课表";
+"share.export.footer" = "生成一段分享码，同学在课简里粘贴即可导入。二维码适合当面扫，分享码适合发消息。";
+"share.export.action" = "生成分享码";
+"share.import.title" = "从分享码导入";
+"share.import.placeholder" = "粘贴以 CSV1: 开头的分享码";
+"share.import.paste" = "从剪贴板粘贴";
+"share.import.action" = "解析分享码";
+"share.import.invalid" = "不是有效的分享码";
+"share.importedName" = "导入的课表";
+"share.importedProfileName" = "分享的作息";
+"share.code.title" = "分享码";
+"share.code.summary" = "%d 门课程";
+"share.code.copy" = "复制";
+"share.code.copied" = "已复制";
+"share.code.share" = "分享";
+"share.code.tooLongForQR" = "内容较长，无法生成二维码，请复制分享码发送。";
+"share.preview.title" = "确认导入";
+"share.preview.term" = "学期";
+"share.preview.start" = "开学日期";
+"share.preview.courses" = "课程";
+"share.preview.coursesValue" = "%d 门";
+"share.preview.timing" = "节次";
+"share.preview.timingValue" = "%d 节";
+"share.preview.warning" = "将新建一个学期并切换过去，现有课表不会被修改。";
+"share.preview.confirm" = "导入为新学期";
+"share.info" = "分享码只包含学期名、开学日期、课程与节次时间，不包含笔记、提醒和个人设置。";

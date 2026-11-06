@@ -8,6 +8,7 @@ enum SettingsRoute: Hashable {
     case reminders
     case holidays
     case overrides
+    case share
     case about
 }
 
@@ -26,6 +27,7 @@ struct SettingsView: View {
         if arguments.contains("-openReminders") { return [.reminders] }
         if arguments.contains("-openHolidays") { return [.holidays] }
         if arguments.contains("-openOverrides") { return [.overrides] }
+        if arguments.contains("-openShare") { return [.share] }
         if arguments.contains("-openAbout") { return [.about] }
         return []
     }()
@@ -47,6 +49,7 @@ struct SettingsView: View {
                             calendarSection(colors: colors)
                             reminderSection(colors: colors)
                             appearanceSection(colors: colors)
+                            dataSection(colors: colors)
                         }
                         .padding(.horizontal, 14)
                         .padding(.bottom, 28)
@@ -68,6 +71,8 @@ struct SettingsView: View {
                     HolidaySettingsView()
                 case .overrides:
                     OverrideSettingsView()
+                case .share:
+                    ShareSettingsView()
                 case .about:
                     AboutView()
                 }
@@ -363,6 +368,43 @@ struct SettingsView: View {
             format: String(localized: "settings.reminder.value"),
             reminders.advanceMinutes
         )
+    }
+
+    private func dataSection(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            SettingsSectionLabel(title: "settings.dataSection", colors: colors)
+
+            NavigationLink(value: SettingsRoute.share) {
+                HStack(spacing: 12) {
+                    Image(systemName: "qrcode")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(colors.primary)
+                        .frame(width: 34, height: 34)
+                        .background(Circle().fill(colors.primaryContainer))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("settings.share")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(colors.onSurface)
+                        Text("settings.share.value")
+                            .font(AppFont.label)
+                            .foregroundStyle(colors.onSurfaceVariant)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(colors.onSurfaceVariant)
+                }
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(colors.surface)
+                )
+            }
+            .buttonStyle(.plain)
+        }
     }
 
     private func appearanceSection(colors: AppColors) -> some View {

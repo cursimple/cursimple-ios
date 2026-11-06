@@ -50,6 +50,27 @@ enum SampleData {
         return formatter.string(from: Calendar.current.date(from: components) ?? date)
     }
 
+    static func shareFixtureCode() -> String? {
+        let start = ScheduleCalendar.startOfDisplayWeek(containing: .now, weekStart: .monday)
+        let course = CourseItem(
+            id: "fixture-course",
+            title: "导入测试课",
+            teacher: "李老师",
+            location: "教学楼-101",
+            time: CourseTimeSlot(dayOfWeek: 1, startNode: 1, endNode: 2)
+        )
+        let payload = ScheduleSharePayload(
+            termName: "导入的学期",
+            termStartDate: DateOnly.string(from: start),
+            schedule: SharedTermSchedule(
+                termId: "fixture-term",
+                dailySchedules: [SharedDailySchedule(dayOfWeek: 1, courses: [course])]
+            ),
+            timingSlots: TimingProfile.defaultProfile().slots
+        )
+        return try? ShareCodec.encode(payload)
+    }
+
     static func holidayCalendar() -> HolidayCalendarSettings {
         let friday = Calendar.current.date(byAdding: .day, value: 11, to: mondayOfCurrentWeek()) ?? .now
         var settings = HolidayCalendarSettings()

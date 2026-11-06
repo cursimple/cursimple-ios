@@ -311,3 +311,34 @@
 "override.invalid" = "請檢查日期與課程";
 
 "schedule.holidayShort" = "休";
+
+"settings.dataSection" = "資料";
+"settings.share" = "課表分享";
+"settings.share.value" = "分享碼 · 二維碼 · 匯入";
+"share.pageTitle" = "課表分享";
+"share.export.title" = "分享目前課表";
+"share.export.footer" = "產生一段分享碼，同學在課簡裡貼上即可匯入。二維碼適合當面掃，分享碼適合傳訊息。";
+"share.export.action" = "產生分享碼";
+"share.import.title" = "從分享碼匯入";
+"share.import.placeholder" = "貼上以 CSV1: 開頭的分享碼";
+"share.import.paste" = "從剪貼簿貼上";
+"share.import.action" = "解析分享碼";
+"share.import.invalid" = "不是有效的分享碼";
+"share.importedName" = "匯入的課表";
+"share.importedProfileName" = "分享的作息";
+"share.code.title" = "分享碼";
+"share.code.summary" = "%d 門課程";
+"share.code.copy" = "複製";
+"share.code.copied" = "已複製";
+"share.code.share" = "分享";
+"share.code.tooLongForQR" = "內容較長，無法產生二維碼，請複製分享碼傳送。";
+"share.preview.title" = "確認匯入";
+"share.preview.term" = "學期";
+"share.preview.start" = "開學日期";
+"share.preview.courses" = "課程";
+"share.preview.coursesValue" = "%d 門";
+"share.preview.timing" = "節次";
+"share.preview.timingValue" = "%d 節";
+"share.preview.warning" = "將建立一個新學期並切換過去，現有課表不會被修改。";
+"share.preview.confirm" = "匯入為新學期";
+"share.info" = "分享碼只包含學期名稱、開學日期、課程與節次時間，不包含筆記、提醒和個人設定。";

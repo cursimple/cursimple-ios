@@ -308,3 +308,34 @@
 "override.invalid" = "Check the dates and course";
 
 "schedule.holidayShort" = "Off";
+
+"settings.dataSection" = "Data";
+"settings.share" = "Share timetable";
+"settings.share.value" = "Code · QR · Import";
+"share.pageTitle" = "Share Timetable";
+"share.export.title" = "Share this timetable";
+"share.export.footer" = "Generate a code that a classmate can paste into CurSimple. QR works in person; the code works in chat.";
+"share.export.action" = "Generate code";
+"share.import.title" = "Import from a code";
+"share.import.placeholder" = "Paste a code starting with CSV1:";
+"share.import.paste" = "Paste";
+"share.import.action" = "Parse code";
+"share.import.invalid" = "Not a valid share code";
+"share.importedName" = "Imported timetable";
+"share.importedProfileName" = "Shared period times";
+"share.code.title" = "Share Code";
+"share.code.summary" = "%d courses";
+"share.code.copy" = "Copy";
+"share.code.copied" = "Copied";
+"share.code.share" = "Share";
+"share.code.tooLongForQR" = "Too long for a QR code — copy the code instead.";
+"share.preview.title" = "Confirm Import";
+"share.preview.term" = "Term";
+"share.preview.start" = "Start date";
+"share.preview.courses" = "Courses";
+"share.preview.coursesValue" = "%d";
+"share.preview.timing" = "Periods";
+"share.preview.timingValue" = "%d";
+"share.preview.warning" = "A new term will be created and activated. Existing timetables are unchanged.";
+"share.preview.confirm" = "Import as new term";
+"share.info" = "The code contains the term name, start date, courses and period times only — no notes, reminders or personal settings.";

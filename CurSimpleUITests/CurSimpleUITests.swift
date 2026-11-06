@@ -88,6 +88,20 @@ final class CurSimpleUITests: XCTestCase {
         XCTAssertTrue(grantedAgain, "permission must stay granted after re-planning")
     }
 
+    func testImportsShareCode() {
+        let app = launch(["-seedSampleCourses", "-startSettings", "-openShare", "-importFixture"])
+
+        let parse = app.buttons["解析分享码"]
+        XCTAssertTrue(parse.waitForExistence(timeout: 20))
+        parse.tap()
+
+        let confirm = app.buttons["导入为新学期"]
+        XCTAssertTrue(confirm.waitForExistence(timeout: 8))
+        confirm.tap()
+
+        XCTAssertTrue(app.staticTexts["导入的学期"].waitForExistence(timeout: 8))
+    }
+
     func testDayViewFromWeekHeader() {
         let app = launch()
 

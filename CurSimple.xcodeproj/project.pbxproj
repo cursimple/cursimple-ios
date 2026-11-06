@@ -29,6 +29,7 @@
 		BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41487E213E081342EEEBBF17 /* AppTheme.swift */; };
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
+		E87AD76DA8E1A3D2352C11B9 /* ShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */; };
 		EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032528DFD7F4FF568A829119 /* WeekGridView.swift */; };
 		FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B16E4226C318EA5AF922B253 /* CurSimpleCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CurSimpleCore; path = CurSimpleCore; sourceTree = SOURCE_ROOT; };
+		B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSettingsView.swift; sourceTree = "<group>"; };
 		B672A77F2A4D505A77241EB2 /* MemoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorView.swift; sourceTree = "<group>"; };
 		BEBB82846DC6A5532C9BD759 /* CurSimple.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CurSimple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36A1EE854AE9D1DD9B47D04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -133,6 +135,14 @@
 			path = Schedule;
 			sourceTree = "<group>";
 		};
+		890EAE218BA2333FEA237FC5 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */,
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
 		8C6C8576CBD20919D63333F8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +185,7 @@
 				08C955CB4F17AB3C38217722 /* Resources */,
 				780D1743A52D67CD470B1BEA /* Schedule */,
 				8C6C8576CBD20919D63333F8 /* Settings */,
+				890EAE218BA2333FEA237FC5 /* Sharing */,
 				8FB84CE60A5FEB39C3F32F15 /* Support */,
 			);
 			path = CurSimple;
@@ -319,6 +330,7 @@
 				9C94373A7980BF6FD47270BB /* ScheduleView.swift in Sources */,
 				3718F955050C623DC4F473C9 /* SettingsPages.swift in Sources */,
 				3BA6EBCE0D5618C5DC9CD773 /* SettingsView.swift in Sources */,
+				E87AD76DA8E1A3D2352C11B9 /* ShareSettingsView.swift in Sources */,
 				8C3F92DBC92F82EDAB2AB7E3 /* TermViews.swift in Sources */,
 				EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */,
 			);
