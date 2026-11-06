@@ -192,3 +192,17 @@
 "course.conflict.message" = "與「%@」時間衝突（%@）";
 
 "term.courseCountLabel" = "課程數";
+
+"today.status.current" = "正在上課";
+"today.status.next" = "下一節課";
+"today.status.needTiming" = "課程時間待設定";
+"today.status.empty" = "今天沒有課程";
+"today.status.finished" = "今天的課程已結束";
+"today.secondsToEnd" = "還有 %d 分 %02d 秒下課";
+"today.secondsToStart" = "還有 %d 分 %02d 秒上課";
+"today.minutesToEnd" = "還有 %d 分鐘下課";
+"today.hoursToStart" = "還有 %d 小時 %d 分鐘上課";
+"today.count" = "今日 %d 門課 · 待上 %d 門";
+"today.nextBrief" = "下一節：%1$@ · %2$@";
+"today.progressDesc" = "今天已上 %d 門，共 %d 門";
+"today.timeMissing" = "未設定上課時間";

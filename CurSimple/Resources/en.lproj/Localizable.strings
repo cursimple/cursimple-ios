@@ -189,3 +189,17 @@
 "course.conflict.message" = "Conflicts with “%@” (%@)";
 
 "term.courseCountLabel" = "Courses";
+
+"today.status.current" = "In class";
+"today.status.next" = "Next class";
+"today.status.needTiming" = "Class times not set";
+"today.status.empty" = "No classes today";
+"today.status.finished" = "Classes are over for today";
+"today.secondsToEnd" = "%d min %02d s left";
+"today.secondsToStart" = "%d min %02d s to start";
+"today.minutesToEnd" = "%d min left";
+"today.hoursToStart" = "%d h %d min to start";
+"today.count" = "%d classes today · %d to go";
+"today.nextBrief" = "Next: %1$@ · %2$@";
+"today.progressDesc" = "%d of %d classes done today";
+"today.timeMissing" = "Time not set";

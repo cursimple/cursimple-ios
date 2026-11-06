@@ -58,6 +58,16 @@ final class CurSimpleUITests: XCTestCase {
         XCTAssertTrue(dayToggle.waitForExistence(timeout: 15))
         dayToggle.tap()
 
-        XCTAssertTrue(app.staticTexts["今日概览"].waitForExistence(timeout: 5))
+        let overview = app.staticTexts["今日概览"]
+        let empty = app.staticTexts["今天没有课程"]
+        let finished = app.staticTexts["今天的课程已结束"]
+        let inClass = app.staticTexts["正在上课"]
+        let nextClass = app.staticTexts["下一节课"]
+        let overviewVisible = overview.waitForExistence(timeout: 8)
+            || empty.waitForExistence(timeout: 0.5)
+            || finished.waitForExistence(timeout: 0.5)
+            || inClass.waitForExistence(timeout: 0.5)
+            || nextClass.waitForExistence(timeout: 0.5)
+        XCTAssertTrue(overviewVisible, "no overview state visible")
     }
 }

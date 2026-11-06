@@ -192,3 +192,17 @@
 "course.conflict.message" = "与「%@」时间冲突（%@）";
 
 "term.courseCountLabel" = "课程数";
+
+"today.status.current" = "正在上课";
+"today.status.next" = "下一节课";
+"today.status.needTiming" = "课程时间待设置";
+"today.status.empty" = "今天没有课程";
+"today.status.finished" = "今天的课程已结束";
+"today.secondsToEnd" = "还有 %d 分 %02d 秒下课";
+"today.secondsToStart" = "还有 %d 分 %02d 秒上课";
+"today.minutesToEnd" = "还有 %d 分钟下课";
+"today.hoursToStart" = "还有 %d 小时 %d 分钟上课";
+"today.count" = "今日 %d 门课 · 待上 %d 门";
+"today.nextBrief" = "下一节：%1$@ · %2$@";
+"today.progressDesc" = "今天已上 %d 门，共 %d 门";
+"today.timeMissing" = "未设置上课时间";
