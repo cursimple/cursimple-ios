@@ -44,11 +44,15 @@ final class CurSimpleUITests: XCTestCase {
         XCTAssertTrue(titleField.waitForExistence(timeout: 5))
         titleField.tap()
 
-        let title = "测试课程\(Int(Date().timeIntervalSince1970))"
+        let title = "测试课程"
         titleField.typeText(title)
         app.buttons["保存"].tap()
 
-        XCTAssertTrue(app.staticTexts[title].waitForExistence(timeout: 5))
+        // The grid renders the title with scale/truncation, so match a prefix.
+        let created = app.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS %@", "测试课程")
+        ).firstMatch
+        XCTAssertTrue(created.waitForExistence(timeout: 5))
     }
 
     func testDayViewFromWeekHeader() {

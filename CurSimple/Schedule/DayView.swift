@@ -39,7 +39,7 @@ struct DayView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
                     if Calendar.current.isDateInToday(date) {
-                        TodayOverviewCard(items: items, now: now, colors: colors)
+                        TodayOverviewCard(items: items, date: date, now: now, colors: colors)
                             .onReceive(timer) { value in
                                 if !clockFrozen {
                                     now = value
@@ -247,6 +247,7 @@ private struct TodayState {
 private struct TodayOverviewCard: View {
 
     let items: [ScheduledCourseOccurrence]
+    let date: Date
     let now: Date
     let colors: AppColors
 
@@ -284,13 +285,10 @@ private struct TodayOverviewCard: View {
                             .foregroundStyle(muted)
                             .lineLimit(1)
                     } else {
-                        Text(String(
-                            format: String(localized: "today.count"),
-                            state.total,
-                            max(state.total - state.doneCount, 0)
-                        ))
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(content)
+                        Text(moodLine(for: state, date: date))
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(content)
+                            .lineLimit(2)
                     }
                 }
 
@@ -339,6 +337,27 @@ private struct TodayOverviewCard: View {
                 appeared = true
             }
         }
+    }
+
+    /// Idle-state line picked by the shared day-mood rules; falls back to the count line.
+    private func moodLine(for state: TodayState, date: Date) -> String {
+        let calendar = Calendar.current
+        let context = DayMoodContext(
+            date: date,
+            hour: calendar.component(.hour, from: now),
+            isoWeekday: ScheduleCalendar.isoDayOfWeek(date, calendar: calendar),
+            totalCourses: state.total
+        )
+        if let mood = dayMood(for: context) {
+            let lines = moodLines(for: mood, locale: Locale.current.identifier)
+            let index = dayMoodLineIndex(date: date, mood: mood, size: lines.count, calendar: calendar)
+            return lines[index]
+        }
+        return String(
+            format: String(localized: "today.count"),
+            state.total,
+            max(state.total - state.doneCount, 0)
+        )
     }
 
     private func currentProgress(animated: Bool, value: Double) -> Double {

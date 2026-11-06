@@ -227,9 +227,9 @@ struct WeekGridView: View {
                 Text(course.title)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(entry.onContainer.color)
-                    .lineLimit(span > 1 ? 4 : 2)
+                    .lineLimit(span > 1 ? 5 : 3)
                     .multilineTextAlignment(.leading)
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.75)
 
                 if showLocation {
                     Text("@\(course.location)")

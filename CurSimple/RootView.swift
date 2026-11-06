@@ -81,10 +81,18 @@ struct DrawerView: View {
         let width = min(UIScreen.main.bounds.width * 0.78, 320)
 
         VStack(alignment: .leading, spacing: 6) {
+            Image("AppMark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 54, height: 54)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
+                .padding(.top, 52)
+
             Text("app.name")
                 .font(AppFont.appTitle)
                 .foregroundStyle(colors.onSurface)
-                .padding(.top, 58)
+                .padding(.top, 10)
 
             Text(weekSubtitle)
                 .font(AppFont.bodySmall)
