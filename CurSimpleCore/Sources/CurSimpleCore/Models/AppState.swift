@@ -7,23 +7,26 @@ public struct AppPreferences: Codable, Hashable, Sendable {
     public var weekStart: WeekStartDay
     public var showWeekend: Bool
     public var showSaturday: Bool
+    public var reminders: ReminderPreferences
 
     public init(
         accent: AccentTheme = .green,
         paletteStyle: CoursePaletteStyle = .standard,
         weekStart: WeekStartDay = .monday,
         showWeekend: Bool = true,
-        showSaturday: Bool = true
+        showSaturday: Bool = true,
+        reminders: ReminderPreferences = .init()
     ) {
         self.accent = accent
         self.paletteStyle = paletteStyle
         self.weekStart = weekStart
         self.showWeekend = showWeekend
         self.showSaturday = showSaturday
+        self.reminders = reminders
     }
 
     private enum CodingKeys: String, CodingKey {
-        case accent, paletteStyle, weekStart, showWeekend, showSaturday
+        case accent, paletteStyle, weekStart, showWeekend, showSaturday, reminders
     }
 
     public init(from decoder: Decoder) throws {
@@ -33,10 +36,11 @@ public struct AppPreferences: Codable, Hashable, Sendable {
         weekStart = (try? container.decodeIfPresent(WeekStartDay.self, forKey: .weekStart)) ?? .monday
         showWeekend = try container.decodeIfPresent(Bool.self, forKey: .showWeekend) ?? true
         showSaturday = try container.decodeIfPresent(Bool.self, forKey: .showSaturday) ?? true
+        reminders = (try? container.decodeIfPresent(ReminderPreferences.self, forKey: .reminders)) ?? .init()
     }
 }
 
-public struct AppState: Codable, Sendable {
+public struct AppState: Codable, Equatable, Sendable {
 
     public static let currentSchemaVersion = 1
 

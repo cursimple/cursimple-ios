@@ -25,6 +25,8 @@
 		B7C43852C5D120BE4459DAFF /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC7CF166759869D8EB5A95 /* SampleData.swift */; };
 		B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD21690DCC4C3D7AFC9537 /* Formatting.swift */; };
 		BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41487E213E081342EEEBBF17 /* AppTheme.swift */; };
+		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
+		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
 		EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032528DFD7F4FF568A829119 /* WeekGridView.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,7 @@
 		69A659BF2CE573367AE65F8D /* CurSimpleUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CurSimpleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76AD21690DCC4C3D7AFC9537 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		7FE911850AD46FD58A90C8B2 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B16E4226C318EA5AF922B253 /* CurSimpleCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CurSimpleCore; path = CurSimpleCore; sourceTree = SOURCE_ROOT; };
@@ -60,6 +63,7 @@
 		C36A1EE854AE9D1DD9B47D04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D250DC8810011B778F5306FF /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		DFF2888AE16996BEB160CA8E /* SettingsPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPages.swift; sourceTree = "<group>"; };
+		E306933F35E744A606294930 /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
 		E5CF569DF0CDC4EAE526D7D6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		FA515E1B187B2DED636688D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +130,7 @@
 		8C6C8576CBD20919D63333F8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				E306933F35E744A606294930 /* ReminderSettingsView.swift */,
 				DFF2888AE16996BEB160CA8E /* SettingsPages.swift */,
 				4489954EE5F0BA7EFEC93779 /* SettingsView.swift */,
 			);
@@ -137,6 +142,7 @@
 			children = (
 				41487E213E081342EEEBBF17 /* AppTheme.swift */,
 				76AD21690DCC4C3D7AFC9537 /* Formatting.swift */,
+				8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */,
 				47FC7CF166759869D8EB5A95 /* SampleData.swift */,
 			);
 			path = Support;
@@ -294,6 +300,8 @@
 				B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */,
 				875E4C04182D221648D387BA /* MemoEditorView.swift in Sources */,
 				5FED940AC3EFC8D5424A7102 /* MemoView.swift in Sources */,
+				DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */,
+				D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */,
 				5B66C3FEE62A0F3B749445EF /* RootView.swift in Sources */,
 				B7C43852C5D120BE4459DAFF /* SampleData.swift in Sources */,
 				9C94373A7980BF6FD47270BB /* ScheduleView.swift in Sources */,

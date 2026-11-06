@@ -20,6 +20,11 @@ struct CurSimpleApp: App {
             for memo in SampleData.memos() {
                 sampleStore.upsertMemo(memo)
             }
+            if ProcessInfo.processInfo.arguments.contains("-enableReminders") {
+                var preferences = sampleStore.preferences
+                preferences.reminders.enabled = true
+                sampleStore.setPreferences(preferences)
+            }
             _store = State(initialValue: sampleStore)
             return
         }
@@ -32,6 +37,7 @@ struct CurSimpleApp: App {
         WindowGroup {
             RootView()
                 .environment(store)
+                .environment(ReminderService.shared)
         }
     }
 

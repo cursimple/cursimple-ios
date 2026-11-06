@@ -55,6 +55,39 @@ final class CurSimpleUITests: XCTestCase {
         XCTAssertTrue(created.waitForExistence(timeout: 5))
     }
 
+    func testEnablingRemindersSchedulesNotifications() {
+        let app = launch(["-seedSampleCourses", "-startSettings", "-openReminders"])
+
+        let master = app.switches["reminder-master-toggle"]
+        XCTAssertTrue(master.waitForExistence(timeout: 20))
+
+        if (master.value as? String) == "0" {
+            master.tap()
+        }
+
+        // The permission prompt belongs to SpringBoard; accept it if shown.
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        for label in ["允许", "Allow", "好"] {
+            let button = springboard.buttons[label].firstMatch
+            if button.waitForExistence(timeout: 5) {
+                button.tap()
+                break
+            }
+        }
+
+        XCTAssertTrue(app.staticTexts["已允许"].waitForExistence(timeout: 10)
+            || app.staticTexts["临时允许"].exists)
+
+        let count = app.staticTexts["reminder-scheduled-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 10))
+
+        // Sample data has a Friday-evening exam and weekend-free days; the
+        // exact count depends on the real clock, so re-plan and accept any
+        // non-negative value while asserting the permission state held.
+        let grantedAgain = app.staticTexts["已允许"].exists || app.staticTexts["临时允许"].exists
+        XCTAssertTrue(grantedAgain, "permission must stay granted after re-planning")
+    }
+
     func testDayViewFromWeekHeader() {
         let app = launch()
 

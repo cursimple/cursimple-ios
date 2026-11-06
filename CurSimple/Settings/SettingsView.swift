@@ -5,6 +5,7 @@ enum SettingsRoute: Hashable {
     case term
     case timing
     case appearance
+    case reminders
     case about
 }
 
@@ -20,6 +21,7 @@ struct SettingsView: View {
         if arguments.contains("-openTermSettings") { return [.term] }
         if arguments.contains("-openTimingSettings") { return [.timing] }
         if arguments.contains("-openAppearanceSettings") { return [.appearance] }
+        if arguments.contains("-openReminders") { return [.reminders] }
         if arguments.contains("-openAbout") { return [.about] }
         return []
     }()
@@ -38,6 +40,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             heroCard(colors: colors)
                             courseTimeSection(colors: colors)
+                            reminderSection(colors: colors)
                             appearanceSection(colors: colors)
                         }
                         .padding(.horizontal, 14)
@@ -54,6 +57,8 @@ struct SettingsView: View {
                     TimingSettingsView()
                 case .appearance:
                     AppearanceSettingsView()
+                case .reminders:
+                    ReminderSettingsView()
                 case .about:
                     AboutView()
                 }
@@ -226,6 +231,55 @@ struct SettingsView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    private func reminderSection(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            SettingsSectionLabel(title: "settings.remindersSection", colors: colors)
+
+            NavigationLink(value: SettingsRoute.reminders) {
+                HStack(spacing: 12) {
+                    Image(systemName: "bell.badge")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(colors.primary)
+                        .frame(width: 34, height: 34)
+                        .background(Circle().fill(colors.primaryContainer))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("settings.reminders")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(colors.onSurface)
+                        Text(reminderValue)
+                            .font(AppFont.label)
+                            .foregroundStyle(colors.onSurfaceVariant)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(colors.onSurfaceVariant)
+                }
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(colors.surface)
+                )
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var reminderValue: String {
+        let reminders = store.preferences.reminders.normalized
+        guard reminders.enabled else { return String(localized: "settings.reminder.valueOff") }
+        if reminders.advanceMinutes == 0 {
+            return String(localized: "settings.reminder.valueAtStart")
+        }
+        return String(
+            format: String(localized: "settings.reminder.value"),
+            reminders.advanceMinutes
+        )
     }
 
     private func appearanceSection(colors: AppColors) -> some View {

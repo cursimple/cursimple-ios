@@ -26,6 +26,8 @@ enum AppScreen: String, CaseIterable {
 struct RootView: View {
 
     @Environment(AppStore.self) private var store
+    @Environment(ReminderService.self) private var reminders
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var screen: AppScreen = {
@@ -63,6 +65,17 @@ struct RootView: View {
             }
         }
         .animation(.easeOut(duration: 0.24), value: drawerOpen)
+        .task {
+            await reminders.refreshStatus()
+            await reminders.reschedule(store: store)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            guard phase == .active else { return }
+            Task { await reminders.reschedule(store: store) }
+        }
+        .onChange(of: store.state) { _, _ in
+            Task { await reminders.reschedule(store: store) }
+        }
     }
 
     private func openDrawer() {
