@@ -98,6 +98,12 @@ public final class AppStore {
 
     // MARK: - Holidays and overrides
 
+    public func setHolidayCalendar(_ calendar: HolidayCalendarSettings) {
+        var next = state
+        next.holidayCalendar = calendar
+        commit(next)
+    }
+
     public func upsertHolidayEntry(_ entry: HolidayCalendarEntry) {
         var next = state
         next.holidayCalendar = next.holidayCalendar.upsertingUser(entry)

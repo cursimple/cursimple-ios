@@ -50,6 +50,44 @@ enum SampleData {
         return formatter.string(from: Calendar.current.date(from: components) ?? date)
     }
 
+    static func holidayCalendar() -> HolidayCalendarSettings {
+        let friday = Calendar.current.date(byAdding: .day, value: 11, to: mondayOfCurrentWeek()) ?? .now
+        var settings = HolidayCalendarSettings()
+        settings = settings.upsertingUser(HolidayCalendarEntry(
+            date: DateOnly.string(from: friday),
+            kind: .holiday,
+            name: "校庆"
+        ))
+        return settings
+    }
+
+    static func overrides(courses: [CourseItem]) -> [TemporaryScheduleOverride] {
+        guard let course = courses.first else { return [] }
+        let nextMonday = Calendar.current.date(byAdding: .day, value: 7, to: mondayOfCurrentWeek()) ?? .now
+        let nextWednesday = Calendar.current.date(byAdding: .day, value: 9, to: mondayOfCurrentWeek()) ?? .now
+        return [
+            TemporaryScheduleOverride(
+                type: .cancelCourse,
+                targetDate: DateOnly.string(from: nextMonday),
+                cancelStartNode: course.time.startNode,
+                cancelEndNode: course.time.endNode,
+                cancelCourseId: course.id
+            ),
+            TemporaryScheduleOverride(
+                type: .moveCourse,
+                targetDate: DateOnly.string(from: nextWednesday),
+                sourceDate: DateOnly.string(from: nextMonday),
+                moveCourseId: courses.count > 1 ? courses[1].id : course.id,
+                moveToStartNode: 7,
+                moveToEndNode: 8
+            ),
+        ]
+    }
+
+    private static func mondayOfCurrentWeek() -> Date {
+        ScheduleCalendar.startOfDisplayWeek(containing: .now, weekStart: .monday)
+    }
+
     static func courses() -> [CourseItem] {
         [
             course("高数", "高等数学", day: 1, start: 1, end: 2, location: "教学楼-A201", teacher: "张老师"),

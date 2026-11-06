@@ -17,10 +17,12 @@
 		61F54FD0AA97ECF0EF655E13 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C8F282947882D37215BAB /* CourseDetailView.swift */; };
 		6CE1D848C55C36A9E0764A35 /* CurSimpleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */; };
 		6DD32FEFE82127ACDEF40C3C /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D250DC8810011B778F5306FF /* DayView.swift */; };
+		70DEA4AEA388976515E844ED /* OverrideSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */; };
 		832AC02B516AA0886C1D28A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC76F11676E394BABC294EE3 /* Localizable.strings */; };
 		875E4C04182D221648D387BA /* MemoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B672A77F2A4D505A77241EB2 /* MemoEditorView.swift */; };
 		8C3F92DBC92F82EDAB2AB7E3 /* TermViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680296327FD3F14CB418B01D /* TermViews.swift */; };
 		9C94373A7980BF6FD47270BB /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC447912F5614D5CA611A1D8 /* ScheduleView.swift */; };
+		ACE87AA3F3C3389CCD64B269 /* OverrideEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */; };
 		AFB1138C365C2A31346BC32C /* CourseEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4875FD9192BCBC81B4B40D78 /* CourseEditorView.swift */; };
 		B7C43852C5D120BE4459DAFF /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC7CF166759869D8EB5A95 /* SampleData.swift */; };
 		B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD21690DCC4C3D7AFC9537 /* Formatting.swift */; };
@@ -28,6 +30,7 @@
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
 		EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032528DFD7F4FF568A829119 /* WeekGridView.swift */; };
+		FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		032528DFD7F4FF568A829119 /* WeekGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekGridView.swift; sourceTree = "<group>"; };
+		352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideSettingsView.swift; sourceTree = "<group>"; };
 		41487E213E081342EEEBBF17 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		4489954EE5F0BA7EFEC93779 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		44DB2401B3538EDD36BC8114 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
@@ -54,6 +58,7 @@
 		69A659BF2CE573367AE65F8D /* CurSimpleUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CurSimpleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76AD21690DCC4C3D7AFC9537 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		7FE911850AD46FD58A90C8B2 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideEditorView.swift; sourceTree = "<group>"; };
 		8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -65,6 +70,7 @@
 		DFF2888AE16996BEB160CA8E /* SettingsPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPages.swift; sourceTree = "<group>"; };
 		E306933F35E744A606294930 /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
 		E5CF569DF0CDC4EAE526D7D6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySettingsView.swift; sourceTree = "<group>"; };
 		FA515E1B187B2DED636688D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +136,9 @@
 		8C6C8576CBD20919D63333F8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */,
+				84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */,
+				352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */,
 				E306933F35E744A606294930 /* ReminderSettingsView.swift */,
 				DFF2888AE16996BEB160CA8E /* SettingsPages.swift */,
 				4489954EE5F0BA7EFEC93779 /* SettingsView.swift */,
@@ -298,8 +307,11 @@
 				6CE1D848C55C36A9E0764A35 /* CurSimpleApp.swift in Sources */,
 				6DD32FEFE82127ACDEF40C3C /* DayView.swift in Sources */,
 				B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */,
+				FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */,
 				875E4C04182D221648D387BA /* MemoEditorView.swift in Sources */,
 				5FED940AC3EFC8D5424A7102 /* MemoView.swift in Sources */,
+				ACE87AA3F3C3389CCD64B269 /* OverrideEditorView.swift in Sources */,
+				70DEA4AEA388976515E844ED /* OverrideSettingsView.swift in Sources */,
 				DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */,
 				D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */,
 				5B66C3FEE62A0F3B749445EF /* RootView.swift in Sources */,

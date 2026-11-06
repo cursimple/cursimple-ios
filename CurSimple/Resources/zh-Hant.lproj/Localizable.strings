@@ -271,3 +271,43 @@
 
 "day.holiday.generic" = "假期";
 "day.makeUpWorkday" = "調休上班日";
+
+"settings.calendarSection" = "日曆與調課";
+"settings.holidays" = "節假日與調休";
+"settings.holidays.value" = "內建 %d 年 · %d 筆手動";
+"settings.holidays.valueNoBuiltIn" = "%d 筆手動";
+"settings.overrides" = "臨時調課";
+"settings.overrides.value" = "%d 筆記錄";
+"holiday.pageTitle" = "節假日與調休";
+"holiday.useBuiltIn" = "使用內建節假日";
+"holiday.useBuiltIn.summary" = "內建資料涵蓋 %d 年，共 %d 天";
+"holiday.add" = "新增日期";
+"holiday.date" = "日期";
+"holiday.kind" = "類型";
+"holiday.kind.holiday" = "放假";
+"holiday.kind.workday" = "調休上班";
+"holiday.namePlaceholder" = "名稱（可選，如 校慶）";
+"holiday.name.generic" = "手動標記";
+"holiday.manual" = "手動記錄";
+"holiday.empty" = "還沒有手動記錄";
+"holiday.delete" = "刪除";
+"holiday.builtIn.footer" = "手動記錄優先於內建資料；同一天以最後新增的記錄為準。調休上班日會把該天當作工作日，可配合補課使用。";
+"override.pageTitle" = "臨時調課";
+"override.add" = "新增調課";
+"override.empty" = "還沒有調課記錄";
+"override.footer" = "補課會把原日期的課程搬到目標日期；停課只影響選中的課程；調課會移動單門課程並保留來源週資訊。";
+"override.type.makeUp" = "補課";
+"override.type.cancelCourse" = "停課";
+"override.type.moveCourse" = "調課";
+"override.sourceDate" = "原日期（上哪天的課）";
+"override.targetDate" = "目標日期";
+"override.date" = "日期";
+"override.course" = "課程";
+"override.course.none" = "請選擇課程";
+"override.nodeRange" = "節次";
+"override.targetPeriods" = "目標節次";
+"override.partial" = "只調部分節次";
+"override.partial.footer" = "關閉時整天一起換課。";
+"override.invalid" = "請檢查日期與課程";
+
+"schedule.holidayShort" = "休";

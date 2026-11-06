@@ -268,3 +268,43 @@
 
 "day.holiday.generic" = "Holiday";
 "day.makeUpWorkday" = "Make-up workday";
+
+"settings.calendarSection" = "Calendar & overrides";
+"settings.holidays" = "Holidays";
+"settings.holidays.value" = "Built-in %d · %d manual";
+"settings.holidays.valueNoBuiltIn" = "%d manual";
+"settings.overrides" = "Temporary overrides";
+"settings.overrides.value" = "%d records";
+"holiday.pageTitle" = "Holidays";
+"holiday.useBuiltIn" = "Use built-in holidays";
+"holiday.useBuiltIn.summary" = "Bundled data covers %d, %d days";
+"holiday.add" = "Add a date";
+"holiday.date" = "Date";
+"holiday.kind" = "Type";
+"holiday.kind.holiday" = "Holiday";
+"holiday.kind.workday" = "Make-up workday";
+"holiday.namePlaceholder" = "Name (optional, e.g. school anniversary)";
+"holiday.name.generic" = "Manual marker";
+"holiday.manual" = "Manual entries";
+"holiday.empty" = "No manual entries yet";
+"holiday.delete" = "Delete";
+"holiday.builtIn.footer" = "Manual entries override bundled data; the latest entry wins for a date. A make-up workday is treated as a working day and can be combined with a make-up swap.";
+"override.pageTitle" = "Temporary Overrides";
+"override.add" = "Add override";
+"override.empty" = "No overrides yet";
+"override.footer" = "Make-up swaps move the source day to the target; cancel affects only the selected course; move shifts one course and keeps its source-week label.";
+"override.type.makeUp" = "Make-up";
+"override.type.cancelCourse" = "Cancel";
+"override.type.moveCourse" = "Move";
+"override.sourceDate" = "Source date";
+"override.targetDate" = "Target date";
+"override.date" = "Date";
+"override.course" = "Course";
+"override.course.none" = "Select a course";
+"override.nodeRange" = "Periods";
+"override.targetPeriods" = "Target periods";
+"override.partial" = "Only part of the day";
+"override.partial.footer" = "When off, the whole day is swapped.";
+"override.invalid" = "Check the dates and course";
+
+"schedule.holidayShort" = "Off";

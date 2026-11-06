@@ -20,6 +20,10 @@ struct CurSimpleApp: App {
             for memo in SampleData.memos() {
                 sampleStore.upsertMemo(memo)
             }
+            sampleStore.setHolidayCalendar(SampleData.holidayCalendar())
+            for override in SampleData.overrides(courses: SampleData.courses()) {
+                sampleStore.upsertOverride(override)
+            }
             if ProcessInfo.processInfo.arguments.contains("-enableReminders") {
                 var preferences = sampleStore.preferences
                 preferences.reminders.enabled = true

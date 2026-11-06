@@ -6,6 +6,8 @@ enum SettingsRoute: Hashable {
     case timing
     case appearance
     case reminders
+    case holidays
+    case overrides
     case about
 }
 
@@ -22,6 +24,8 @@ struct SettingsView: View {
         if arguments.contains("-openTimingSettings") { return [.timing] }
         if arguments.contains("-openAppearanceSettings") { return [.appearance] }
         if arguments.contains("-openReminders") { return [.reminders] }
+        if arguments.contains("-openHolidays") { return [.holidays] }
+        if arguments.contains("-openOverrides") { return [.overrides] }
         if arguments.contains("-openAbout") { return [.about] }
         return []
     }()
@@ -40,6 +44,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             heroCard(colors: colors)
                             courseTimeSection(colors: colors)
+                            calendarSection(colors: colors)
                             reminderSection(colors: colors)
                             appearanceSection(colors: colors)
                         }
@@ -59,6 +64,10 @@ struct SettingsView: View {
                     AppearanceSettingsView()
                 case .reminders:
                     ReminderSettingsView()
+                case .holidays:
+                    HolidaySettingsView()
+                case .overrides:
+                    OverrideSettingsView()
                 case .about:
                     AboutView()
                 }
@@ -231,6 +240,80 @@ struct SettingsView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    private func calendarSection(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            SettingsSectionLabel(title: "settings.calendarSection", colors: colors)
+
+            HStack(spacing: 10) {
+                NavigationLink(value: SettingsRoute.holidays) {
+                    calendarTile(
+                        icon: "calendar.badge.checkmark",
+                        title: "settings.holidays",
+                        value: holidayValue,
+                        colors: colors
+                    )
+                }
+
+                NavigationLink(value: SettingsRoute.overrides) {
+                    calendarTile(
+                        icon: "arrow.triangle.swap",
+                        title: "settings.overrides",
+                        value: String(
+                            format: String(localized: "settings.overrides.value"),
+                            store.state.overrides.count
+                        ),
+                        colors: colors
+                    )
+                }
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private func calendarTile(
+        icon: String,
+        title: LocalizedStringKey,
+        value: String,
+        colors: AppColors
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Image(systemName: icon)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(colors.primary)
+                .frame(width: 30, height: 30)
+                .background(Circle().fill(colors.primaryContainer))
+
+            Text(title)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(colors.onSurface)
+                .lineLimit(1)
+
+            Text(value)
+                .font(AppFont.label)
+                .foregroundStyle(colors.onSurfaceVariant)
+                .lineLimit(2)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, minHeight: 112, alignment: .topLeading)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(colors.surface)
+        )
+    }
+
+    private var holidayValue: String {
+        let manual = store.state.holidayCalendar.entries.count
+        let years = BuiltInHolidayCalendar.coveredYears
+        guard let year = years.last else {
+            return String(format: String(localized: "settings.holidays.valueNoBuiltIn"), manual)
+        }
+        return String(
+            format: String(localized: "settings.holidays.value"),
+            year,
+            manual
+        )
     }
 
     private func reminderSection(colors: AppColors) -> some View {

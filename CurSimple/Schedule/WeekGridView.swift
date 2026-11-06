@@ -112,19 +112,26 @@ struct WeekGridView: View {
             ForEach(days, id: \.self) { day in
                 let dayDate = date(for: day)
                 let today = Calendar.current.isDateInToday(dayDate)
+                let holiday = dayContents[day]?.isHoliday == true
 
                 Button {
                     onSelectDay(dayDate)
                 } label: {
                     VStack(spacing: 1) {
-                        Text(Format.weekdayNarrow(day))
+                        Text(holiday ? "schedule.holidayShort" : LocalizedStringKey(Format.weekdayNarrow(day)))
                             .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(
-                                today ? colors.todayOnContainer.opacity(0.82) : colors.onSurfaceVariant
+                                today
+                                    ? colors.todayOnContainer.opacity(0.82)
+                                    : (holiday ? colors.primary : colors.onSurfaceVariant)
                             )
                         Text("\(Calendar.current.component(.day, from: dayDate))")
                             .font(.system(size: 17, weight: .semibold))
-                            .foregroundStyle(today ? colors.todayOnContainer : colors.onSurface)
+                            .foregroundStyle(
+                                today
+                                    ? colors.todayOnContainer
+                                    : (holiday ? colors.onSurfaceVariant : colors.onSurface)
+                            )
                     }
                     .frame(width: columnWidth, height: 52)
                     .background {
@@ -213,7 +220,7 @@ struct WeekGridView: View {
                 }
                 if content.isHoliday {
                     Rectangle()
-                        .fill(colors.surface.opacity(0.55))
+                        .fill(colors.surfaceVariant.opacity(0.45))
                         .frame(width: width, height: CGFloat(nodeCount) * rowHeight)
                         .allowsHitTesting(false)
                 }

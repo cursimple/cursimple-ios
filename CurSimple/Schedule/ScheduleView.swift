@@ -14,7 +14,7 @@ struct ScheduleView: View {
     @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var displayWeekStart: Date = ScheduleCalendar.startOfDisplayWeek(containing: .now, weekStart: .monday)
+    @State private var displayWeekStart: Date = ScheduleView.initialDisplayWeekStart()
     @State private var viewMode: ScheduleViewMode = ProcessInfo.processInfo.arguments.contains("-startDayView") ? .day : .week
     @State private var selectedDay: Date = .now
     @State private var editorTarget: CourseEditorTarget? = ProcessInfo.processInfo.arguments.contains("-openEditor")
@@ -22,6 +22,18 @@ struct ScheduleView: View {
         : nil
     @State private var detailCourseID: String?
     @State private var showTermPicker = false
+
+    /// QA hook: `-weekOffset N` opens N weeks from the current one.
+    private static func initialDisplayWeekStart() -> Date {
+        let base = ScheduleCalendar.startOfDisplayWeek(containing: .now, weekStart: .monday)
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-weekOffset"),
+              arguments.count > index + 1,
+              let offset = Int(arguments[index + 1]) else {
+            return base
+        }
+        return ScheduleCalendar.addWeeks(offset, to: base)
+    }
 
     private var preferences: AppPreferences { store.preferences }
     private var term: Term? { store.activeTerm }

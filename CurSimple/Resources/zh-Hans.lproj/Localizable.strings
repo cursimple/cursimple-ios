@@ -271,3 +271,43 @@
 
 "day.holiday.generic" = "假期";
 "day.makeUpWorkday" = "调休上班日";
+
+"settings.calendarSection" = "日历与调课";
+"settings.holidays" = "节假日与调休";
+"settings.holidays.value" = "内置 %d 年 · %d 条手动";
+"settings.holidays.valueNoBuiltIn" = "%d 条手动";
+"settings.overrides" = "临时调课";
+"settings.overrides.value" = "%d 条记录";
+"holiday.pageTitle" = "节假日与调休";
+"holiday.useBuiltIn" = "使用内置节假日";
+"holiday.useBuiltIn.summary" = "内置数据覆盖 %d 年，共 %d 天";
+"holiday.add" = "添加日期";
+"holiday.date" = "日期";
+"holiday.kind" = "类型";
+"holiday.kind.holiday" = "放假";
+"holiday.kind.workday" = "调休上班";
+"holiday.namePlaceholder" = "名称（可选，如 校庆）";
+"holiday.name.generic" = "手动标记";
+"holiday.manual" = "手动记录";
+"holiday.empty" = "还没有手动记录";
+"holiday.delete" = "删除";
+"holiday.builtIn.footer" = "手动记录优先于内置数据；同一天以最后添加的记录为准。调休上班日会把该天当作工作日，可配合补课使用。";
+"override.pageTitle" = "临时调课";
+"override.add" = "添加调课";
+"override.empty" = "还没有调课记录";
+"override.footer" = "补课会把原日期的课程搬到目标日期；停课只影响选中的课程；调课会移动单门课程并保留来源周信息。";
+"override.type.makeUp" = "补课";
+"override.type.cancelCourse" = "停课";
+"override.type.moveCourse" = "调课";
+"override.sourceDate" = "原日期（上哪天的课）";
+"override.targetDate" = "目标日期";
+"override.date" = "日期";
+"override.course" = "课程";
+"override.course.none" = "请选择课程";
+"override.nodeRange" = "节次";
+"override.targetPeriods" = "目标节次";
+"override.partial" = "只调部分节次";
+"override.partial.footer" = "关闭时整天一起换课。";
+"override.invalid" = "请检查日期与课程";
+
+"schedule.holidayShort" = "休";
