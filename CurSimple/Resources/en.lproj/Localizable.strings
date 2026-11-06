@@ -1,0 +1,147 @@
+/* Tab */
+"tab.schedule" = "Schedule";
+"tab.settings" = "Settings";
+
+/* Schedule */
+"schedule.title" = "Schedule";
+"schedule.addCourse" = "Add course";
+"schedule.showDay" = "Switch to day view";
+"schedule.showWeek" = "Switch to week view";
+"schedule.previousWeek" = "Previous week";
+"schedule.nextWeek" = "Next week";
+"schedule.noTerm.title" = "No term yet";
+"schedule.noTerm.message" = "Create a term in Settings to start scheduling courses.";
+
+/* Week */
+"week.number" = "Week %d";
+"week.notStarted" = "Term not started";
+"week.termStartMissing" = "Term start date not set";
+
+/* Weekday */
+"weekday.monday" = "Mon";
+"weekday.tuesday" = "Tue";
+"weekday.wednesday" = "Wed";
+"weekday.thursday" = "Thu";
+"weekday.friday" = "Fri";
+"weekday.saturday" = "Sat";
+"weekday.sunday" = "Sun";
+"weekday.narrow.monday" = "M";
+"weekday.narrow.tuesday" = "T";
+"weekday.narrow.wednesday" = "W";
+"weekday.narrow.thursday" = "T";
+"weekday.narrow.friday" = "F";
+"weekday.narrow.saturday" = "S";
+"weekday.narrow.sunday" = "S";
+"common.unknown" = "Unknown";
+
+/* Course editor */
+"course.new" = "Add Course";
+"course.edit" = "Edit Course";
+"course.quickAdd" = "Quick Add";
+"course.detail" = "Course Details";
+"course.delete" = "Delete Course";
+"course.delete.confirm" = "Delete this course?";
+"course.delete.message" = "The course will be removed from this term's schedule. This cannot be undone.";
+"course.hide" = "Hide from Schedule";
+"course.hide.footer" = "Hidden courses stay in the course list and can be restored at any time.";
+"course.field.title" = "Course name";
+"course.field.teacher" = "Teacher";
+"course.field.location" = "Location";
+"course.field.category" = "Type";
+"course.field.day" = "Weekday";
+"course.field.periods" = "Periods";
+"course.field.startTime" = "Start time";
+"course.field.endTime" = "End time";
+"course.field.customClock" = "Use custom times";
+"course.field.weeks" = "Weeks";
+"course.category.course" = "Course";
+"course.category.exam" = "Exam";
+"course.examTag" = "Exam";
+"course.section.basic" = "Basics";
+"course.section.time" = "Class time";
+"course.section.weeks" = "Weeks";
+"course.section.color" = "Color";
+"course.weeks.all" = "Entire term";
+"course.weeks.odd" = "Odd weeks";
+"course.weeks.even" = "Even weeks";
+"course.weeks.clear" = "Clear";
+"course.weeks.emptyHint" = "Pick at least one week, otherwise the course will not appear on the schedule.";
+"course.weekSummary" = "Week %@";
+"course.weekSummary.all" = "Entire term";
+"course.weekRange" = "%d–%d";
+"course.color.auto" = "Automatic color";
+"course.color.pick" = "Pick a color";
+"course.conflict.title" = "Time conflict";
+"course.conflict.hint" = "Conflicts apply only to shared weeks.";
+"course.activeThisWeek" = "Held in week %d";
+"course.inactiveThisWeek" = "Not held in week %d";
+"course.color.conflictTitle" = "Color conflict";
+
+/* Today overview */
+"today.title" = "Today";
+"today.completed" = "%d of %d done";
+"today.endsIn" = "Ends in %@";
+"today.next" = "Next";
+"today.freeNow" = "Free now";
+"today.nextStartsIn" = "%@ starts in %@";
+"today.allClear" = "No classes today — enjoy!";
+"today.doneForToday" = "All done for today";
+"day.empty.title" = "Nothing scheduled";
+"day.empty.message" = "Tap an empty cell in the week view to add a course or event.";
+
+/* Settings */
+"settings.term" = "Term";
+"settings.timing" = "Period times";
+"settings.appearance" = "Appearance";
+"settings.section.schedule" = "Schedule";
+"settings.about" = "About CurSimple";
+"settings.about.footer" = "An open-source, free timetable app with no ads.";
+"app.version" = "0.1.0";
+"term.picker" = "Term";
+"term.create" = "New term";
+"term.newName" = "Term name (e.g. 2026 Fall)";
+"term.name" = "Term name";
+"term.startDate" = "Start date";
+"term.weekCountLabel" = "Teaching weeks";
+"term.weekCount" = "%d weeks";
+"term.courseCount" = "%d courses";
+"term.footer" = "Week 1 starts on the Monday of the term start date.";
+"timing.slots.header" = "Period times";
+"timing.slots.footer" = "Set start and end times per period. The schedule and today overview both use these times.";
+"timing.reset" = "Reset to default times";
+"appearance.accent" = "Accent color";
+"appearance.palette" = "Course palette";
+"appearance.palette.header" = "Palette style";
+"appearance.palette.footer" = "Automatic colors are stable per course; a single course can set its own color in the editor.";
+"appearance.weekStart" = "Week starts on";
+"appearance.weekStart.monday" = "Monday";
+"appearance.weekStart.sunday" = "Sunday";
+"appearance.showWeekend" = "Show weekend";
+"appearance.grid.header" = "Schedule grid";
+"accent.teal" = "Teal";
+"accent.green" = "Green";
+"accent.blue" = "Blue";
+"accent.purple" = "Purple";
+"accent.orange" = "Orange";
+"accent.pink" = "Pink";
+"palette.default" = "Standard";
+"palette.morandi" = "Morandi";
+"palette.macaron" = "Macaron";
+"palette.vibrant" = "Vibrant";
+"palette.vintage" = "Vintage";
+
+/* Misc */
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.add" = "Add";
+"common.done" = "Done";
+"list.separator" = ", ";
+"schedule.period" = "Period %d";
+"schedule.periodRange" = "Periods %d–%d";
+"schedule.periodSlots" = "%d periods";
+"duration.lessThanMinute" = "Less than a minute";
+"duration.minutes" = "%d min";
+"duration.hours" = "%d h";
+"duration.hoursMinutes" = "%d h %d min";
+"term.season.spring" = "Spring";
+"term.season.autumn" = "Fall";

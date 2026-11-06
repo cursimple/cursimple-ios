@@ -1,0 +1,147 @@
+/* Tab */
+"tab.schedule" = "课表";
+"tab.settings" = "设置";
+
+/* Schedule */
+"schedule.title" = "课表";
+"schedule.addCourse" = "添加课程";
+"schedule.showDay" = "切换到日视图";
+"schedule.showWeek" = "切换到周视图";
+"schedule.previousWeek" = "上一周";
+"schedule.nextWeek" = "下一周";
+"schedule.noTerm.title" = "还没有学期";
+"schedule.noTerm.message" = "先在设置里新建一个学期，再开始排课。";
+
+/* Week */
+"week.number" = "第 %d 周";
+"week.notStarted" = "未开学";
+"week.termStartMissing" = "未设置开学日期";
+
+/* Weekday */
+"weekday.monday" = "周一";
+"weekday.tuesday" = "周二";
+"weekday.wednesday" = "周三";
+"weekday.thursday" = "周四";
+"weekday.friday" = "周五";
+"weekday.saturday" = "周六";
+"weekday.sunday" = "周日";
+"weekday.narrow.monday" = "一";
+"weekday.narrow.tuesday" = "二";
+"weekday.narrow.wednesday" = "三";
+"weekday.narrow.thursday" = "四";
+"weekday.narrow.friday" = "五";
+"weekday.narrow.saturday" = "六";
+"weekday.narrow.sunday" = "日";
+"common.unknown" = "未知";
+
+/* Course editor */
+"course.new" = "添加课程";
+"course.edit" = "编辑课程";
+"course.quickAdd" = "快速添加";
+"course.detail" = "课程详情";
+"course.delete" = "删除课程";
+"course.delete.confirm" = "删除这门课程？";
+"course.delete.message" = "课程将从本学期课表中移除，此操作无法撤销。";
+"course.hide" = "从课表隐藏";
+"course.hide.footer" = "隐藏后课程仍保留在课程列表中，可随时恢复。";
+"course.field.title" = "课程名称";
+"course.field.teacher" = "教师";
+"course.field.location" = "地点";
+"course.field.category" = "类型";
+"course.field.day" = "星期";
+"course.field.periods" = "节次";
+"course.field.startTime" = "开始时间";
+"course.field.endTime" = "结束时间";
+"course.field.customClock" = "使用自定义时间";
+"course.field.weeks" = "周次";
+"course.category.course" = "课程";
+"course.category.exam" = "考试";
+"course.examTag" = "考试";
+"course.section.basic" = "基本信息";
+"course.section.time" = "上课时间";
+"course.section.weeks" = "周次";
+"course.section.color" = "颜色";
+"course.weeks.all" = "整个学期";
+"course.weeks.odd" = "单周";
+"course.weeks.even" = "双周";
+"course.weeks.clear" = "清空";
+"course.weeks.emptyHint" = "至少选择一个周次，否则这门课不会出现在课表上。";
+"course.weekSummary" = "第 %@ 周";
+"course.weekSummary.all" = "整个学期";
+"course.weekRange" = "%d–%d";
+"course.color.auto" = "自动配色";
+"course.color.pick" = "选择颜色";
+"course.conflict.title" = "时间冲突";
+"course.conflict.hint" = "冲突只在共同周次内成立。";
+"course.activeThisWeek" = "第 %d 周有课";
+"course.inactiveThisWeek" = "第 %d 周不上";
+"course.color.conflictTitle" = "颜色冲突";
+
+/* Today overview */
+"today.title" = "今日概览";
+"today.completed" = "已完成 %d / %d";
+"today.endsIn" = "距下课还有 %@";
+"today.next" = "下一节";
+"today.freeNow" = "当前空闲";
+"today.nextStartsIn" = "%@ 将在 %@后开始";
+"today.allClear" = "今天没有课，好好休息吧～";
+"today.doneForToday" = "今天的课都结束了";
+"day.empty.title" = "这一天没有安排";
+"day.empty.message" = "点周视图的空格子可以快速添加课程或事务。";
+
+/* Settings */
+"settings.term" = "学期";
+"settings.timing" = "节次作息";
+"settings.appearance" = "外观";
+"settings.section.schedule" = "课表";
+"settings.about" = "关于课简";
+"settings.about.footer" = "开源、免费、无广告的课表应用。";
+"app.version" = "0.1.0";
+"term.picker" = "学期";
+"term.create" = "新建学期";
+"term.newName" = "学期名称（如 2026 秋）";
+"term.name" = "学期名称";
+"term.startDate" = "开学日期";
+"term.weekCountLabel" = "教学周数";
+"term.weekCount" = "%d 周";
+"term.courseCount" = "%d 门课";
+"term.footer" = "开学日期所在的周一算第 1 周的开始。";
+"timing.slots.header" = "节次时间";
+"timing.slots.footer" = "按节次设置每天上课的起止时间，课表和今日概览都会使用这里的时间。";
+"timing.reset" = "恢复默认作息";
+"appearance.accent" = "主题色";
+"appearance.palette" = "课程配色";
+"appearance.palette.header" = "配色风格";
+"appearance.palette.footer" = "自动配色按课程稳定取色；单门课程可在编辑页指定颜色。";
+"appearance.weekStart" = "每周开始于";
+"appearance.weekStart.monday" = "周一";
+"appearance.weekStart.sunday" = "周日";
+"appearance.showWeekend" = "显示周末";
+"appearance.grid.header" = "课表网格";
+"accent.teal" = "青";
+"accent.green" = "绿";
+"accent.blue" = "蓝";
+"accent.purple" = "紫";
+"accent.orange" = "橙";
+"accent.pink" = "粉";
+"palette.default" = "标准";
+"palette.morandi" = "莫兰迪";
+"palette.macaron" = "马卡龙";
+"palette.vibrant" = "明快";
+"palette.vintage" = "复古";
+
+/* Misc */
+"common.cancel" = "取消";
+"common.save" = "保存";
+"common.add" = "添加";
+"common.done" = "完成";
+"list.separator" = "、";
+"schedule.period" = "第 %d 节";
+"schedule.periodRange" = "第 %d–%d 节";
+"schedule.periodSlots" = "共 %d 节";
+"duration.lessThanMinute" = "不足 1 分钟";
+"duration.minutes" = "%d 分钟";
+"duration.hours" = "%d 小时";
+"duration.hoursMinutes" = "%d 小时 %d 分钟";
+"term.season.spring" = "春";
+"term.season.autumn" = "秋";

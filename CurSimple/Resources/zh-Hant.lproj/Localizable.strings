@@ -1,0 +1,147 @@
+/* Tab */
+"tab.schedule" = "課表";
+"tab.settings" = "設定";
+
+/* Schedule */
+"schedule.title" = "課表";
+"schedule.addCourse" = "新增課程";
+"schedule.showDay" = "切換到日檢視";
+"schedule.showWeek" = "切換到週檢視";
+"schedule.previousWeek" = "上一週";
+"schedule.nextWeek" = "下一週";
+"schedule.noTerm.title" = "還沒有學期";
+"schedule.noTerm.message" = "先在設定裡建立一個學期，再開始排課。";
+
+/* Week */
+"week.number" = "第 %d 週";
+"week.notStarted" = "未開學";
+"week.termStartMissing" = "未設定開學日期";
+
+/* Weekday */
+"weekday.monday" = "週一";
+"weekday.tuesday" = "週二";
+"weekday.wednesday" = "週三";
+"weekday.thursday" = "週四";
+"weekday.friday" = "週五";
+"weekday.saturday" = "週六";
+"weekday.sunday" = "週日";
+"weekday.narrow.monday" = "一";
+"weekday.narrow.tuesday" = "二";
+"weekday.narrow.wednesday" = "三";
+"weekday.narrow.thursday" = "四";
+"weekday.narrow.friday" = "五";
+"weekday.narrow.saturday" = "六";
+"weekday.narrow.sunday" = "日";
+"common.unknown" = "未知";
+
+/* Course editor */
+"course.new" = "新增課程";
+"course.edit" = "編輯課程";
+"course.quickAdd" = "快速新增";
+"course.detail" = "課程詳情";
+"course.delete" = "刪除課程";
+"course.delete.confirm" = "刪除這門課程？";
+"course.delete.message" = "課程將從本學期課表中移除，此操作無法復原。";
+"course.hide" = "從課表隱藏";
+"course.hide.footer" = "隱藏後課程仍保留在課程列表中，可隨時恢復。";
+"course.field.title" = "課程名稱";
+"course.field.teacher" = "教師";
+"course.field.location" = "地點";
+"course.field.category" = "類型";
+"course.field.day" = "星期";
+"course.field.periods" = "節次";
+"course.field.startTime" = "開始時間";
+"course.field.endTime" = "結束時間";
+"course.field.customClock" = "使用自訂時間";
+"course.field.weeks" = "週次";
+"course.category.course" = "課程";
+"course.category.exam" = "考試";
+"course.examTag" = "考試";
+"course.section.basic" = "基本資訊";
+"course.section.time" = "上課時間";
+"course.section.weeks" = "週次";
+"course.section.color" = "顏色";
+"course.weeks.all" = "整個學期";
+"course.weeks.odd" = "單週";
+"course.weeks.even" = "雙週";
+"course.weeks.clear" = "清空";
+"course.weeks.emptyHint" = "至少選擇一個週次，否則這門課不會出現在課表上。";
+"course.weekSummary" = "第 %@ 週";
+"course.weekSummary.all" = "整個學期";
+"course.weekRange" = "%d–%d";
+"course.color.auto" = "自動配色";
+"course.color.pick" = "選擇顏色";
+"course.conflict.title" = "時間衝突";
+"course.conflict.hint" = "衝突只在共同週次內成立。";
+"course.activeThisWeek" = "第 %d 週有課";
+"course.inactiveThisWeek" = "第 %d 週不上";
+"course.color.conflictTitle" = "顏色衝突";
+
+/* Today overview */
+"today.title" = "今日概覽";
+"today.completed" = "已完成 %d / %d";
+"today.endsIn" = "距下課還有 %@";
+"today.next" = "下一節";
+"today.freeNow" = "目前空閒";
+"today.nextStartsIn" = "%@ 將在 %@後開始";
+"today.allClear" = "今天沒有課，好好休息吧～";
+"today.doneForToday" = "今天的課都結束了";
+"day.empty.title" = "這一天沒有安排";
+"day.empty.message" = "點週檢視的空格子可以快速新增課程或事務。";
+
+/* Settings */
+"settings.term" = "學期";
+"settings.timing" = "節次作息";
+"settings.appearance" = "外觀";
+"settings.section.schedule" = "課表";
+"settings.about" = "關於課簡";
+"settings.about.footer" = "開源、免費、無廣告的課表應用。";
+"app.version" = "0.1.0";
+"term.picker" = "學期";
+"term.create" = "建立學期";
+"term.newName" = "學期名稱（如 2026 秋）";
+"term.name" = "學期名稱";
+"term.startDate" = "開學日期";
+"term.weekCountLabel" = "教學週數";
+"term.weekCount" = "%d 週";
+"term.courseCount" = "%d 門課";
+"term.footer" = "開學日期所在的週一算第 1 週的開始。";
+"timing.slots.header" = "節次時間";
+"timing.slots.footer" = "按節次設定每天上課的起止時間，課表和今日概覽都會使用這裡的時間。";
+"timing.reset" = "恢復預設作息";
+"appearance.accent" = "主題色";
+"appearance.palette" = "課程配色";
+"appearance.palette.header" = "配色風格";
+"appearance.palette.footer" = "自動配色按課程穩定取色；單門課程可在編輯頁指定顏色。";
+"appearance.weekStart" = "每週開始於";
+"appearance.weekStart.monday" = "週一";
+"appearance.weekStart.sunday" = "週日";
+"appearance.showWeekend" = "顯示週末";
+"appearance.grid.header" = "課表格線";
+"accent.teal" = "青";
+"accent.green" = "綠";
+"accent.blue" = "藍";
+"accent.purple" = "紫";
+"accent.orange" = "橙";
+"accent.pink" = "粉";
+"palette.default" = "標準";
+"palette.morandi" = "莫蘭迪";
+"palette.macaron" = "馬卡龍";
+"palette.vibrant" = "明快";
+"palette.vintage" = "復古";
+
+/* Misc */
+"common.cancel" = "取消";
+"common.save" = "儲存";
+"common.add" = "新增";
+"common.done" = "完成";
+"list.separator" = "、";
+"schedule.period" = "第 %d 節";
+"schedule.periodRange" = "第 %d–%d 節";
+"schedule.periodSlots" = "共 %d 節";
+"duration.lessThanMinute" = "不足 1 分鐘";
+"duration.minutes" = "%d 分鐘";
+"duration.hours" = "%d 小時";
+"duration.hoursMinutes" = "%d 小時 %d 分鐘";
+"term.season.spring" = "春";
+"term.season.autumn" = "秋";

@@ -1,0 +1,26 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core-tests:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run core tests
+        run: swift test --package-path CurSimpleCore
+
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build app
+        run: |
+          brew install xcodegen
+          xcodegen generate
+          xcodebuild -project CurSimple.xcodeproj -scheme CurSimple \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -20

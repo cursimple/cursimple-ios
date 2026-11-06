@@ -1,0 +1,64 @@
+name: CurSimple
+options:
+  bundleIdPrefix: com.x500x.cursimple
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  defaultConfig: Debug
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+packages:
+  CurSimpleCore:
+    path: CurSimpleCore
+
+targets:
+  CurSimple:
+    type: application
+    platform: iOS
+    sources:
+      - path: CurSimple
+    dependencies:
+      - package: CurSimpleCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.x500x.cursimple.app
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_CFBundleDisplayName: "课简"
+        INFOPLIST_KEY_CFBundleLocalizations: "zh-Hans zh-Hant en"
+        INFOPLIST_KEY_CFBundleDevelopmentRegion: "zh-Hans"
+        SUPPORTS_MACCATALYST: NO
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ENABLE_PREVIEWS: YES
+        GENERATE_INFOPLIST_FILE: YES
+
+  CurSimpleUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: CurSimpleUITests
+    dependencies:
+      - target: CurSimple
+    settings:
+      base:
+        TEST_TARGET_NAME: CurSimple
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  CurSimple:
+    build:
+      targets:
+        CurSimple: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - CurSimpleUITests
