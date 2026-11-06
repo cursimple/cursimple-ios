@@ -265,3 +265,6 @@
 "reminder.notification.title" = "%1$@ · class at %2$@";
 "reminder.notification.inMinutes" = "Class in %d min";
 "reminder.notification.now" = "Class starting now";
+
+"day.holiday.generic" = "Holiday";
+"day.makeUpWorkday" = "Make-up workday";

@@ -13,6 +13,7 @@ struct WeekGridView: View {
     let onTapEmpty: (CourseTimeSlot) -> Void
     let onSelectDay: (Date) -> Void
 
+    @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var overlapCluster: GridCourseCluster?
@@ -79,12 +80,18 @@ struct WeekGridView: View {
         weekGridNodeCount(profile: profile, courses: term.courses)
     }
 
-    private var clustersByDay: [Int: [GridCourseCluster]] {
-        guard let weekNumber, weekNumber >= 1 else { return [:] }
-        return Dictionary(
-            grouping: weekGridClusters(courses: term.courses, week: weekNumber),
-            by: { $0.primary.time.dayOfWeek }
-        )
+    private var dayContents: [Int: DayGridContent] {
+        Dictionary(uniqueKeysWithValues: days.map { day in
+            let date = self.date(for: day)
+            let content = dayGridContent(
+                date: date,
+                courses: term.courses,
+                overrides: store.state.overrides,
+                holidayCalendar: store.state.holidayCalendar,
+                termStartDate: term.startDateValue
+            )
+            return (day, content)
+        })
     }
 
     private func date(for day: Int) -> Date {
@@ -200,8 +207,16 @@ struct WeekGridView: View {
                 }
             }
 
-            ForEach(clustersByDay[day] ?? []) { cluster in
-                clusterCard(cluster, columnWidth: width, colors: colors)
+            if let content = dayContents[day] {
+                ForEach(content.clusters) { cluster in
+                    clusterCard(cluster, columnWidth: width, colors: colors)
+                }
+                if content.isHoliday {
+                    Rectangle()
+                        .fill(colors.surface.opacity(0.55))
+                        .frame(width: width, height: CGFloat(nodeCount) * rowHeight)
+                        .allowsHitTesting(false)
+                }
             }
         }
         .frame(width: width, alignment: .topLeading)

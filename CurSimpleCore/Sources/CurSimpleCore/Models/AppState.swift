@@ -51,6 +51,8 @@ public struct AppState: Codable, Equatable, Sendable {
     public var activeTimingProfileID: String
     public var preferences: AppPreferences
     public var memos: [MemoNote]
+    public var holidayCalendar: HolidayCalendarSettings
+    public var overrides: [TemporaryScheduleOverride]
 
     public init(
         schemaVersion: Int = AppState.currentSchemaVersion,
@@ -59,7 +61,9 @@ public struct AppState: Codable, Equatable, Sendable {
         timingProfiles: [TimingProfile] = [],
         activeTimingProfileID: String = "",
         preferences: AppPreferences = .init(),
-        memos: [MemoNote] = []
+        memos: [MemoNote] = [],
+        holidayCalendar: HolidayCalendarSettings = .init(),
+        overrides: [TemporaryScheduleOverride] = []
     ) {
         self.schemaVersion = schemaVersion
         self.terms = terms
@@ -68,10 +72,12 @@ public struct AppState: Codable, Equatable, Sendable {
         self.activeTimingProfileID = activeTimingProfileID
         self.preferences = preferences
         self.memos = memos
+        self.holidayCalendar = holidayCalendar
+        self.overrides = overrides
     }
 
     private enum CodingKeys: String, CodingKey {
-        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences, memos
+        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences, memos, holidayCalendar, overrides
     }
 
     public init(from decoder: Decoder) throws {
@@ -83,6 +89,8 @@ public struct AppState: Codable, Equatable, Sendable {
         activeTimingProfileID = try container.decodeIfPresent(String.self, forKey: .activeTimingProfileID) ?? ""
         preferences = (try? container.decodeIfPresent(AppPreferences.self, forKey: .preferences)) ?? .init()
         memos = try container.decodeIfPresent([MemoNote].self, forKey: .memos) ?? []
+        holidayCalendar = (try? container.decodeIfPresent(HolidayCalendarSettings.self, forKey: .holidayCalendar)) ?? .init()
+        overrides = try container.decodeIfPresent([TemporaryScheduleOverride].self, forKey: .overrides) ?? []
     }
 
     public var activeTerm: Term? {

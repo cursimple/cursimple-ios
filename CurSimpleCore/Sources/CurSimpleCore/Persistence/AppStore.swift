@@ -96,6 +96,42 @@ public final class AppStore {
         commit(next)
     }
 
+    // MARK: - Holidays and overrides
+
+    public func upsertHolidayEntry(_ entry: HolidayCalendarEntry) {
+        var next = state
+        next.holidayCalendar = next.holidayCalendar.upsertingUser(entry)
+        commit(next)
+    }
+
+    public func removeHolidayEntry(date: String) {
+        var next = state
+        next.holidayCalendar = next.holidayCalendar.removingUserEntry(date: date)
+        commit(next)
+    }
+
+    public func replaceSyncedHolidayYear(_ year: SyncedHolidayYear) {
+        var next = state
+        next.holidayCalendar = next.holidayCalendar.replacingSyncedYear(year)
+        commit(next)
+    }
+
+    public func upsertOverride(_ override: TemporaryScheduleOverride) {
+        var next = state
+        if let index = next.overrides.firstIndex(where: { $0.id == override.id }) {
+            next.overrides[index] = override
+        } else {
+            next.overrides.append(override)
+        }
+        commit(next)
+    }
+
+    public func deleteOverride(id: String) {
+        var next = state
+        next.overrides.removeAll { $0.id == id }
+        commit(next)
+    }
+
     // MARK: - Memos
 
     public func upsertMemo(_ note: MemoNote) {

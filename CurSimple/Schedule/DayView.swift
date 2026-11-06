@@ -31,13 +31,35 @@ struct DayView: View {
 
     var body: some View {
         let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
-        let items = occurrences(on: date, term: term, profile: profile, calendar: .current)
+        let holidayCalendar = store.state.holidayCalendar
+        let overrides = store.state.overrides
+        let items = scheduledCourseOccurrencesOn(
+            date: date,
+            courses: term.courses,
+            timingProfile: profile,
+            termStartDate: term.startDateValue,
+            overrides: overrides,
+            holidayCalendar: holidayCalendar,
+            calendar: .current
+        )
+        let resolution = resolveScheduleDay(
+            date: date,
+            overrides: overrides,
+            holidayCalendar: holidayCalendar,
+            calendar: .current
+        )
 
         VStack(spacing: 0) {
             dayHeader(colors: colors)
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
+                    if resolution.isHoliday {
+                        holidayBanner(resolution.holidayName, colors: colors)
+                    } else if resolution.isMakeUpWorkday {
+                        makeUpBanner(colors: colors)
+                    }
+
                     if Calendar.current.isDateInToday(date) {
                         TodayOverviewCard(items: items, date: date, now: now, colors: colors)
                             .onReceive(timer) { value in
@@ -82,6 +104,38 @@ struct DayView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
+    }
+
+    private func holidayBanner(_ name: String?, colors: AppColors) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "tree.fill")
+                .font(.system(size: 13))
+            Text(name.flatMap { $0.isEmpty ? nil : $0 } ?? String(localized: "day.holiday.generic"))
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+        }
+        .foregroundStyle(colors.primary)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(colors.primaryContainer)
+        )
+    }
+
+    private func makeUpBanner(colors: AppColors) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "arrow.triangle.swap")
+                .font(.system(size: 12))
+            Text("day.makeUpWorkday")
+                .font(.system(size: 13, weight: .medium))
+            Spacer()
+        }
+        .foregroundStyle(colors.primary)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(colors.primaryContainer.opacity(0.6))
+        )
     }
 
     private func timelineCard(_ item: ScheduledCourseOccurrence, colors: AppColors) -> some View {

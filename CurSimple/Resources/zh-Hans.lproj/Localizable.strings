@@ -268,3 +268,6 @@
 "reminder.notification.title" = "%1$@ · %2$@ 上课";
 "reminder.notification.inMinutes" = "%d 分钟后上课";
 "reminder.notification.now" = "现在上课";
+
+"day.holiday.generic" = "假期";
+"day.makeUpWorkday" = "调休上班日";
