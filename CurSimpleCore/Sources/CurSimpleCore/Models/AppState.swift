@@ -46,6 +46,7 @@ public struct AppState: Codable, Sendable {
     public var timingProfiles: [TimingProfile]
     public var activeTimingProfileID: String
     public var preferences: AppPreferences
+    public var memos: [MemoNote]
 
     public init(
         schemaVersion: Int = AppState.currentSchemaVersion,
@@ -53,7 +54,8 @@ public struct AppState: Codable, Sendable {
         activeTermID: String = "",
         timingProfiles: [TimingProfile] = [],
         activeTimingProfileID: String = "",
-        preferences: AppPreferences = .init()
+        preferences: AppPreferences = .init(),
+        memos: [MemoNote] = []
     ) {
         self.schemaVersion = schemaVersion
         self.terms = terms
@@ -61,10 +63,11 @@ public struct AppState: Codable, Sendable {
         self.timingProfiles = timingProfiles
         self.activeTimingProfileID = activeTimingProfileID
         self.preferences = preferences
+        self.memos = memos
     }
 
     private enum CodingKeys: String, CodingKey {
-        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences
+        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences, memos
     }
 
     public init(from decoder: Decoder) throws {
@@ -75,6 +78,7 @@ public struct AppState: Codable, Sendable {
         timingProfiles = try container.decodeIfPresent([TimingProfile].self, forKey: .timingProfiles) ?? []
         activeTimingProfileID = try container.decodeIfPresent(String.self, forKey: .activeTimingProfileID) ?? ""
         preferences = (try? container.decodeIfPresent(AppPreferences.self, forKey: .preferences)) ?? .init()
+        memos = try container.decodeIfPresent([MemoNote].self, forKey: .memos) ?? []
     }
 
     public var activeTerm: Term? {

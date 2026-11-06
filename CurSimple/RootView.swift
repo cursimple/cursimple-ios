@@ -3,11 +3,13 @@ import SwiftUI
 
 enum AppScreen: String, CaseIterable {
     case schedule
+    case memo
     case settings
 
     var titleKey: LocalizedStringKey {
         switch self {
         case .schedule: "tab.schedule"
+        case .memo: "tab.memo"
         case .settings: "tab.settings"
         }
     }
@@ -15,6 +17,7 @@ enum AppScreen: String, CaseIterable {
     var icon: String {
         switch self {
         case .schedule: "calendar"
+        case .memo: "checklist"
         case .settings: "gearshape"
         }
     }
@@ -25,7 +28,12 @@ struct RootView: View {
     @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var screen: AppScreen = ProcessInfo.processInfo.arguments.contains("-startSettings") ? .settings : .schedule
+    @State private var screen: AppScreen = {
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("-startSettings") { return .settings }
+        if arguments.contains("-startMemo") { return .memo }
+        return .schedule
+    }()
     @State private var drawerOpen = ProcessInfo.processInfo.arguments.contains("-openDrawer")
 
     var body: some View {
@@ -34,6 +42,8 @@ struct RootView: View {
                 switch screen {
                 case .schedule:
                     ScheduleView(onOpenDrawer: openDrawer)
+                case .memo:
+                    MemoView(onOpenDrawer: openDrawer)
                 case .settings:
                     SettingsView(onOpenDrawer: openDrawer)
                 }

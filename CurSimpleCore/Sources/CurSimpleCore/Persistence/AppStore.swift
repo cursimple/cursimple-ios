@@ -96,6 +96,37 @@ public final class AppStore {
         commit(next)
     }
 
+    // MARK: - Memos
+
+    public func upsertMemo(_ note: MemoNote) {
+        var next = state
+        if let index = next.memos.firstIndex(where: { $0.id == note.id }) {
+            next.memos[index] = note
+        } else {
+            next.memos.append(note)
+        }
+        commit(next)
+    }
+
+    public func deleteMemo(id: String) {
+        var next = state
+        next.memos.removeAll { $0.id == id }
+        commit(next)
+    }
+
+    public func toggleMemoChecklist(noteID: String, itemText: String) {
+        guard let index = state.memos.firstIndex(where: { $0.id == noteID }) else { return }
+        var note = state.memos[index]
+        note.body = MemoChecklist.togglingItem(note.body, text: itemText)
+        note.updatedAt = Int64(Date().timeIntervalSince1970 * 1000)
+        upsertMemo(note)
+    }
+
+    /// Sorted memo list using the shared ordering rules.
+    public func sortedMemos(now: Date = .init(), calendar: Calendar = .current) -> [MemoNote] {
+        state.memos.sorted(by: memoComparator(now: now, calendar: calendar))
+    }
+
     public func updateTimingProfile(_ profile: TimingProfile) {
         var next = state
         if let index = next.timingProfiles.firstIndex(where: { $0.id == profile.id }) {

@@ -1,7 +1,54 @@
 #if DEBUG
 import CurSimpleCore
+import Foundation
 
 enum SampleData {
+
+    static func memos() -> [MemoNote] {
+        let now = Int64(Date().timeIntervalSince1970 * 1000)
+        return [
+            MemoNote(
+                id: "memo-1", courseKey: "计算机网络", courseTitle: "计算机网络",
+                title: "复习第三章", body: "套接字、TCP 三次握手\n- [x] 看完课件\n- [ ] 做课后题 1-5",
+                priority: .high, pinned: true, dueAt: dueString(days: -1, hour: 18),
+                createdAt: now - 100_000, updatedAt: now - 90_000
+            ),
+            MemoNote(
+                id: "memo-2", courseKey: "高等数学", courseTitle: "高等数学",
+                title: "交作业", body: "第五章习题抄在本子上",
+                priority: .medium, dueAt: dueString(days: 0, hour: 22),
+                createdAt: now - 80_000, updatedAt: now - 70_000
+            ),
+            MemoNote(
+                id: "memo-3", courseKey: nil, courseTitle: "",
+                title: "社团招新海报", body: "周四前发给宣传部\n- [ ] 定稿\n- [ ] 打印 20 份",
+                priority: .low, dueAt: dueString(days: 2, hour: 12),
+                createdAt: now - 60_000, updatedAt: now - 50_000
+            ),
+            MemoNote(
+                id: "memo-4", courseKey: nil, courseTitle: "",
+                title: "买电动车充电器",
+                body: "原来的充不上电了",
+                createdAt: now - 40_000, updatedAt: now - 30_000
+            ),
+            MemoNote(
+                id: "memo-5", courseKey: "大学英语", courseTitle: "大学英语",
+                title: "口语作业", body: "已提交",
+                completed: true, createdAt: now - 200_000, updatedAt: now - 20_000
+            ),
+        ]
+    }
+
+    private static func dueString(days: Int, hour: Int) -> String {
+        let date = Calendar.current.date(byAdding: .day, value: days, to: .now) ?? .now
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        components.hour = hour
+        components.minute = 0
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter.string(from: Calendar.current.date(from: components) ?? date)
+    }
 
     static func courses() -> [CourseItem] {
         [

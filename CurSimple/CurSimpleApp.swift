@@ -17,6 +17,9 @@ struct CurSimpleApp: App {
             for course in SampleData.courses() {
                 sampleStore.addCourse(course)
             }
+            for memo in SampleData.memos() {
+                sampleStore.upsertMemo(memo)
+            }
             _store = State(initialValue: sampleStore)
             return
         }
