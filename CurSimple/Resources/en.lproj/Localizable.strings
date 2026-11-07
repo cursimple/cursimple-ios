@@ -382,3 +382,10 @@
 "memo.relative.minutes" = "%d min";
 "memo.relative.hours" = "%d h";
 "memo.relative.days" = "%d d";
+
+"day.headerCount" = "%d classes today · %d to go";
+"day.schedule.title" = "Today";
+"day.status.current" = "In class";
+"day.status.pending" = "Upcoming";
+"day.status.done" = "Done";
+"day.status.untimed" = "Time not set";

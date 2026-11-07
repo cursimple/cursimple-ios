@@ -385,3 +385,10 @@
 "memo.relative.minutes" = "%d 分鐘";
 "memo.relative.hours" = "%d 小時";
 "memo.relative.days" = "%d 天";
+
+"day.headerCount" = "今日 %d 門課 · 待上 %d 門";
+"day.schedule.title" = "今日安排";
+"day.status.current" = "正在上課";
+"day.status.pending" = "待上課";
+"day.status.done" = "已結束";
+"day.status.untimed" = "未設定時間";

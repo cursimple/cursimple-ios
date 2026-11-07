@@ -50,7 +50,14 @@ struct DayView: View {
         )
 
         VStack(spacing: 0) {
-            dayHeader(colors: colors)
+            dayHeader(
+                colors: colors,
+                itemCount: items.count,
+                remaining: items.filter { item in
+                    guard let end = item.end else { return true }
+                    return end > now
+                }.count
+            )
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 10) {
@@ -72,9 +79,11 @@ struct DayView: View {
                     if items.isEmpty {
                         emptyState(colors: colors)
                     } else {
-                        ForEach(items) { item in
-                            timelineCard(item, colors: colors)
+                        VStack(alignment: .leading, spacing: 6) {
+                            SettingsSectionLabel(title: "day.schedule.title", colors: colors)
+                            timeline(items, colors: colors)
                         }
+                        .padding(.top, 8)
                     }
                 }
                 .padding(.horizontal, 10)
@@ -84,26 +93,30 @@ struct DayView: View {
         }
     }
 
-    private func dayHeader(colors: AppColors) -> some View {
-        HStack(spacing: 10) {
-            Text(date.formatted(.dateTime.month().day()))
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(colors.todayOnContainer)
-                .padding(.horizontal, 14)
-                .frame(height: 36)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(colors.todayContainer)
-                )
-
-            Text(Format.weekday(ScheduleCalendar.isoDayOfWeek(date)))
-                .font(.system(size: 16, weight: .medium))
+    private func dayHeader(colors: AppColors, itemCount: Int, remaining: Int) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text(date.formatted(.dateTime.month().day()))
+                    .font(.system(size: 26, weight: .bold))
+                    .foregroundStyle(colors.onSurface)
+                Text(Format.weekday(ScheduleCalendar.isoDayOfWeek(date)))
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(colors.onSurface)
+            }
+            if Calendar.current.isDateInToday(date) {
+                Text(String(
+                    format: String(localized: "day.headerCount"),
+                    itemCount,
+                    remaining
+                ))
+                .font(AppFont.body)
                 .foregroundStyle(colors.onSurfaceVariant)
-
-            Spacer()
+            }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 16)
+        .padding(.top, 10)
+        .padding(.bottom, 4)
     }
 
     private func holidayBanner(_ name: String?, colors: AppColors) -> some View {
@@ -138,69 +151,158 @@ struct DayView: View {
         )
     }
 
-    private func timelineCard(_ item: ScheduledCourseOccurrence, colors: AppColors) -> some View {
-        let entry = CoursePalette.courseEntry(
-            for: item.course,
-            style: store.preferences.paletteStyle,
-            dark: colorScheme == .dark
-        )
+    // MARK: - Timeline (shared "今日安排" style)
 
-        return HStack(alignment: .top, spacing: 8) {
-            VStack(alignment: .leading, spacing: 1) {
-                Text(Format.period(item.course.time.startNode))
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(colors.onSurface)
+    private func timeline(_ items: [ScheduledCourseOccurrence], colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                timelineRow(item, isLast: index == items.count - 1, colors: colors)
+            }
+        }
+        .padding(.leading, 4)
+    }
 
-                if let start = item.start, let end = item.end {
-                    Text(TimeOfDay(date: start).text)
-                        .font(.system(size: 9))
-                        .foregroundStyle(colors.onSurfaceVariant)
-                    Text(TimeOfDay(date: end).text)
-                        .font(.system(size: 9))
-                        .foregroundStyle(colors.onSurfaceVariant)
+    private func timelineRow(
+        _ item: ScheduledCourseOccurrence,
+        isLast: Bool,
+        colors: AppColors
+    ) -> some View {
+        let isToday = Calendar.current.isDateInToday(date)
+        let status = rowStatus(item)
+        let isCurrent = status == .current
+
+        return HStack(alignment: .top, spacing: 10) {
+            // Left clock column
+            VStack(spacing: 2) {
+                Text(item.start.map { TimeOfDay(date: $0).text } ?? Format.period(item.course.time.startNode))
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(isCurrent ? colors.primary : colors.onSurface)
+                Text(item.end.map { TimeOfDay(date: $0).text } ?? " ")
+                    .font(.system(size: 12))
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+            .frame(width: 54, alignment: .trailing)
+            .padding(.top, 14)
+
+            // Dot + rail
+            VStack(spacing: 0) {
+                Circle()
+                    .fill(isCurrent ? colors.primary : Color.clear)
+                    .overlay(Circle().stroke(colors.primary, lineWidth: 2))
+                    .frame(width: 14, height: 14)
+                    .padding(.top, 18)
+                if !isLast {
+                    Rectangle()
+                        .fill(colors.outlineVariant)
+                        .frame(width: 2)
+                        .frame(maxHeight: .infinity)
                 }
             }
-            .frame(width: 52, alignment: .leading)
-            .padding(.top, 6)
+            .frame(width: 16)
 
+            // Status card
             Button {
                 onOpenCourse(item.course.id)
             } label: {
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(alignment: .top, spacing: 8) {
-                        Text(item.title)
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(entry.onContainer.color)
-                            .multilineTextAlignment(.leading)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(statusTitle(status))
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(statusColor(status, colors: colors))
 
-                        Spacer(minLength: 4)
+                    Text(item.title)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(colors.onSurface)
+                        .lineLimit(2)
 
-                        Text(Format.periodRange(item.course.time.startNode, item.course.time.endNode))
-                            .font(.system(size: 10))
-                            .foregroundStyle(entry.onContainer.color.opacity(0.62))
-                    }
+                    Text(detailLine(item))
+                        .font(.system(size: 13))
+                        .foregroundStyle(colors.onSurfaceVariant)
+                        .lineLimit(1)
 
-                    if !item.location.isEmpty {
-                        Text("@\(item.location)")
-                            .font(.system(size: 12))
-                            .foregroundStyle(entry.onContainer.color.opacity(0.78))
-                    }
-
-                    if !item.teacher.isEmpty {
-                        Text(item.teacher)
-                            .font(.system(size: 12))
-                            .foregroundStyle(entry.onContainer.color.opacity(0.78))
+                    if isCurrent, let itemEnd = item.end {
+                        GeometryReader { proxy in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(colors.primary.opacity(0.14))
+                                Capsule()
+                                    .fill(colors.primary)
+                                    .frame(width: max(proxy.size.width * classProgress(item, until: itemEnd), 4))
+                            }
+                        }
+                        .frame(height: 5)
+                        .padding(.top, 2)
                     }
                 }
                 .padding(14)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(entry.container.color)
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .fill(isCurrent ? colors.primaryContainer : colors.surfaceVariant.opacity(0.55))
                 )
             }
             .buttonStyle(.plain)
+            .padding(.bottom, isLast ? 0 : 14)
         }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private enum RowStatus {
+        case current, pending, done, untimed
+    }
+
+    private func rowStatus(_ item: ScheduledCourseOccurrence) -> RowStatus {
+        guard let start = item.start, let end = item.end else { return .untimed }
+        if !Calendar.current.isDateInToday(date) {
+            // Past days are done; future days are pending; a frozen clock
+            // (-todayNow) evaluates against the displayed day's wall clock.
+            if clockFrozen {
+                let dayStart = TimeOfDay(date: start)
+                let dayEnd = TimeOfDay(date: end)
+                let clock = TimeOfDay(date: now)
+                if clock >= dayStart && clock < dayEnd { return .current }
+                if clock >= dayEnd { return .done }
+                return .pending
+            }
+            return date < .now ? .done : .pending
+        }
+        if now >= start && now < end { return .current }
+        if now >= end { return .done }
+        return .pending
+    }
+
+    private func statusTitle(_ status: RowStatus) -> String {
+        switch status {
+        case .current: String(localized: "day.status.current")
+        case .pending: String(localized: "day.status.pending")
+        case .done: String(localized: "day.status.done")
+        case .untimed: String(localized: "day.status.untimed")
+        }
+    }
+
+    private func statusColor(_ status: RowStatus, colors: AppColors) -> Color {
+        switch status {
+        case .current: colors.primary
+        case .pending: Color(red: 0.30, green: 0.55, blue: 0.30)
+        case .done: colors.onSurfaceVariant
+        case .untimed: colors.onSurfaceVariant
+        }
+    }
+
+    private func detailLine(_ item: ScheduledCourseOccurrence) -> String {
+        var parts: [String] = []
+        if let start = item.start, let end = item.end {
+            parts.append("\(TimeOfDay(date: start).text)-\(TimeOfDay(date: end).text)")
+        }
+        if !item.location.isEmpty { parts.append(item.location) }
+        if !item.teacher.isEmpty { parts.append(item.teacher) }
+        if parts.isEmpty {
+            parts.append(Format.periodRange(item.course.time.startNode, item.course.time.endNode))
+        }
+        return parts.joined(separator: " · ")
+    }
+
+    private func classProgress(_ item: ScheduledCourseOccurrence, until end: Date) -> Double {
+        guard let start = item.start, end > start else { return 0 }
+        return min(max(now.timeIntervalSince(start) / end.timeIntervalSince(start), 0), 1)
     }
 
     private func emptyState(colors: AppColors) -> some View {

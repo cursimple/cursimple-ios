@@ -16,7 +16,15 @@ struct ScheduleView: View {
 
     @State private var displayWeekStart: Date = ScheduleView.initialDisplayWeekStart()
     @State private var viewMode: ScheduleViewMode = ProcessInfo.processInfo.arguments.contains("-startDayView") ? .day : .week
-    @State private var selectedDay: Date = .now
+    @State private var selectedDay: Date = {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-dayOffset"),
+              arguments.count > index + 1,
+              let offset = Int(arguments[index + 1]) else {
+            return .now
+        }
+        return ScheduleCalendar.addDays(offset, to: .now)
+    }()
     @State private var editorTarget: CourseEditorTarget? = ProcessInfo.processInfo.arguments.contains("-openEditor")
         ? CourseEditorTarget(course: nil, slot: CourseTimeSlot(dayOfWeek: 1, startNode: 1, endNode: 2))
         : nil
