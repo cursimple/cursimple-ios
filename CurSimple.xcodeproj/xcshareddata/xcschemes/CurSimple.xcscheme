@@ -21,6 +21,20 @@
                ReferencedContainer = "container:CurSimple.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "38323DE6435DE251A76494DF"
+               BuildableName = "CurSimpleWidgets.appex"
+               BlueprintName = "CurSimpleWidgets"
+               ReferencedContainer = "container:CurSimple.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

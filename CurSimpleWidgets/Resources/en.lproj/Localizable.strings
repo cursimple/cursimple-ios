@@ -1,0 +1,11 @@
+"widget.displayName" = "Today";
+"widget.description" = "See the class in session and the next one.";
+"widget.today" = "Today";
+"widget.week" = "Week %d";
+"widget.inClass" = "In class";
+"widget.next" = "Next";
+"widget.empty" = "No classes today";
+"widget.rest" = "Day off";
+"widget.holiday" = "Holiday";
+"widget.noData" = "Open CurSimple to sync";
+"widget.courseCount" = "%d classes";

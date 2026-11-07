@@ -339,3 +339,15 @@
 "share.preview.warning" = "A new term will be created and activated. Existing timetables are unchanged.";
 "share.preview.confirm" = "Import as new term";
 "share.info" = "The code contains the term name, start date, courses and period times only — no notes, reminders or personal settings.";
+
+"widget.today" = "Today";
+"widget.week" = "Week %d";
+"widget.inClass" = "In class";
+"widget.next" = "Next";
+"widget.empty" = "No classes today";
+"widget.rest" = "Day off";
+"widget.holiday" = "Holiday";
+"widget.noData" = "Open CurSimple to sync";
+"widget.courseCount" = "%d classes";
+"widget.displayName" = "Today";
+"widget.description" = "See the class in session and the next one.";

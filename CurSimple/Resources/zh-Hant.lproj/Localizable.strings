@@ -342,3 +342,15 @@
 "share.preview.warning" = "將建立一個新學期並切換過去，現有課表不會被修改。";
 "share.preview.confirm" = "匯入為新學期";
 "share.info" = "分享碼只包含學期名稱、開學日期、課程與節次時間，不包含筆記、提醒和個人設定。";
+
+"widget.today" = "今日";
+"widget.week" = "第 %d 週";
+"widget.inClass" = "正在上課";
+"widget.next" = "下一節";
+"widget.empty" = "今天沒有課";
+"widget.rest" = "放假";
+"widget.holiday" = "假期";
+"widget.noData" = "開啟課簡以同步課表";
+"widget.courseCount" = "%d 門課";
+"widget.displayName" = "今日課表";
+"widget.description" = "查看今天正在上的課和下一節課。";

@@ -1,0 +1,11 @@
+"widget.displayName" = "今日课表";
+"widget.description" = "查看今天正在上的课和下一节课。";
+"widget.today" = "今日";
+"widget.week" = "第 %d 周";
+"widget.inClass" = "正在上课";
+"widget.next" = "下一节";
+"widget.empty" = "今天没有课";
+"widget.rest" = "放假";
+"widget.holiday" = "假期";
+"widget.noData" = "打开课简以同步课表";
+"widget.courseCount" = "%d 门课";

@@ -342,3 +342,15 @@
 "share.preview.warning" = "将新建一个学期并切换过去，现有课表不会被修改。";
 "share.preview.confirm" = "导入为新学期";
 "share.info" = "分享码只包含学期名、开学日期、课程与节次时间，不包含笔记、提醒和个人设置。";
+
+"widget.today" = "今日";
+"widget.week" = "第 %d 周";
+"widget.inClass" = "正在上课";
+"widget.next" = "下一节";
+"widget.empty" = "今天没有课";
+"widget.rest" = "放假";
+"widget.holiday" = "假期";
+"widget.noData" = "打开课简以同步课表";
+"widget.courseCount" = "%d 门课";
+"widget.displayName" = "今日课表";
+"widget.description" = "查看今天正在上的课和下一节课。";

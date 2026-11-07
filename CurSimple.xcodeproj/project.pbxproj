@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15E2353393BC518FBB06D0F7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F2DBE2C47231D402DDFC675 /* Localizable.strings */; };
 		251D72AE371684D48812DD4B /* CurSimpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F05D43516DCF0657746A5A /* CurSimpleUITests.swift */; };
+		353CEDC7AE25EF85B2AF6639 /* WidgetSharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */; };
+		36CA2A7961AD9775613AE8C9 /* WidgetSharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */; };
 		3718F955050C623DC4F473C9 /* SettingsPages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF2888AE16996BEB160CA8E /* SettingsPages.swift */; };
 		3BA6EBCE0D5618C5DC9CD773 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4489954EE5F0BA7EFEC93779 /* SettingsView.swift */; };
+		42BA3842525D10B5DF59B193 /* WidgetPreviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4829698613AADDDF26D7F1F /* WidgetPreviewScreen.swift */; };
 		4526408118082F4FFFFEAC82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C36A1EE854AE9D1DD9B47D04 /* Assets.xcassets */; };
 		58FCFE52617BC29A66FA8B05 /* CurSimpleCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5006869A61BDAF7C34BD35B3 /* CurSimpleCore */; };
 		5B66C3FEE62A0F3B749445EF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE911850AD46FD58A90C8B2 /* RootView.swift */; };
+		5DD3D1AF52A6BC5AFBDB67F4 /* WidgetUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA31C585DEB918A08164919 /* WidgetUpdater.swift */; };
 		5FED940AC3EFC8D5424A7102 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB2401B3538EDD36BC8114 /* MemoView.swift */; };
 		61F54FD0AA97ECF0EF655E13 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C8F282947882D37215BAB /* CourseDetailView.swift */; };
 		6CE1D848C55C36A9E0764A35 /* CurSimpleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */; };
@@ -24,17 +29,29 @@
 		9C94373A7980BF6FD47270BB /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC447912F5614D5CA611A1D8 /* ScheduleView.swift */; };
 		ACE87AA3F3C3389CCD64B269 /* OverrideEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */; };
 		AFB1138C365C2A31346BC32C /* CourseEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4875FD9192BCBC81B4B40D78 /* CourseEditorView.swift */; };
+		B7085EEA7D33C27367A82D2E /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
 		B7C43852C5D120BE4459DAFF /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC7CF166759869D8EB5A95 /* SampleData.swift */; };
+		B8CCE189B23A562790BE6F0D /* CurSimpleCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7979333141DC1395F95F6B12 /* CurSimpleCore */; };
 		B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD21690DCC4C3D7AFC9537 /* Formatting.swift */; };
 		BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41487E213E081342EEEBBF17 /* AppTheme.swift */; };
+		C4CDA60E6E30DBE81C4305A3 /* CurSimpleWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DBC5AEBCEB5961389550C1 /* CurSimpleWidgets.swift */; };
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
+		E043A987EF7FADBEFF396429 /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
+		E6475D64675D32A6F49C1614 /* CurSimpleWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E87AD76DA8E1A3D2352C11B9 /* ShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */; };
 		EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032528DFD7F4FF568A829119 /* WeekGridView.swift */; };
 		FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B29D01F728A0CE7A5DB17C42 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FDD1D0AABA0CC810EEFCD240 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38323DE6435DE251A76494DF;
+			remoteInfo = CurSimpleWidgets;
+		};
 		FF21103456D44CF3C83FF2F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FDD1D0AABA0CC810EEFCD240 /* Project object */;
@@ -44,8 +61,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7C83645B8ECE73BCB55DCFE2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E6475D64675D32A6F49C1614 /* CurSimpleWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0151D2593471C48CFF96CFF2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		032528DFD7F4FF568A829119 /* WeekGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekGridView.swift; sourceTree = "<group>"; };
+		07DBC5AEBCEB5961389550C1 /* CurSimpleWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleWidgets.swift; sourceTree = "<group>"; };
+		09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWidgetView.swift; sourceTree = "<group>"; };
 		352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideSettingsView.swift; sourceTree = "<group>"; };
 		41487E213E081342EEEBBF17 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		4489954EE5F0BA7EFEC93779 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -54,6 +88,9 @@
 		4875FD9192BCBC81B4B40D78 /* CourseEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseEditorView.swift; sourceTree = "<group>"; };
 		4B9C8F282947882D37215BAB /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
 		52E948661C5E7D256C4E0AFE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedStore.swift; sourceTree = "<group>"; };
+		5BB083E223825C9490272E8B /* CurSimpleWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CurSimpleWidgets.entitlements; sourceTree = "<group>"; };
+		5F2B40BFEB9AE879BCB324A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		680296327FD3F14CB418B01D /* TermViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViews.swift; sourceTree = "<group>"; };
 		68F05D43516DCF0657746A5A /* CurSimpleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleUITests.swift; sourceTree = "<group>"; };
 		69A659BF2CE573367AE65F8D /* CurSimpleUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CurSimpleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,13 +99,19 @@
 		84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideEditorView.swift; sourceTree = "<group>"; };
 		8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
+		97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = CurSimpleWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B16E4226C318EA5AF922B253 /* CurSimpleCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CurSimpleCore; path = CurSimpleCore; sourceTree = SOURCE_ROOT; };
 		B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSettingsView.swift; sourceTree = "<group>"; };
 		B672A77F2A4D505A77241EB2 /* MemoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorView.swift; sourceTree = "<group>"; };
 		BEBB82846DC6A5532C9BD759 /* CurSimple.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CurSimple.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0C69FE2D169ABAAAE9CAC0B /* CurSimple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CurSimple.entitlements; sourceTree = "<group>"; };
 		C36A1EE854AE9D1DD9B47D04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C8C0738E13A158C3913D279C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		CED10D375A5003703B53B49D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D250DC8810011B778F5306FF /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		D4829698613AADDDF26D7F1F /* WidgetPreviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPreviewScreen.swift; sourceTree = "<group>"; };
+		DBA31C585DEB918A08164919 /* WidgetUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetUpdater.swift; sourceTree = "<group>"; };
 		DFF2888AE16996BEB160CA8E /* SettingsPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPages.swift; sourceTree = "<group>"; };
 		E306933F35E744A606294930 /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
 		E5CF569DF0CDC4EAE526D7D6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -77,6 +120,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		58E9D3F182F311D96781FE1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8CCE189B23A562790BE6F0D /* CurSimpleCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7F8F2076F809F512350F09CD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -103,6 +154,26 @@
 				B16E4226C318EA5AF922B253 /* CurSimpleCore */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		42CFA6B77F4860B418DB3602 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4F2DBE2C47231D402DDFC675 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		49C2C3B4C1629880B0369A4B /* CurSimpleWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				5BB083E223825C9490272E8B /* CurSimpleWidgets.entitlements */,
+				07DBC5AEBCEB5961389550C1 /* CurSimpleWidgets.swift */,
+				CED10D375A5003703B53B49D /* Info.plist */,
+				09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */,
+				42CFA6B77F4860B418DB3602 /* Resources */,
+			);
+			path = CurSimpleWidgets;
 			sourceTree = "<group>";
 		};
 		63F6F2F5989139C5592E81C3 /* CurSimpleUITests */ = {
@@ -139,6 +210,8 @@
 			isa = PBXGroup;
 			children = (
 				B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */,
+				545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */,
+				DBA31C585DEB918A08164919 /* WidgetUpdater.swift */,
 			);
 			path = Sharing;
 			sourceTree = "<group>";
@@ -163,6 +236,7 @@
 				76AD21690DCC4C3D7AFC9537 /* Formatting.swift */,
 				8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */,
 				47FC7CF166759869D8EB5A95 /* SampleData.swift */,
+				D4829698613AADDDF26D7F1F /* WidgetPreviewScreen.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -172,6 +246,7 @@
 			children = (
 				BEBB82846DC6A5532C9BD759 /* CurSimple.app */,
 				69A659BF2CE573367AE65F8D /* CurSimpleUITests.xctest */,
+				97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,6 +254,7 @@
 		F70CEDCCD4BFE4C5DC342BD7 /* CurSimple */ = {
 			isa = PBXGroup;
 			children = (
+				C0C69FE2D169ABAAAE9CAC0B /* CurSimple.entitlements */,
 				97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */,
 				7FE911850AD46FD58A90C8B2 /* RootView.swift */,
 				6A9E40879D4CAF215CC5E05E /* Memo */,
@@ -196,6 +272,7 @@
 			children = (
 				F70CEDCCD4BFE4C5DC342BD7 /* CurSimple */,
 				63F6F2F5989139C5592E81C3 /* CurSimpleUITests */,
+				49C2C3B4C1629880B0369A4B /* CurSimpleWidgets */,
 				15B8AE9543CA6AC15C878E2E /* Packages */,
 				9C914EC7E0E2F5EB33A3D1B5 /* Products */,
 			);
@@ -204,6 +281,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		38323DE6435DE251A76494DF /* CurSimpleWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0B5A69F40E41484FC7F1335 /* Build configuration list for PBXNativeTarget "CurSimpleWidgets" */;
+			buildPhases = (
+				3D60F1ED4F1EC504F7E1AF16 /* Sources */,
+				B9BCC3EC2686BCD078D59869 /* Resources */,
+				58E9D3F182F311D96781FE1F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CurSimpleWidgets;
+			packageProductDependencies = (
+				7979333141DC1395F95F6B12 /* CurSimpleCore */,
+			);
+			productName = CurSimpleWidgets;
+			productReference = 97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D9B9E4E362FDCF9D195F0584 /* CurSimpleUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A788823AF499A7E8BB985CC3 /* Build configuration list for PBXNativeTarget "CurSimpleUITests" */;
@@ -229,10 +326,12 @@
 				A91207BBFB11EDED9175F638 /* Sources */,
 				0B3DF7ED1FECCC7C2C85CDC2 /* Resources */,
 				7F8F2076F809F512350F09CD /* Frameworks */,
+				7C83645B8ECE73BCB55DCFE2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A80E9DB2BB4B5FF789059E80 /* PBXTargetDependency */,
 			);
 			name = CurSimple;
 			packageProductDependencies = (
@@ -251,6 +350,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					38323DE6435DE251A76494DF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 					D9B9E4E362FDCF9D195F0584 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
@@ -282,6 +385,7 @@
 			projectRoot = "";
 			targets = (
 				F666A4A07F926D84BC8BB094 /* CurSimple */,
+				38323DE6435DE251A76494DF /* CurSimpleWidgets */,
 				D9B9E4E362FDCF9D195F0584 /* CurSimpleUITests */,
 			);
 		};
@@ -297,6 +401,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B9BCC3EC2686BCD078D59869 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15E2353393BC518FBB06D0F7 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -305,6 +417,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				251D72AE371684D48812DD4B /* CurSimpleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D60F1ED4F1EC504F7E1AF16 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4CDA60E6E30DBE81C4305A3 /* CurSimpleWidgets.swift in Sources */,
+				B7085EEA7D33C27367A82D2E /* TodayWidgetView.swift in Sources */,
+				36CA2A7961AD9775613AE8C9 /* WidgetSharedStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +454,11 @@
 				3BA6EBCE0D5618C5DC9CD773 /* SettingsView.swift in Sources */,
 				E87AD76DA8E1A3D2352C11B9 /* ShareSettingsView.swift in Sources */,
 				8C3F92DBC92F82EDAB2AB7E3 /* TermViews.swift in Sources */,
+				E043A987EF7FADBEFF396429 /* TodayWidgetView.swift in Sources */,
 				EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */,
+				42BA3842525D10B5DF59B193 /* WidgetPreviewScreen.swift in Sources */,
+				353CEDC7AE25EF85B2AF6639 /* WidgetSharedStore.swift in Sources */,
+				5DD3D1AF52A6BC5AFBDB67F4 /* WidgetUpdater.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,9 +470,24 @@
 			target = F666A4A07F926D84BC8BB094 /* CurSimple */;
 			targetProxy = FF21103456D44CF3C83FF2F7 /* PBXContainerItemProxy */;
 		};
+		A80E9DB2BB4B5FF789059E80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38323DE6435DE251A76494DF /* CurSimpleWidgets */;
+			targetProxy = B29D01F728A0CE7A5DB17C42 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4F2DBE2C47231D402DDFC675 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F2B40BFEB9AE879BCB324A4 /* en */,
+				0151D2593471C48CFF96CFF2 /* zh-Hans */,
+				C8C0738E13A158C3913D279C /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		CC76F11676E394BABC294EE3 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -382,6 +523,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CurSimple/CurSimple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -406,6 +548,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CurSimple/CurSimple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -552,6 +695,26 @@
 			};
 			name = Release;
 		};
+		4D55C9E7803ED3C51957CD2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = CurSimpleWidgets/CurSimpleWidgets.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CurSimpleWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.x500x.cursimple.app.widgets;
+				PRODUCT_NAME = CurSimpleWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		B60AF7FFCEBEBCD2A64987BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -566,6 +729,26 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CurSimple;
+			};
+			name = Release;
+		};
+		DC4CB20FA30A5BF291E5877A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = CurSimpleWidgets/CurSimpleWidgets.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CurSimpleWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.x500x.cursimple.app.widgets;
+				PRODUCT_NAME = CurSimpleWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -599,6 +782,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		F0B5A69F40E41484FC7F1335 /* Build configuration list for PBXNativeTarget "CurSimpleWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4D55C9E7803ED3C51957CD2B /* Debug */,
+				DC4CB20FA30A5BF291E5877A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -610,6 +802,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		5006869A61BDAF7C34BD35B3 /* CurSimpleCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CurSimpleCore;
+		};
+		7979333141DC1395F95F6B12 /* CurSimpleCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CurSimpleCore;
 		};

@@ -14,12 +14,13 @@
 - 今日概览：进度环、当前课程、下一节课、倒计时与全天时间线
 - 课程笔记：清单、优先级、截止时间、课程关联与筛选
 - 上课提醒：提前时间、考试开关、滚动本地通知排程
+- 桌面小组件：今日课程与下一节课（小 / 中尺寸）
 - 节假日与调休，临时补课 / 停课 / 调课
 - 课表分享码与二维码，导入为新学期（与现有客户端互通）
 - 主题色、课程配色、周起始日与周末显示设置
 - 简体 / 繁体中文与英文，本地 JSON 原子落盘，离线可用
 
-后续计划：桌面小组件、课表文件导入、更多平台能力。
+后续计划：学校插件导入、课表文件导入、更多平台能力。
 
 ## 开发
 
@@ -38,6 +39,9 @@ xcodebuild -project CurSimple.xcodeproj -scheme CurSimple \
   -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
   CODE_SIGNING_ALLOWED=NO build
 ```
+
+真机部署需要在 Apple Developer 后台为主应用与小组件同时启用 App Groups
+（`group.com.x500x.cursimple`）。小组件在系统主屏幕的组件库里添加。
 
 ## 结构
 

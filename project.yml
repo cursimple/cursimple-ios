@@ -24,10 +24,14 @@ targets:
     platform: iOS
     sources:
       - path: CurSimple
+      - path: CurSimpleWidgets/TodayWidgetView.swift
     dependencies:
       - package: CurSimpleCore
+      - target: CurSimpleWidgets
+        embed: true
     settings:
       base:
+        CODE_SIGN_ENTITLEMENTS: CurSimple/CurSimple.entitlements
         PRODUCT_BUNDLE_IDENTIFIER: com.x500x.cursimple.app
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
@@ -40,6 +44,30 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  CurSimpleWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: CurSimpleWidgets
+      - path: CurSimple/Sharing/WidgetSharedStore.swift
+    dependencies:
+      - package: CurSimpleCore
+    info:
+      path: CurSimpleWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: 课简
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        CODE_SIGN_ENTITLEMENTS: CurSimpleWidgets/CurSimpleWidgets.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.x500x.cursimple.app.widgets
+        PRODUCT_NAME: CurSimpleWidgets
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: NO
 
   CurSimpleUITests:
     type: bundle.ui-testing
@@ -58,6 +86,7 @@ schemes:
     build:
       targets:
         CurSimple: all
+        CurSimpleWidgets: all
     run:
       config: Debug
     test:

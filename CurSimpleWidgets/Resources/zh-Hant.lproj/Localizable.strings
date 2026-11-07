@@ -1,0 +1,11 @@
+"widget.displayName" = "今日課表";
+"widget.description" = "查看今天正在上的課和下一節課。";
+"widget.today" = "今日";
+"widget.week" = "第 %d 週";
+"widget.inClass" = "正在上課";
+"widget.next" = "下一節";
+"widget.empty" = "今天沒有課";
+"widget.rest" = "放假";
+"widget.holiday" = "假期";
+"widget.noData" = "開啟課簡以同步課表";
+"widget.courseCount" = "%d 門課";

@@ -39,6 +39,14 @@ struct RootView: View {
     @State private var drawerOpen = ProcessInfo.processInfo.arguments.contains("-openDrawer")
 
     var body: some View {
+        if ProcessInfo.processInfo.arguments.contains("-widgetPreview") {
+            WidgetPreviewScreen()
+        } else {
+            mainContent
+        }
+    }
+
+    private var mainContent: some View {
         ZStack(alignment: .leading) {
             Group {
                 switch screen {
@@ -66,14 +74,17 @@ struct RootView: View {
         }
         .animation(.easeOut(duration: 0.24), value: drawerOpen)
         .task {
+            WidgetUpdater.refresh(store: store)
             await reminders.refreshStatus()
             await reminders.reschedule(store: store)
         }
         .onChange(of: scenePhase) { _, phase in
             guard phase == .active else { return }
+            WidgetUpdater.refresh(store: store)
             Task { await reminders.reschedule(store: store) }
         }
         .onChange(of: store.state) { _, _ in
+            WidgetUpdater.refresh(store: store)
             Task { await reminders.reschedule(store: store) }
         }
     }
