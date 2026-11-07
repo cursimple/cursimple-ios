@@ -422,3 +422,34 @@
 "course.detail.edit" = "Edit";
 "course.detail.reminder" = "Alarm";
 "course.detail.cancelToday" = "Cancel today";
+
+"settings.backup" = "Backup & Restore";
+"settings.backup.value" = "Export or import all data";
+"backup.pageTitle" = "Backup & Restore";
+"backup.stat.terms" = "Terms";
+"backup.stat.courses" = "Courses";
+"backup.stat.memos" = "Memos";
+"backup.export" = "Export";
+"backup.export.footer" = "Write every term, course, memo, holiday and override to one JSON file.";
+"backup.export.action" = "Export to file";
+"backup.import" = "Restore";
+"backup.import.footer" = "Restore from a backup file; this replaces all current data.";
+"backup.import.action" = "Choose backup file";
+"backup.warning" = "Restoring overwrites current data. Export a backup first.";
+"backup.restoreTitle" = "Confirm Restore";
+"backup.restore" = "Restore";
+"backup.restoreMessage" = "This restores %d terms, %d courses and %d memos, replacing current data.";
+"backup.errorTitle" = "Something went wrong";
+"backup.error.export" = "Export failed";
+"backup.error.import" = "Not a valid CurSimple backup";
+"backup.restored" = "Restored";
+"term.rename" = "Rename";
+"term.copy" = "Copy term";
+"term.delete" = "Delete term";
+"term.copyName" = "%@ copy";
+"term.copyHint" = "Copies courses and weeks; per-week rooms, teachers and overrides are not copied.";
+"term.deleteMessage" = "This deletes “%@” and its timetable. It cannot be undone.";
+"memo.search" = "Search memos";
+"memo.course.all" = "All courses";
+
+"schedule.resetZoom" = "Reset";

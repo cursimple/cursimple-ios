@@ -425,3 +425,34 @@
 "course.detail.edit" = "編輯";
 "course.detail.reminder" = "鬧鐘";
 "course.detail.cancelToday" = "臨時取消";
+
+"settings.backup" = "備份與恢復";
+"settings.backup.value" = "匯出或匯入完整資料";
+"backup.pageTitle" = "備份與恢復";
+"backup.stat.terms" = "學期";
+"backup.stat.courses" = "課程";
+"backup.stat.memos" = "備忘";
+"backup.export" = "匯出備份";
+"backup.export.footer" = "把所有學期、課程、備忘、節假日與調課匯出為一個 JSON 檔案。";
+"backup.export.action" = "匯出到檔案";
+"backup.import" = "恢復備份";
+"backup.import.footer" = "從備份檔案恢復，會覆蓋目前全部資料。";
+"backup.import.action" = "選擇備份檔案";
+"backup.warning" = "恢復會覆蓋目前資料，建議先匯出一份備份。";
+"backup.restoreTitle" = "確認恢復";
+"backup.restore" = "恢復";
+"backup.restoreMessage" = "將恢復 %d 個學期、%d 門課程、%d 條備忘，目前資料會被覆蓋。";
+"backup.errorTitle" = "操作失敗";
+"backup.error.export" = "匯出失敗";
+"backup.error.import" = "檔案不是有效的課簡備份";
+"backup.restored" = "已恢復";
+"term.rename" = "重新命名";
+"term.copy" = "複製學期";
+"term.delete" = "刪除學期";
+"term.copyName" = "%@ 副本";
+"term.copyHint" = "複製課程與週次設定，不複製逐週地點、教師和調課記錄。";
+"term.deleteMessage" = "將刪除學期「%@」及其課表，此操作無法復原。";
+"memo.search" = "搜尋備忘";
+"memo.course.all" = "全部課程";
+
+"schedule.resetZoom" = "恢復比例";

@@ -17,6 +17,9 @@ struct WeekGridView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var overlapCluster: GridCourseCluster?
+    /// Pinch-to-zoom scale applied to the whole grid, mirroring the shared app.
+    @State private var zoom: CGFloat = 1
+    @State private var pinchStart: CGFloat = 1
 
     private let gutterWidth: CGFloat = 42
     private let rowHeight: CGFloat = 64
@@ -26,22 +29,64 @@ struct WeekGridView: View {
         let colors = AppColors.resolve(accent: preferences.accent, dark: colorScheme == .dark)
 
         GeometryReader { proxy in
-            let columnWidth = max((proxy.size.width - innerPadding * 2 - gutterWidth) / CGFloat(days.count), 34)
+            let baseColumnWidth = max((proxy.size.width - innerPadding * 2 - gutterWidth) / CGFloat(days.count), 34)
+            let columnWidth = baseColumnWidth * zoom
 
             VStack(spacing: 0) {
                 headerRow(columnWidth: columnWidth, colors: colors)
 
                 ScrollView(.vertical, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: 0) {
-                        timeGutter(colors: colors)
-                        ForEach(days, id: \.self) { day in
-                            dayColumn(day: day, width: columnWidth, colors: colors)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top, spacing: 0) {
+                            timeGutter(colors: colors, width: gutterWidth * zoom)
+                            ForEach(days, id: \.self) { day in
+                                dayColumn(day: day, width: columnWidth, colors: colors)
+                            }
                         }
+                        .padding(.bottom, 28)
                     }
-                    .padding(.bottom, 28)
+                    .scrollDisabled(zoom <= 1.02)
                 }
             }
             .padding(.horizontal, innerPadding)
+            .scaleEffect(x: 1, y: 1, anchor: .topLeading)
+        }
+        .simultaneousGesture(
+            MagnificationGesture()
+                .onChanged { value in
+                    zoom = min(max(pinchStart * value, 0.85), 2.2)
+                }
+                .onEnded { _ in
+                    pinchStart = zoom
+                }
+        )
+        .overlay(alignment: .topTrailing) {
+            if zoom > 1.02 {
+                Button {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        zoom = 1
+                        pinchStart = 1
+                    }
+                } label: {
+                    HStack(spacing: 5) {
+                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                            .font(.system(size: 10, weight: .semibold))
+                        Text("schedule.resetZoom")
+                            .font(.system(size: 11, weight: .medium))
+                        Text("\(Int((zoom * 100).rounded()))%")
+                            .font(.system(size: 11, weight: .semibold).monospacedDigit())
+                    }
+                    .foregroundStyle(colors.primary)
+                    .padding(.horizontal, 10)
+                    .frame(height: 28)
+                    .background(Capsule().fill(colors.surface.opacity(0.95)))
+                    .overlay(Capsule().stroke(colors.primary.opacity(0.35), lineWidth: 1))
+                }
+                .buttonStyle(.plain)
+                .padding(.trailing, 14)
+                .padding(.top, 6)
+                .transition(.opacity)
+            }
         }
         .confirmationDialog(
             "schedule.overlap.title",
@@ -169,7 +214,7 @@ struct WeekGridView: View {
 
     // MARK: - Grid
 
-    private func timeGutter(colors: AppColors) -> some View {
+    private func timeGutter(colors: AppColors, width: CGFloat = 42) -> some View {
         VStack(spacing: 0) {
             ForEach(1...nodeCount, id: \.self) { node in
                 VStack(spacing: 0) {
@@ -185,7 +230,7 @@ struct WeekGridView: View {
                             .foregroundStyle(colors.onSurfaceVariant)
                     }
                 }
-                .frame(width: gutterWidth, height: rowHeight)
+                .frame(width: width, height: rowHeight)
                 .overlay(alignment: .bottom) {
                     Rectangle()
                         .fill(colors.gridLine)

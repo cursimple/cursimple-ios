@@ -88,6 +88,10 @@ struct TermPickerView: View {
 
     @State private var newTermName = ""
     @State private var showCreate = false
+    @State private var renamingTerm: Term?
+    @State private var copyingTerm: Term?
+    @State private var deletingTerm: Term?
+    @State private var promptText = ""
 
     var body: some View {
         let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
@@ -155,6 +159,54 @@ struct TermPickerView: View {
                 }
             }
         }
+        .alert("term.rename", isPresented: Binding(
+            get: { renamingTerm != nil },
+            set: { if !$0 { renamingTerm = nil } }
+        )) {
+            TextField("term.name", text: $promptText)
+            Button("common.cancel", role: .cancel) { renamingTerm = nil }
+            Button("common.save") {
+                if let term = renamingTerm {
+                    store.renameTerm(id: term.id, name: promptText)
+                }
+                renamingTerm = nil
+            }
+        }
+        .alert("term.copy", isPresented: Binding(
+            get: { copyingTerm != nil },
+            set: { if !$0 { copyingTerm = nil } }
+        )) {
+            TextField("term.newName", text: $promptText)
+            Button("common.cancel", role: .cancel) { copyingTerm = nil }
+            Button("term.copy") {
+                if let term = copyingTerm {
+                    store.copyTerm(id: term.id, name: promptText)
+                }
+                copyingTerm = nil
+            }
+        } message: {
+            Text("term.copyHint")
+        }
+        .confirmationDialog(
+            "term.delete",
+            isPresented: Binding(
+                get: { deletingTerm != nil },
+                set: { if !$0 { deletingTerm = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("term.delete", role: .destructive) {
+                if let term = deletingTerm {
+                    store.deleteTerm(id: term.id)
+                }
+                deletingTerm = nil
+            }
+        } message: {
+            Text(String(
+                format: String(localized: "term.deleteMessage"),
+                deletingTerm?.name ?? ""
+            ))
+        }
     }
 
     private func termCard(_ term: Term, colors: AppColors) -> some View {
@@ -162,36 +214,59 @@ struct TermPickerView: View {
         let startText = DateOnly.parse(term.startDate)
             .map { $0.formatted(.dateTime.year().month(.abbreviated).day()) } ?? String(localized: "term.notStarted")
 
-        return Button {
-            store.selectTerm(id: term.id)
-            dismiss()
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 20))
-                    .foregroundStyle(selected ? colors.primary : colors.outline)
+        return HStack(spacing: 12) {
+            Button {
+                store.selectTerm(id: term.id)
+                dismiss()
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                        .font(.system(size: 20))
+                        .foregroundStyle(selected ? colors.primary : colors.outline)
 
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(term.name)
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(colors.onSurface)
-                        .lineLimit(1)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(term.name)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(colors.onSurface)
+                            .lineLimit(1)
 
-                    Text("\(startText) · \(String(format: String(localized: "term.courseCount"), term.courses.count))")
-                        .font(AppFont.bodySmall)
-                        .foregroundStyle(colors.onSurfaceVariant)
-                        .lineLimit(1)
+                        Text("\(startText) · \(String(format: String(localized: "term.courseCount"), term.courses.count))")
+                            .font(AppFont.bodySmall)
+                            .foregroundStyle(colors.onSurfaceVariant)
+                            .lineLimit(1)
+                    }
+
+                    Spacer(minLength: 0)
                 }
-
-                Spacer(minLength: 0)
+                .contentShape(Rectangle())
             }
-            .padding(14)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(selected ? colors.primaryContainer : colors.surface)
-            )
+            .buttonStyle(.plain)
+
+            Menu {
+                Button("term.rename") {
+                    promptText = term.name
+                    renamingTerm = term
+                }
+                Button("term.copy") {
+                    promptText = String(format: String(localized: "term.copyName"), term.name)
+                    copyingTerm = term
+                }
+                if store.state.terms.count > 1 {
+                    Button("term.delete", role: .destructive) { deletingTerm = term }
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(colors.onSurfaceVariant)
+                    .frame(width: 34, height: 40)
+                    .contentShape(Rectangle())
+            }
         }
-        .buttonStyle(.plain)
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(selected ? colors.primaryContainer : colors.surface)
+        )
     }
 
     private func createCard(colors: AppColors) -> some View {

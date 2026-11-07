@@ -59,6 +59,50 @@ public final class AppStore {
         commit(next)
     }
 
+    public func renameTerm(id: String, name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty,
+              let index = state.terms.firstIndex(where: { $0.id == id }) else { return }
+        var next = state
+        next.terms[index].name = trimmed
+        commit(next)
+    }
+
+    /// Deleting the active term activates the first remaining one; the last term stays.
+    public func deleteTerm(id: String) {
+        guard state.terms.count > 1,
+              state.terms.contains(where: { $0.id == id }) else { return }
+        var next = state
+        next.terms.removeAll { $0.id == id }
+        if next.activeTermID == id {
+            next.activeTermID = next.terms.first?.id ?? ""
+        }
+        commit(next)
+    }
+
+    /// Copy a term's courses and structure into a new term; week overrides and
+    /// per-week locations are intentionally not copied.
+    @discardableResult
+    public func copyTerm(id: String, name: String) -> String? {
+        guard let source = state.terms.first(where: { $0.id == id }) else { return nil }
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        let copy = Term(
+            name: trimmed.isEmpty ? source.name : trimmed,
+            startDate: source.startDate,
+            weekCount: source.weekCount,
+            courses: source.courses.map { course in
+                var fresh = course
+                fresh.id = UUID().uuidString
+                fresh.weekLocations = [:]
+                fresh.weekTeachers = [:]
+                fresh.weekTitles = [:]
+                return fresh
+            }
+        )
+        addTerm(copy)
+        return copy.id
+    }
+
     public func selectTerm(id: String) {
         guard state.terms.contains(where: { $0.id == id }) else { return }
         var next = state
@@ -182,6 +226,11 @@ public final class AppStore {
 
     public func resetTimingProfile() {
         updateTimingProfile(.defaultProfile())
+    }
+
+    /// Replace the entire state, used by backup restore.
+    public func replaceState(_ state: AppState) {
+        commit(state)
     }
 
     /// Reload from disk, for pull-to-refresh and after external edits.

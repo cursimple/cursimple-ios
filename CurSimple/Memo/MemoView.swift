@@ -11,6 +11,9 @@ struct MemoView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var filter: MemoFilter = .all
+    @State private var searchText = ""
+    @State private var courseFilter: String?
+    @State private var showSearch = false
     @State private var editingNote: MemoNote? = ProcessInfo.processInfo.arguments.contains("-openMemoEditor")
         ? MemoNote()
         : nil
@@ -56,7 +59,23 @@ struct MemoView: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("drawer.open")
+
                         Spacer()
+
+                        Button {
+                            withAnimation(.easeOut(duration: 0.18)) {
+                                showSearch.toggle()
+                                if !showSearch { searchText = "" }
+                            }
+                        } label: {
+                            Image(systemName: "magnifyingglass")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundStyle(colors.onBackground)
+                                .frame(width: 44, height: 44)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("memo.search")
                     }
                 }
                 .frame(height: 48)
@@ -65,6 +84,15 @@ struct MemoView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 10) {
                         filterPill(colors: colors)
+
+                        if showSearch || !searchText.isEmpty {
+                            searchField(colors: colors)
+                        }
+
+                        if !courseKeys.isEmpty {
+                            courseFilterRow(colors: colors)
+                        }
+
                         statCards(colors: colors)
 
                         if visibleNotes.isEmpty {
@@ -125,7 +153,7 @@ struct MemoView: View {
 
     private var visibleNotes: [MemoNote] {
         let now = Date()
-        let all = store.sortedMemos(now: now)
+        let all = filtered(store.sortedMemos(now: now))
         switch filter {
         case .all:
             return all
@@ -140,14 +168,40 @@ struct MemoView: View {
         }
     }
 
+    private func filtered(_ notes: [MemoNote]) -> [MemoNote] {
+        var result = notes
+        if let courseFilter {
+            result = result.filter { $0.courseKey == courseFilter }
+        }
+        let query = searchText.trimmingCharacters(in: .whitespaces).lowercased()
+        if !query.isEmpty {
+            result = result.filter {
+                $0.title.lowercased().contains(query)
+                    || $0.body.lowercased().contains(query)
+                    || $0.courseTitle.lowercased().contains(query)
+            }
+        }
+        return result
+    }
+
+    private var courseKeys: [(key: String, title: String)] {
+        var seen = Set<String>()
+        return store.state.memos.compactMap { note in
+            guard let key = note.courseKey, !key.isEmpty, seen.insert(key).inserted else { return nil }
+            return (key, note.courseTitle.isEmpty ? key : note.courseTitle)
+        }
+        .sorted { $0.title < $1.title }
+    }
+
     private func count(_ filter: MemoFilter) -> Int {
         let now = Date()
+        let notes = filtered(store.state.memos)
         switch filter {
-        case .all: return store.state.memos.count
-        case .active: return store.state.memos.filter { !$0.completed }.count
-        case .today: return store.state.memos.filter { $0.dueState(at: now) == .today }.count
-        case .overdue: return store.state.memos.filter { $0.dueState(at: now) == .overdue }.count
-        case .done: return store.state.memos.filter(\.completed).count
+        case .all: return notes.count
+        case .active: return notes.filter { !$0.completed }.count
+        case .today: return notes.filter { $0.dueState(at: now) == .today }.count
+        case .overdue: return notes.filter { $0.dueState(at: now) == .overdue }.count
+        case .done: return notes.filter(\.completed).count
         }
     }
 
@@ -200,6 +254,63 @@ struct MemoView: View {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                     .fill(colors.surface)
             )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func searchField(colors: AppColors) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 14))
+                .foregroundStyle(colors.onSurfaceVariant)
+            TextField("memo.search", text: $searchText)
+                .font(AppFont.body)
+                .foregroundStyle(colors.onSurface)
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 14))
+                        .foregroundStyle(colors.onSurfaceVariant)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 14)
+        .frame(height: 44)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(colors.surface)
+        )
+    }
+
+    private func courseFilterRow(colors: AppColors) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                courseChip(nil, title: String(localized: "memo.course.all"), colors: colors)
+                ForEach(courseKeys, id: \.key) { item in
+                    courseChip(item.key, title: item.title, colors: colors)
+                }
+            }
+            .padding(.vertical, 1)
+        }
+    }
+
+    private func courseChip(_ key: String?, title: String, colors: AppColors) -> some View {
+        let selected = courseFilter == key
+        return Button {
+            withAnimation(.easeOut(duration: 0.16)) {
+                courseFilter = selected ? nil : key
+            }
+        } label: {
+            Text(title)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
+                .padding(.horizontal, 12)
+                .frame(height: 30)
+                .background(Capsule().fill(selected ? colors.primary : colors.surface))
+                .overlay(Capsule().stroke(selected ? Color.clear : colors.outlineVariant, lineWidth: 1))
         }
         .buttonStyle(.plain)
     }

@@ -36,6 +36,7 @@
 		B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD21690DCC4C3D7AFC9537 /* Formatting.swift */; };
 		BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41487E213E081342EEEBBF17 /* AppTheme.swift */; };
 		C4CDA60E6E30DBE81C4305A3 /* CurSimpleWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DBC5AEBCEB5961389550C1 /* CurSimpleWidgets.swift */; };
+		C96509CBFEDD18396B207106 /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B1FD38841CE6AE2E9CD004 /* BackupSettingsView.swift */; };
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
 		E043A987EF7FADBEFF396429 /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
@@ -105,6 +106,7 @@
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B16E4226C318EA5AF922B253 /* CurSimpleCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CurSimpleCore; path = CurSimpleCore; sourceTree = SOURCE_ROOT; };
 		B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSettingsView.swift; sourceTree = "<group>"; };
+		B3B1FD38841CE6AE2E9CD004 /* BackupSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSettingsView.swift; sourceTree = "<group>"; };
 		B672A77F2A4D505A77241EB2 /* MemoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorView.swift; sourceTree = "<group>"; };
 		BEBB82846DC6A5532C9BD759 /* CurSimple.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CurSimple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0C69FE2D169ABAAAE9CAC0B /* CurSimple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CurSimple.entitlements; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		8C6C8576CBD20919D63333F8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				B3B1FD38841CE6AE2E9CD004 /* BackupSettingsView.swift */,
 				ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */,
 				84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */,
 				352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */,
@@ -438,6 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */,
+				C96509CBFEDD18396B207106 /* BackupSettingsView.swift in Sources */,
 				61F54FD0AA97ECF0EF655E13 /* CourseDetailView.swift in Sources */,
 				AFB1138C365C2A31346BC32C /* CourseEditorView.swift in Sources */,
 				945BA644C68468CE898C68DE /* CourseLibraryView.swift in Sources */,
