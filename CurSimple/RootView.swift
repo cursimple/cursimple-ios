@@ -3,12 +3,14 @@ import SwiftUI
 
 enum AppScreen: String, CaseIterable {
     case schedule
+    case library
     case memo
     case settings
 
     var titleKey: LocalizedStringKey {
         switch self {
         case .schedule: "tab.schedule"
+        case .library: "tab.library"
         case .memo: "tab.memo"
         case .settings: "tab.settings"
         }
@@ -17,6 +19,7 @@ enum AppScreen: String, CaseIterable {
     var icon: String {
         switch self {
         case .schedule: "calendar"
+        case .library: "list.bullet.rectangle"
         case .memo: "checklist"
         case .settings: "gearshape"
         }
@@ -33,7 +36,9 @@ struct RootView: View {
     @State private var screen: AppScreen = {
         let arguments = ProcessInfo.processInfo.arguments
         if arguments.contains("-startSettings") { return .settings }
+        if arguments.contains("-startLibrary") { return .library }
         if arguments.contains("-startMemo") { return .memo }
+        if arguments.contains("-startLibrary") { return .library }
         if arguments.contains("-startMemo") { return .memo }
         return .schedule
     }()
@@ -53,6 +58,8 @@ struct RootView: View {
                 switch screen {
                 case .schedule:
                     ScheduleView(onOpenDrawer: openDrawer)
+                case .library:
+                    CourseLibraryView(onOpenDrawer: openDrawer)
                 case .memo:
                     MemoView(onOpenDrawer: openDrawer)
                 case .settings:

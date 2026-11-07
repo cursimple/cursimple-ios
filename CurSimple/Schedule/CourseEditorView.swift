@@ -41,12 +41,22 @@ struct CourseEditorView: View {
             colors.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                topBar(colors: colors)
+                dialogHeader(colors: colors)
 
                 ScrollView(.vertical, showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 14) {
-                        basicSection(colors: colors)
-                        timeSection(colors: colors)
+                    VStack(alignment: .leading, spacing: 16) {
+                        chipsRow(colors: colors)
+                        nameField(colors: colors)
+                        locationField(colors: colors)
+                        teacherField(colors: colors)
+                        modeRow(colors: colors)
+
+                        if useTypedClock {
+                            clockFields(colors: colors)
+                        } else {
+                            periodsRow(colors: colors)
+                        }
+
                         weeksSection(colors: colors)
                         colorSection(colors: colors)
 
@@ -67,16 +77,19 @@ struct CourseEditorView: View {
                                 .foregroundStyle(colors.error)
                                 .padding(14)
                                 .background(
-                                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                        .fill(colors.surface)
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(colors.error.opacity(0.35), lineWidth: 1)
                                 )
                             }
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.horizontal, 14)
-                    .padding(.bottom, 28)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 4)
+                    .padding(.bottom, 12)
                 }
+
+                dialogActions(colors: colors)
             }
         }
         .confirmationDialog(
@@ -96,40 +109,218 @@ struct CourseEditorView: View {
 
     // MARK: - Chrome
 
-    private func topBar(colors: AppColors) -> some View {
-        ZStack {
-            Text(editing == nil ? "course.new" : "course.edit")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(colors.onBackground)
+    private func dialogHeader(colors: AppColors) -> some View {
+        Text(editing == nil ? "course.new" : "course.edit")
+            .font(.system(size: 24, weight: .bold))
+            .foregroundStyle(colors.onBackground)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 12)
+    }
 
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(colors.onBackground)
-                        .frame(width: 44, height: 44)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("common.cancel")
+    private func dialogActions(colors: AppColors) -> some View {
+        HStack(spacing: 12) {
+            Spacer()
 
+            Button {
+                dismiss()
+            } label: {
+                Text("common.cancel")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(colors.primary)
+                    .padding(.horizontal, 26)
+                    .frame(height: 44)
+                    .overlay(Capsule().stroke(colors.primary.opacity(0.45), lineWidth: 1))
+            }
+            .buttonStyle(.plain)
+
+            Button(action: save) {
+                Text("common.save")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(colors.onPrimary)
+                    .padding(.horizontal, 30)
+                    .frame(height: 44)
+                    .background(Capsule().fill(colors.primary))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+    }
+
+    /// Type, weekday and period chips shown under the title.
+    private func chipsRow(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                categoryChip(.course, colors: colors)
+                categoryChip(.exam, colors: colors)
                 Spacer()
+            }
 
-                Button(action: save) {
-                    Text("common.save")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(colors.onPrimary)
-                        .padding(.horizontal, 16)
-                        .frame(height: 34)
-                        .background(Capsule().fill(colors.primary))
-                }
-                .buttonStyle(.plain)
+            HStack(spacing: 8) {
+                chip(Format.weekday(dayOfWeek), colors: colors) { _ in }
+                    .overlay {
+                        Menu {
+                            ForEach(1...7, id: \.self) { day in
+                                Button(Format.weekday(day)) { dayOfWeek = day }
+                            }
+                        } label: { Color.clear }
+                    }
+                chip(Format.periodRange(startNode, endNode), colors: colors) { _ in }
+                    .overlay {
+                        Menu {
+                            ForEach(1...maxNode, id: \.self) { start in
+                                ForEach(start...maxNode, id: \.self) { end in
+                                    Button(Format.periodRange(start, end)) {
+                                        startNode = start
+                                        endNode = end
+                                    }
+                                }
+                            }
+                        } label: { Color.clear }
+                    }
+                Spacer()
             }
         }
-        .frame(height: 52)
-        .padding(.horizontal, 8)
+    }
+
+    private func categoryChip(_ value: CourseCategory, colors: AppColors) -> some View {
+        let selected = category == value
+        return Button {
+            category = value
+        } label: {
+            Text(value == .course ? "course.category.course" : "course.category.exam")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
+                .padding(.horizontal, 18)
+                .frame(height: 36)
+                .background(Capsule().fill(selected ? colors.primary : Color.clear))
+                .overlay(Capsule().stroke(selected ? Color.clear : colors.outlineVariant, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func borderedField(
+        _ placeholder: LocalizedStringKey,
+        text: Binding<String>,
+        colors: AppColors,
+        required: Bool = false
+    ) -> some View {
+        TextField(placeholder, text: text)
+            .font(.system(size: 15))
+            .foregroundStyle(colors.onSurface)
+            .padding(.horizontal, 14)
+            .frame(height: 50)
+            .background(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(required && text.wrappedValue.isEmpty ? colors.primary : colors.outlineVariant, lineWidth: 1)
+            )
+    }
+
+    private func nameField(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            borderedField("course.field.title", text: $title, colors: colors, required: true)
+                .onChange(of: title) { _, _ in showTitleError = false }
+            if showTitleError {
+                Text("course.title.required")
+                    .font(AppFont.label)
+                    .foregroundStyle(colors.error)
+            }
+        }
+    }
+
+    private func locationField(colors: AppColors) -> some View {
+        borderedField("course.field.location", text: $location, colors: colors)
+    }
+
+    private func teacherField(colors: AppColors) -> some View {
+        borderedField("course.field.teacher", text: $teacher, colors: colors)
+    }
+
+    private func modeRow(colors: AppColors) -> some View {
+        HStack(spacing: 8) {
+            modeChip("course.field.periods", selected: !useTypedClock, colors: colors) {
+                useTypedClock = false
+            }
+            modeChip("course.field.byTime", selected: useTypedClock, colors: colors) {
+                useTypedClock = true
+            }
+            Spacer()
+        }
+    }
+
+    private func modeChip(
+        _ title: LocalizedStringKey,
+        selected: Bool,
+        colors: AppColors,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(selected ? colors.primary : colors.onSurfaceVariant)
+                .padding(.horizontal, 18)
+                .frame(height: 36)
+                .overlay(
+                    Capsule().stroke(
+                        selected ? colors.primary : colors.outlineVariant,
+                        lineWidth: 1
+                    )
+                )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func periodsRow(colors: AppColors) -> some View {
+        HStack(spacing: 10) {
+            Text("course.field.periods")
+                .font(.system(size: 14))
+                .foregroundStyle(colors.onSurfaceVariant)
+            Spacer()
+            periodMenu(startNode, colors: colors) { value in
+                startNode = value
+                if endNode < value { endNode = value }
+            }
+            Text("–")
+                .font(AppFont.bodySmall)
+                .foregroundStyle(colors.onSurfaceVariant)
+            periodMenu(endNode, colors: colors) { value in
+                endNode = value
+                if startNode > value { startNode = value }
+            }
+        }
+        .frame(minHeight: 44)
+    }
+
+    private func clockFields(colors: AppColors) -> some View {
+        HStack(spacing: 12) {
+            clockBox("course.field.startTime", time: $typedStart, colors: colors)
+            clockBox("course.field.endTime", time: $typedEnd, colors: colors)
+        }
+    }
+
+    private func clockBox(
+        _ title: LocalizedStringKey,
+        time: Binding<TimeOfDay>,
+        colors: AppColors
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.system(size: 12))
+                .foregroundStyle(colors.onSurfaceVariant)
+            TimePickerField(time: time, label: title)
+                .labelsHidden()
+                .font(.system(size: 17, weight: .medium))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 10)
+                .frame(height: 46)
+                .background(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(colors.outlineVariant, lineWidth: 1)
+                )
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private func sectionTitle(_ key: LocalizedStringKey, colors: AppColors) -> some View {
@@ -158,151 +349,20 @@ struct CourseEditorView: View {
         Divider().overlay(colors.outlineVariant).padding(.vertical, 1)
     }
 
-    private func chip(_ text: String, colors: AppColors) -> some View {
+    private func chip(
+        _ text: String,
+        colors: AppColors,
+        action: @escaping (Int) -> Void = { _ in }
+    ) -> some View {
         Text(text)
-            .font(.system(size: 13, weight: .medium))
+            .font(.system(size: 14, weight: .medium))
             .foregroundStyle(colors.primary)
-            .padding(.horizontal, 12)
-            .frame(height: 32)
+            .padding(.horizontal, 16)
+            .frame(height: 36)
             .background(Capsule().fill(colors.primaryContainer))
     }
 
     // MARK: - Sections
-
-    private func basicSection(colors: AppColors) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            sectionTitle("course.section.basic", colors: colors)
-
-            SettingsCard(colors: colors) {
-                row("course.field.title", colors: colors) {
-                    TextField("course.field.title", text: $title)
-                        .multilineTextAlignment(.trailing)
-                        .foregroundStyle(colors.onSurface)
-                        .onChange(of: title) { _, _ in showTitleError = false }
-                }
-
-                if showTitleError {
-                    Text("course.title.required")
-                        .font(AppFont.label)
-                        .foregroundStyle(colors.error)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-
-                divider(colors)
-
-                row("course.field.teacher", colors: colors) {
-                    TextField("course.optional", text: $teacher)
-                        .multilineTextAlignment(.trailing)
-                        .foregroundStyle(colors.onSurface)
-                }
-
-                divider(colors)
-
-                row("course.field.location", colors: colors) {
-                    TextField("course.optional", text: $location)
-                        .multilineTextAlignment(.trailing)
-                        .foregroundStyle(colors.onSurface)
-                }
-
-                divider(colors)
-
-                HStack(spacing: 8) {
-                    Text("course.field.category")
-                        .font(AppFont.body)
-                        .foregroundStyle(colors.onSurface)
-                    Spacer()
-                    categoryPill(.course, colors: colors)
-                    categoryPill(.exam, colors: colors)
-                }
-                .frame(minHeight: 44)
-            }
-        }
-    }
-
-    private func categoryPill(_ value: CourseCategory, colors: AppColors) -> some View {
-        let selected = category == value
-        return Button {
-            category = value
-        } label: {
-            Text(value == .course ? "course.category.course" : "course.category.exam")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
-                .padding(.horizontal, 12)
-                .frame(height: 30)
-                .background(Capsule().fill(selected ? colors.primary : colors.surfaceVariant))
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func timeSection(colors: AppColors) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            sectionTitle("course.section.time", colors: colors)
-
-            SettingsCard(colors: colors) {
-                HStack(spacing: 5) {
-                    ForEach(1...7, id: \.self) { day in
-                        let selected = dayOfWeek == day
-                        Button {
-                            dayOfWeek = day
-                        } label: {
-                            Text(Format.weekdayNarrow(day))
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
-                                .frame(maxWidth: .infinity, minHeight: 38)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(selected ? colors.primary : colors.surfaceVariant)
-                                )
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-
-                divider(colors).padding(.vertical, 6)
-
-                HStack(spacing: 10) {
-                    Text("course.field.periods")
-                        .font(AppFont.body)
-                        .foregroundStyle(colors.onSurface)
-                    Spacer()
-                    periodMenu(startNode, colors: colors) { value in
-                        startNode = value
-                        if endNode < value { endNode = value }
-                    }
-                    Text("–")
-                        .font(AppFont.bodySmall)
-                        .foregroundStyle(colors.onSurfaceVariant)
-                    periodMenu(endNode, colors: colors) { value in
-                        endNode = value
-                        if startNode > value { startNode = value }
-                    }
-                }
-                .frame(minHeight: 44)
-
-                divider(colors)
-
-                HStack {
-                    Text("course.field.customClock")
-                        .font(AppFont.body)
-                        .foregroundStyle(colors.onSurface)
-                    Spacer()
-                    Toggle("", isOn: $useTypedClock.animation(.easeOut(duration: 0.18)))
-                        .labelsHidden()
-                        .tint(colors.primary)
-                }
-                .frame(minHeight: 44)
-
-                if useTypedClock {
-                    divider(colors)
-                    TimePickerField(time: $typedStart, label: "course.field.startTime")
-                        .font(AppFont.body)
-                    divider(colors)
-                    TimePickerField(time: $typedEnd, label: "course.field.endTime")
-                        .font(AppFont.body)
-                }
-            }
-        }
-    }
 
     private func periodMenu(
         _ value: Int,
@@ -314,7 +374,12 @@ struct CourseEditorView: View {
                 Button(Format.period(node)) { onSelect(node) }
             }
         } label: {
-            chip(Format.period(value), colors: colors)
+            Text(Format.period(value))
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(colors.primary)
+                .padding(.horizontal, 14)
+                .frame(height: 34)
+                .background(Capsule().fill(colors.primaryContainer))
         }
         .buttonStyle(.plain)
     }

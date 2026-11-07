@@ -392,3 +392,17 @@
 "day.status.pending" = "待上课";
 "day.status.done" = "已结束";
 "day.status.untimed" = "未设置时间";
+
+"tab.library" = "管理列表";
+"library.title" = "管理列表";
+"library.search" = "搜课名、老师或地点";
+"library.addCourse" = "新增课程";
+"library.addEvent" = "添加事务";
+"library.courses" = "课程";
+"library.events" = "事务";
+"library.courses.empty" = "还没有课程";
+"library.events.empty" = "还没有事务";
+"library.edit" = "编辑";
+"library.delete" = "删除";
+
+"course.field.byTime" = "按时间";

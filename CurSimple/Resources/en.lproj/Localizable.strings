@@ -389,3 +389,17 @@
 "day.status.pending" = "Upcoming";
 "day.status.done" = "Done";
 "day.status.untimed" = "Time not set";
+
+"tab.library" = "List";
+"library.title" = "Course List";
+"library.search" = "Search title, teacher or room";
+"library.addCourse" = "New course";
+"library.addEvent" = "Add event";
+"library.courses" = "Courses";
+"library.events" = "Events";
+"library.courses.empty" = "No courses yet";
+"library.events.empty" = "No events yet";
+"library.edit" = "Edit";
+"library.delete" = "Delete";
+
+"course.field.byTime" = "By time";

@@ -392,3 +392,17 @@
 "day.status.pending" = "待上課";
 "day.status.done" = "已結束";
 "day.status.untimed" = "未設定時間";
+
+"tab.library" = "管理列表";
+"library.title" = "管理列表";
+"library.search" = "搜課名、老師或地點";
+"library.addCourse" = "新增課程";
+"library.addEvent" = "新增事務";
+"library.courses" = "課程";
+"library.events" = "事務";
+"library.courses.empty" = "還沒有課程";
+"library.events.empty" = "還沒有事務";
+"library.edit" = "編輯";
+"library.delete" = "刪除";
+
+"course.field.byTime" = "按時間";
