@@ -11,6 +11,7 @@ struct CourseEditorView: View {
 
     let editing: CourseItem?
     let initialSlot: CourseTimeSlot
+    var presetCategory: CourseCategory = .course
     let onCommit: (CourseEditorResult) -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -153,8 +154,9 @@ struct CourseEditorView: View {
     private func chipsRow(colors: AppColors) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
-                categoryChip(.course, colors: colors)
-                categoryChip(.exam, colors: colors)
+                ForEach(CourseCategory.allCases) { value in
+                    categoryChip(value, colors: colors)
+                }
                 Spacer()
             }
 
@@ -190,7 +192,7 @@ struct CourseEditorView: View {
         return Button {
             category = value
         } label: {
-            Text(value == .course ? "course.category.course" : "course.category.exam")
+            Text(LocalizedStringKey(value.localizationKey))
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .padding(.horizontal, 18)
@@ -614,6 +616,7 @@ struct CourseEditorView: View {
             dayOfWeek = initialSlot.dayOfWeek
             startNode = initialSlot.startNode
             endNode = initialSlot.endNode
+            category = presetCategory
         }
     }
 

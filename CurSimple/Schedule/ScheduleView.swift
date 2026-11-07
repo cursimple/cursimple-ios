@@ -5,6 +5,8 @@ struct CourseEditorTarget: Identifiable {
     let id = UUID()
     let course: CourseItem?
     let slot: CourseTimeSlot
+    /// Category preselected when creating a new entry.
+    var presetCategory: CourseCategory = .course
 }
 
 struct ScheduleView: View {
@@ -28,7 +30,9 @@ struct ScheduleView: View {
     @State private var editorTarget: CourseEditorTarget? = ProcessInfo.processInfo.arguments.contains("-openEditor")
         ? CourseEditorTarget(course: nil, slot: CourseTimeSlot(dayOfWeek: 1, startNode: 1, endNode: 2))
         : nil
-    @State private var detailCourseID: String?
+    @State private var detailCourseID: String? = ProcessInfo.processInfo.arguments.contains("-openCourseDetail")
+        ? ProcessInfo.processInfo.environment["COURSE_ID"]
+        : nil
     @State private var showTermPicker = false
 
     /// QA hook: `-weekOffset N` opens N weeks from the current one.
@@ -66,7 +70,10 @@ struct ScheduleView: View {
         }
         .sheet(item: Binding(
             get: {
-                detailCourseID.flatMap { id in
+                let id = detailCourseID ?? (ProcessInfo.processInfo.arguments.contains("-openCourseDetail")
+                    ? store.activeTerm?.courses.first?.id
+                    : nil)
+                return id.flatMap { id in
                     store.activeTerm?.courses.first { $0.id == id }
                 }
             },

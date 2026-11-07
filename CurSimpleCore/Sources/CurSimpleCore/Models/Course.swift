@@ -24,8 +24,12 @@ public struct CourseTimeSlot: Codable, Hashable, Sendable {
 public enum CourseCategory: String, Codable, CaseIterable, Sendable, Identifiable {
     case course
     case exam
+    /// Meetings, clubs and personal appointments: timed entries that are not classes.
+    case event
 
     public var id: String { rawValue }
+
+    public var localizationKey: String { "course.category.\(rawValue)" }
 }
 
 public struct CourseDetailField: Codable, Hashable, Sendable, Identifiable {

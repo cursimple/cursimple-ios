@@ -406,3 +406,22 @@
 "library.delete" = "刪除";
 
 "course.field.byTime" = "按時間";
+
+"course.category.event" = "事務";
+"library.exams" = "考試";
+"library.exams.empty" = "還沒有考試";
+
+"course.detail.time" = "上課時間";
+"course.detail.weeks" = "上課週次";
+"course.detail.weekOne" = "第 %d 週";
+"course.detail.weekRange" = "%d–%d 週（共 %d 週）";
+"course.detail.sessions" = "已上 %d / %d 次";
+"course.detail.source" = "資料來源";
+"course.detail.source.manual" = "手動新增";
+"course.detail.note" = "課程備註";
+"course.detail.noteAdd" = "新增";
+"course.detail.noteEdit" = "編輯";
+"course.detail.noteEmpty" = "還沒有備註，點「新增」記一句";
+"course.detail.edit" = "編輯";
+"course.detail.reminder" = "鬧鐘";
+"course.detail.cancelToday" = "臨時取消";

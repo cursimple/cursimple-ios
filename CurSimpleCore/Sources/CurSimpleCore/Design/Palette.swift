@@ -55,6 +55,9 @@ public enum CoursePalette {
         if course.category == .exam {
             return examEntry(dark: dark)
         }
+        if course.category == .event {
+            return eventEntry(dark: dark)
+        }
         if let argb = course.colorArgb {
             let container = RGBColor(argb: argb)
             return CoursePaletteEntry(container: container, onContainer: readableOn(container))
@@ -68,6 +71,13 @@ public enum CoursePalette {
         }
         let index = paletteIndex(forSeed: course.title, count: palette.count)
         return palette[index]
+    }
+
+    /// Events share the warm neutral card, matching the shared event color.
+    public static func eventEntry(dark: Bool) -> CoursePaletteEntry {
+        dark
+            ? CoursePaletteEntry(container: RGBColor(hex: "#4D3F1A")!, onContainer: RGBColor(hex: "#EFD795")!)
+            : CoursePaletteEntry(container: RGBColor(hex: "#FBEFCE")!, onContainer: RGBColor(hex: "#7E5B14")!)
     }
 
     public static func examEntry(dark: Bool) -> CoursePaletteEntry {

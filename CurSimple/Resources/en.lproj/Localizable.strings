@@ -403,3 +403,22 @@
 "library.delete" = "Delete";
 
 "course.field.byTime" = "By time";
+
+"course.category.event" = "Event";
+"library.exams" = "Exams";
+"library.exams.empty" = "No exams yet";
+
+"course.detail.time" = "Class time";
+"course.detail.weeks" = "Weeks";
+"course.detail.weekOne" = "Week %d";
+"course.detail.weekRange" = "Weeks %d–%d (%d total)";
+"course.detail.sessions" = "%d of %d sessions done";
+"course.detail.source" = "Source";
+"course.detail.source.manual" = "Added manually";
+"course.detail.note" = "Note";
+"course.detail.noteAdd" = "Add";
+"course.detail.noteEdit" = "Edit";
+"course.detail.noteEmpty" = "No note yet — tap Add to write one";
+"course.detail.edit" = "Edit";
+"course.detail.reminder" = "Alarm";
+"course.detail.cancelToday" = "Cancel today";

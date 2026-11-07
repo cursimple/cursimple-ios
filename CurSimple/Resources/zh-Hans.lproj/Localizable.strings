@@ -406,3 +406,22 @@
 "library.delete" = "删除";
 
 "course.field.byTime" = "按时间";
+
+"course.category.event" = "事务";
+"library.exams" = "考试";
+"library.exams.empty" = "还没有考试";
+
+"course.detail.time" = "上课时间";
+"course.detail.weeks" = "上课周次";
+"course.detail.weekOne" = "第 %d 周";
+"course.detail.weekRange" = "%d–%d 周（共 %d 周）";
+"course.detail.sessions" = "已上 %d / %d 次";
+"course.detail.source" = "数据来源";
+"course.detail.source.manual" = "手动添加";
+"course.detail.note" = "课程备注";
+"course.detail.noteAdd" = "添加";
+"course.detail.noteEdit" = "编辑";
+"course.detail.noteEmpty" = "还没有备注，点「添加」记一句";
+"course.detail.edit" = "编辑";
+"course.detail.reminder" = "闹钟";
+"course.detail.cancelToday" = "临时取消";

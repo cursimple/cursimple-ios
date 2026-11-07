@@ -12,12 +12,31 @@ struct CourseLibraryView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var search = ""
-    @State private var showsEvents = false
+    @State private var tab: LibraryTab = .courses
     @State private var editorTarget: CourseEditorTarget?
 
-    private enum LibraryTab: String, CaseIterable {
+    private enum LibraryTab: String, CaseIterable, Identifiable {
         case courses
+        case exams
         case events
+
+        var id: String { rawValue }
+
+        var titleKey: LocalizedStringKey {
+            switch self {
+            case .courses: "library.courses"
+            case .exams: "library.exams"
+            case .events: "library.events"
+            }
+        }
+
+        var category: CourseCategory {
+            switch self {
+            case .courses: .course
+            case .exams: .exam
+            case .events: .event
+            }
+        }
     }
 
     var body: some View {
@@ -121,10 +140,11 @@ struct CourseLibraryView: View {
             .buttonStyle(.plain)
 
             Button {
-                showsEvents = true
+                tab = .events
                 editorTarget = CourseEditorTarget(
                     course: nil,
-                    slot: CourseTimeSlot(dayOfWeek: 1, startNode: 5, endNode: 6)
+                    slot: CourseTimeSlot(dayOfWeek: 1, startNode: 5, endNode: 6),
+                    presetCategory: .event
                 )
             } label: {
                 Text("library.addEvent")
@@ -142,11 +162,15 @@ struct CourseLibraryView: View {
 
     private func segmented(colors: AppColors) -> some View {
         HStack(spacing: 8) {
-            segmentButton("library.courses", count: courses.count, selected: !showsEvents, colors: colors) {
-                showsEvents = false
-            }
-            segmentButton("library.events", count: events.count, selected: showsEvents, colors: colors) {
-                showsEvents = true
+            ForEach(LibraryTab.allCases) { item in
+                segmentButton(
+                    item.titleKey,
+                    count: count(of: item),
+                    selected: tab == item,
+                    colors: colors
+                ) {
+                    tab = item
+                }
             }
             Spacer()
         }
@@ -178,10 +202,10 @@ struct CourseLibraryView: View {
     }
 
     private func rows(colors: AppColors) -> some View {
-        let list = showsEvents ? events : courses
+        let list = items(of: tab)
         return VStack(spacing: 8) {
             if list.isEmpty {
-                Text(showsEvents ? "library.events.empty" : "library.courses.empty")
+                Text(emptyKey(for: tab))
                     .font(AppFont.bodySmall)
                     .foregroundStyle(colors.onSurfaceVariant)
                     .frame(maxWidth: .infinity)
@@ -265,12 +289,20 @@ struct CourseLibraryView: View {
         (store.activeTerm?.courses ?? []).filter { !$0.hidden }
     }
 
-    private var courses: [CourseItem] {
-        filtered(allCourses.filter { $0.category == .course })
+    private func items(of tab: LibraryTab) -> [CourseItem] {
+        filtered(allCourses.filter { $0.category == tab.category })
     }
 
-    private var events: [CourseItem] {
-        filtered(allCourses.filter { $0.category == .exam })
+    private func count(of tab: LibraryTab) -> Int {
+        allCourses.filter { $0.category == tab.category }.count
+    }
+
+    private func emptyKey(for tab: LibraryTab) -> LocalizedStringKey {
+        switch tab {
+        case .courses: "library.courses.empty"
+        case .exams: "library.exams.empty"
+        case .events: "library.events.empty"
+        }
     }
 
     private func filtered(_ list: [CourseItem]) -> [CourseItem] {
