@@ -34,6 +34,7 @@ struct RootView: View {
         let arguments = ProcessInfo.processInfo.arguments
         if arguments.contains("-startSettings") { return .settings }
         if arguments.contains("-startMemo") { return .memo }
+        if arguments.contains("-startMemo") { return .memo }
         return .schedule
     }()
     @State private var drawerOpen = ProcessInfo.processInfo.arguments.contains("-openDrawer")

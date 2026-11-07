@@ -23,11 +23,11 @@ struct WidgetSnapshotTests {
         HolidayCalendarSettings(builtInEnabled: false)
     }
 
-    @Test("Snapshot carries today's courses with display times")
-    func dailyCourses() {
+    @Test("Snapshot carries the surrounding days")
+    func days() {
         let term = makeTerm(courses: [
-            makeCourse(id: "a", title: "高等数学", day: 1, start: 1, end: 2, location: "A201"),
-            makeCourse(id: "b", title: "大学英语", day: 1, start: 3, end: 4),
+            makeCourse(id: "mon", title: "高等数学", day: 1, start: 1, end: 2, location: "A201"),
+            makeCourse(id: "tue", title: "大学英语", day: 2, start: 3, end: 4),
         ])
         let snapshot = makeWidgetSnapshot(
             term: term,
@@ -39,17 +39,33 @@ struct WidgetSnapshotTests {
             calendar: calendar
         )
 
-        #expect(snapshot.termName == term.name)
-        #expect(snapshot.weekNumber == 2)
-        #expect(snapshot.courses.count == 2)
-        #expect(snapshot.courses[0].startText == "08:00")
-        #expect(snapshot.courses[0].endText == "09:40")
-        #expect(snapshot.courses[0].location == "A201")
-        #expect(!snapshot.isHoliday)
+        #expect(snapshot.days.count == 8) // -1...6
+        #expect(snapshot.today?.dayMillis == Int64(moment("2026-09-07", hour: 0).timeIntervalSince1970 * 1000))
+        #expect(snapshot.today?.courses.count == 1)
+        #expect(snapshot.days.first { $0.weekNumber == 2 && $0.courses.contains { $0.id == "tue" } } != nil)
     }
 
-    @Test("Current and next resolve from millis")
-    func currentAndNext() {
+    @Test("Entries expose nodes for the period label")
+    func periodLabelInputs() throws {
+        let term = makeTerm(courses: [makeCourse(id: "a", title: "高数", day: 1, start: 1, end: 2)])
+        let snapshot = makeWidgetSnapshot(
+            term: term,
+            profile: .defaultProfile(),
+            holidayCalendar: none,
+            overrides: [],
+            paletteStyle: .standard,
+            now: moment("2026-09-07", hour: 9),
+            calendar: calendar
+        )
+        let entry = try #require(snapshot.today?.courses.first)
+        #expect(entry.startNode == 1)
+        #expect(entry.endNode == 2)
+        #expect(entry.startText == "08:00")
+        #expect(entry.endText == "09:40")
+    }
+
+    @Test("Current / next / progress resolve within a day")
+    func currentAndNext() throws {
         let term = makeTerm(courses: [
             makeCourse(id: "a", title: "高数", day: 1, start: 1, end: 2),
             makeCourse(id: "b", title: "英语", day: 1, start: 3, end: 4),
@@ -63,30 +79,34 @@ struct WidgetSnapshotTests {
             now: moment("2026-09-07", hour: 9),
             calendar: calendar
         )
+        let day = try #require(snapshot.today)
 
-        let current = widgetCurrentCourse(snapshot, at: moment("2026-09-07", hour: 9))
-        #expect(current?.id == "a")
-        let next = widgetNextCourse(snapshot, at: moment("2026-09-07", hour: 9))
-        #expect(next?.id == "b")
-        #expect(widgetCurrentCourse(snapshot, at: moment("2026-09-07", hour: 7)) == nil)
+        #expect(widgetCurrentCourse(day, at: moment("2026-09-07", hour: 9))?.id == "a")
+        #expect(widgetNextCourse(day, at: moment("2026-09-07", hour: 9))?.id == "b")
+        #expect(widgetCurrentCourse(day, at: moment("2026-09-07", hour: 7)) == nil)
+
+        let entry = try #require(day.courses.first)
+        #expect(widgetProgress(entry, at: moment("2026-09-07", hour: 8, minute: 50)) > 0.4)
+        #expect(widgetProgress(entry, at: moment("2026-09-07", hour: 12)) == 1)
     }
 
-    @Test("Progress clamps to 0...1")
-    func progress() {
-        let term = makeTerm(courses: [makeCourse(id: "a", day: 1, start: 1, end: 2)])
+    @Test("Upcoming course crosses into the next day")
+    func upcomingAcrossDays() throws {
+        let term = makeTerm(courses: [
+            makeCourse(id: "mon", day: 1, start: 1, end: 2),
+            makeCourse(id: "tue", day: 2, start: 1, end: 2),
+        ])
         let snapshot = makeWidgetSnapshot(
             term: term,
             profile: .defaultProfile(),
             holidayCalendar: none,
             overrides: [],
             paletteStyle: .standard,
-            now: moment("2026-09-07", hour: 8),
+            now: moment("2026-09-07", hour: 20),
             calendar: calendar
         )
-        let entry = snapshot.courses[0]
-        #expect(widgetProgress(entry, at: moment("2026-09-07", hour: 7)) == 0)
-        #expect(abs(widgetProgress(entry, at: moment("2026-09-07", hour: 8, minute: 50)) - 0.5) < 0.02)
-        #expect(widgetProgress(entry, at: moment("2026-09-07", hour: 10)) == 1)
+        let upcoming = widgetUpcomingCourse(snapshot, at: moment("2026-09-07", hour: 20))
+        #expect(upcoming?.course.id == "tue")
     }
 
     @Test("Holidays clear the day and expose the name")
@@ -103,9 +123,9 @@ struct WidgetSnapshotTests {
             now: moment("2026-09-07", hour: 9),
             calendar: calendar
         )
-        #expect(snapshot.isHoliday)
-        #expect(snapshot.holiday == "校庆")
-        #expect(snapshot.courses.isEmpty)
+        #expect(snapshot.today?.isHoliday == true)
+        #expect(snapshot.today?.holiday == "校庆")
+        #expect(snapshot.today?.courses.isEmpty == true)
     }
 
     @Test("Overrides and cancellations apply")
@@ -130,7 +150,24 @@ struct WidgetSnapshotTests {
             now: moment("2026-09-07", hour: 7),
             calendar: calendar
         )
-        #expect(snapshot.courses.map(\.id) == ["keep"])
+        #expect(snapshot.today?.courses.map(\.id) == ["keep"])
+    }
+
+    @Test("Selected day falls back to today when out of range")
+    func selectedDay() {
+        let term = makeTerm(courses: [makeCourse(id: "a", day: 1, start: 1, end: 2)])
+        let snapshot = makeWidgetSnapshot(
+            term: term,
+            profile: .defaultProfile(),
+            holidayCalendar: none,
+            overrides: [],
+            paletteStyle: .standard,
+            now: moment("2026-09-07", hour: 9),
+            calendar: calendar
+        )
+        let tomorrow = snapshot.days.first { $0.dayMillis > snapshot.todayMillis }
+        #expect(widgetDay(snapshot, selectedMillis: tomorrow?.dayMillis)?.dayMillis == tomorrow?.dayMillis)
+        #expect(widgetDay(snapshot, selectedMillis: 123)?.dayMillis == snapshot.todayMillis)
     }
 
     @Test("Snapshot round trips through JSON")

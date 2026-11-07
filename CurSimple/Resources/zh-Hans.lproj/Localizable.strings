@@ -209,7 +209,7 @@
 
 "tab.memo" = "备忘录";
 "memo.add" = "添加备忘";
-"memo.filter.active" = "进行中";
+"memo.filter.active" = "待办";
 "memo.filter.today" = "今天到期";
 "memo.filter.done" = "已完成";
 "memo.empty.title" = "备忘录还是空的";
@@ -354,3 +354,34 @@
 "widget.courseCount" = "%d 门课";
 "widget.displayName" = "今日课表";
 "widget.description" = "查看今天正在上的课和下一节课。";
+
+"widget.todayLabel" = "今天";
+"widget.periodSingle" = "%d 节";
+"widget.periodRange" = "%d-%d 节";
+"widget.nextTitle" = "下一节课";
+"widget.startingNow" = "即将开始";
+"widget.inMinutes" = "%d 分钟后";
+"widget.inHours" = "%d 小时后";
+"widget.noMore" = "最近没有更多课程";
+"widget.moreCourses" = "还有 %d 门课";
+"widget.shiftDay" = "切换日期";
+"widget.displayNameToday" = "今日课表";
+"widget.descriptionToday" = "像课表一样查看今天的课程，可左右翻页。";
+"widget.displayNameNext" = "下一节课";
+"widget.descriptionNext" = "显示最近一节课和倒计时。";
+
+"widget.inMinutesShort" = "%d分后";
+"widget.inHoursShort" = "%d时后";
+
+"memo.filter.all" = "全部";
+"memo.filter.overdue" = "已逾期";
+"memo.stats.todo" = "待办";
+"memo.stats.today" = "今天到期";
+"memo.stats.overdue" = "已逾期";
+"memo.addShort" = "记一条";
+"memo.due.overdueRelative" = "已逾期 %@ · %@";
+"memo.due.todayAt" = "今天到期 · %@";
+"memo.due.soonAt" = "即将到期 · %@";
+"memo.relative.minutes" = "%d 分钟";
+"memo.relative.hours" = "%d 小时";
+"memo.relative.days" = "%d 天";

@@ -9,3 +9,21 @@
 "widget.holiday" = "Holiday";
 "widget.noData" = "Open CurSimple to sync";
 "widget.courseCount" = "%d classes";
+
+"widget.todayLabel" = "Today";
+"widget.periodSingle" = "P%d";
+"widget.periodRange" = "P%d–%d";
+"widget.nextTitle" = "Next class";
+"widget.startingNow" = "Starting now";
+"widget.inMinutes" = "in %d min";
+"widget.inHours" = "in %d h";
+"widget.noMore" = "No more classes ahead";
+"widget.moreCourses" = "%d more";
+"widget.shiftDay" = "Switch day";
+"widget.displayNameToday" = "Today";
+"widget.descriptionToday" = "Today’s timetable with day paging.";
+"widget.displayNameNext" = "Next Class";
+"widget.descriptionNext" = "The next class and a countdown.";
+
+"widget.inMinutesShort" = "%dm";
+"widget.inHoursShort" = "%dh";

@@ -206,7 +206,7 @@
 
 "tab.memo" = "Memos";
 "memo.add" = "Add memo";
-"memo.filter.active" = "Active";
+"memo.filter.active" = "To do";
 "memo.filter.today" = "Due today";
 "memo.filter.done" = "Done";
 "memo.empty.title" = "No memos yet";
@@ -351,3 +351,34 @@
 "widget.courseCount" = "%d classes";
 "widget.displayName" = "Today";
 "widget.description" = "See the class in session and the next one.";
+
+"widget.todayLabel" = "Today";
+"widget.periodSingle" = "P%d";
+"widget.periodRange" = "P%d–%d";
+"widget.nextTitle" = "Next class";
+"widget.startingNow" = "Starting now";
+"widget.inMinutes" = "in %d min";
+"widget.inHours" = "in %d h";
+"widget.noMore" = "No more classes ahead";
+"widget.moreCourses" = "%d more";
+"widget.shiftDay" = "Switch day";
+"widget.displayNameToday" = "Today";
+"widget.descriptionToday" = "Today’s timetable with day paging.";
+"widget.displayNameNext" = "Next Class";
+"widget.descriptionNext" = "The next class and a countdown.";
+
+"widget.inMinutesShort" = "%dm";
+"widget.inHoursShort" = "%dh";
+
+"memo.filter.all" = "All";
+"memo.filter.overdue" = "Overdue";
+"memo.stats.todo" = "To do";
+"memo.stats.today" = "Due today";
+"memo.stats.overdue" = "Overdue";
+"memo.addShort" = "New memo";
+"memo.due.overdueRelative" = "Overdue %@ · %@";
+"memo.due.todayAt" = "Due today · %@";
+"memo.due.soonAt" = "Due soon · %@";
+"memo.relative.minutes" = "%d min";
+"memo.relative.hours" = "%d h";
+"memo.relative.days" = "%d d";

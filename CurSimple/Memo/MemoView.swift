@@ -1,7 +1,8 @@
 import CurSimpleCore
 import SwiftUI
 
-/// Memo list with course filter, search, due badges and checklist progress.
+/// Memo list matching the shared layout: filter pill, three stat cards,
+/// checklist-rich cards and a floating add button.
 struct MemoView: View {
 
     let onOpenDrawer: () -> Void
@@ -9,23 +10,25 @@ struct MemoView: View {
     @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
 
-    @State private var searchText = ""
-    @State private var filter: MemoFilter = .active
-    @State private var courseFilter: String?
+    @State private var filter: MemoFilter = .all
     @State private var editingNote: MemoNote? = ProcessInfo.processInfo.arguments.contains("-openMemoEditor")
         ? MemoNote()
         : nil
 
     enum MemoFilter: String, CaseIterable, Identifiable {
+        case all
         case active
         case today
+        case overdue
         case done
 
         var id: String { rawValue }
         var titleKey: LocalizedStringKey {
             switch self {
+            case .all: "memo.filter.all"
             case .active: "memo.filter.active"
             case .today: "memo.filter.today"
+            case .overdue: "memo.filter.overdue"
             case .done: "memo.filter.done"
             }
         }
@@ -34,7 +37,7 @@ struct MemoView: View {
     var body: some View {
         let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
 
-        ZStack {
+        ZStack(alignment: .bottomTrailing) {
             colors.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -53,35 +56,22 @@ struct MemoView: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("drawer.open")
-
                         Spacer()
-
-                        Button {
-                            editingNote = MemoNote()
-                        } label: {
-                            Image(systemName: "plus")
-                                .font(.system(size: 18, weight: .medium))
-                                .foregroundStyle(colors.onSurface)
-                                .frame(width: 40, height: 40)
-                                .background(Circle().fill(colors.surface))
-                                .overlay(Circle().stroke(colors.outlineVariant, lineWidth: 1))
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("memo.add")
                     }
                 }
                 .frame(height: 48)
                 .padding(.horizontal, 6)
 
-                filterRow(colors: colors)
-
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 10) {
+                        filterPill(colors: colors)
+                        statCards(colors: colors)
+
                         if visibleNotes.isEmpty {
                             emptyState(colors: colors)
                         } else {
                             ForEach(visibleNotes) { note in
-                                MemoCard(note: note) {
+                                MemoCard(note: note, now: Date()) {
                                     editingNote = note
                                 } onToggleChecklist: { itemText in
                                     store.toggleMemoChecklist(noteID: note.id, itemText: itemText)
@@ -101,9 +91,13 @@ struct MemoView: View {
                     }
                     .padding(.horizontal, 12)
                     .padding(.top, 2)
-                    .padding(.bottom, 28)
+                    .padding(.bottom, 92)
                 }
             }
+
+            addButton(colors: colors)
+                .padding(.trailing, 18)
+                .padding(.bottom, 14)
         }
         .sheet(item: $editingNote) { note in
             MemoEditorView(existing: note) { result in
@@ -131,73 +125,149 @@ struct MemoView: View {
 
     private var visibleNotes: [MemoNote] {
         let now = Date()
-        var notes = store.sortedMemos(now: now)
-
+        let all = store.sortedMemos(now: now)
         switch filter {
+        case .all:
+            return all
         case .active:
-            notes = notes.filter { !$0.completed }
+            return all.filter { !$0.completed }
         case .today:
-            notes = notes.filter {
-                let state = $0.dueState(at: now)
-                return state == .overdue || state == .today
-            }
+            return all.filter { $0.dueState(at: now) == .today }
+        case .overdue:
+            return all.filter { $0.dueState(at: now) == .overdue }
         case .done:
-            notes = notes.filter(\.completed)
+            return all.filter(\.completed)
         }
+    }
 
-        if let courseFilter {
-            notes = notes.filter { $0.courseKey == courseFilter }
+    private func count(_ filter: MemoFilter) -> Int {
+        let now = Date()
+        switch filter {
+        case .all: return store.state.memos.count
+        case .active: return store.state.memos.filter { !$0.completed }.count
+        case .today: return store.state.memos.filter { $0.dueState(at: now) == .today }.count
+        case .overdue: return store.state.memos.filter { $0.dueState(at: now) == .overdue }.count
+        case .done: return store.state.memos.filter(\.completed).count
         }
-
-        let query = searchText.trimmingCharacters(in: .whitespaces)
-        if !query.isEmpty {
-            let key = query.lowercased()
-            notes = notes.filter {
-                $0.title.lowercased().contains(key)
-                    || $0.body.lowercased().contains(key)
-                    || $0.courseTitle.lowercased().contains(key)
-            }
-        }
-        return notes
     }
 
     // MARK: - Chrome
 
-    private func filterRow(colors: AppColors) -> some View {
-        HStack(spacing: 8) {
+    private func filterPill(colors: AppColors) -> some View {
+        Menu {
             ForEach(MemoFilter.allCases) { item in
-                let selected = filter == item
                 Button {
-                    withAnimation(.easeOut(duration: 0.18)) {
+                    withAnimation(.easeOut(duration: 0.16)) {
                         filter = item
                     }
                 } label: {
-                    Text(item.titleKey)
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
-                        .padding(.horizontal, 13)
-                        .frame(height: 32)
-                        .background(Capsule().fill(selected ? colors.primary : colors.surfaceVariant))
+                    if filter == item {
+                        Label {
+                            Text(item.titleKey)
+                        } icon: {
+                            Image(systemName: "checkmark")
+                        }
+                    } else {
+                        Text(item.titleKey)
+                    }
                 }
-                .buttonStyle(.plain)
             }
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "square.grid.2x2.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(colors.primary)
 
-            Spacer()
+                Text(filter.titleKey)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(colors.onSurface)
 
-            if courseFilter != nil {
-                Button {
-                    courseFilter = nil
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 16))
-                        .foregroundStyle(colors.onSurfaceVariant)
+                Spacer()
+
+                Text("\(count(filter))")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(colors.onPrimary)
+                    .frame(minWidth: 24, minHeight: 24)
+                    .background(Circle().fill(colors.primary))
+
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+            .padding(.horizontal, 14)
+            .frame(height: 50)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(colors.surface)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func statCards(colors: AppColors) -> some View {
+        HStack(spacing: 8) {
+            statCard("memo.stats.todo", count: count(.active), color: colors.primary, filter: .active, colors: colors)
+            statCard("memo.stats.today", count: count(.today), color: Color(red: 0.89, green: 0.60, blue: 0.18), filter: .today, colors: colors)
+            statCard("memo.stats.overdue", count: count(.overdue), color: colors.error, filter: .overdue, colors: colors)
+        }
+    }
+
+    private func statCard(
+        _ title: LocalizedStringKey,
+        count: Int,
+        color: Color,
+        filter target: MemoFilter,
+        colors: AppColors
+    ) -> some View {
+        Button {
+            withAnimation(.easeOut(duration: 0.16)) {
+                filter = target
+            }
+        } label: {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(count)")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(color)
+                Text(title)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, minHeight: 82, alignment: .topLeading)
+            .background(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(colors.surface)
+            )
+            .overlay {
+                if filter == target {
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .stroke(color.opacity(0.45), lineWidth: 1.4)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("memo.clearCourseFilter")
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.bottom, 8)
+        .buttonStyle(.plain)
+    }
+
+    private func addButton(colors: AppColors) -> some View {
+        Button {
+            editingNote = MemoNote()
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "plus")
+                    .font(.system(size: 15, weight: .semibold))
+                Text("memo.addShort")
+                    .font(.system(size: 14, weight: .semibold))
+            }
+            .foregroundStyle(colors.onPrimaryContainer)
+            .padding(.horizontal, 18)
+            .frame(height: 46)
+            .background(
+                Capsule().fill(colors.primaryContainer)
+            )
+            .shadow(color: .black.opacity(0.10), radius: 10, y: 3)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("memo.add")
     }
 
     private func emptyState(colors: AppColors) -> some View {
@@ -217,7 +287,7 @@ struct MemoView: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 48)
+        .padding(.vertical, 40)
     }
 }
 
@@ -226,6 +296,7 @@ struct MemoView: View {
 struct MemoCard: View {
 
     let note: MemoNote
+    let now: Date
     let action: () -> Void
     let onToggleChecklist: (String) -> Void
     let onTogglePin: () -> Void
@@ -237,126 +308,157 @@ struct MemoCard: View {
     var body: some View {
         let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
         let checklist = note.checklist
-        let due = note.dueState(at: Date())
+        let due = note.dueState(at: now)
 
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
-                // Complete toggle
-                Button {
-                    onToggleComplete()
-                } label: {
-                    Image(systemName: note.completed ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 19))
-                        .foregroundStyle(note.completed ? colors.primary : colors.outline)
-                }
-                .buttonStyle(.plain)
-                .frame(width: 36, height: 36)
-                .contentShape(Rectangle())
-                .accessibilityLabel("memo.toggleComplete")
-
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) {
-                        if note.pinned && !note.completed {
-                            Image(systemName: "pin.fill")
-                                .font(.system(size: 9))
-                                .foregroundStyle(colors.primary)
-                        }
-                        Text(note.displayTitle)
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(note.completed ? colors.onSurfaceVariant : colors.onSurface)
-                            .strikethrough(note.completed, color: colors.onSurfaceVariant)
-                            .lineLimit(2)
-                    }
-
-                    HStack(spacing: 6) {
-                        if !note.courseTitle.isEmpty {
-                            Text(note.courseTitle)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundStyle(colors.primary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 1)
-                                .background(Capsule().fill(colors.primaryContainer))
-                        }
-                        if let dueText = dueBadgeText(due) {
-                            Text(dueText)
-                                .font(.system(size: 10, weight: .semibold))
-                                .foregroundStyle(dueColor(due, colors: colors))
-                        }
-                        if checklist.hasItems {
-                            Text(String(
-                                format: String(localized: "memo.checklistProgress"),
-                                checklist.done,
-                                checklist.total
-                            ))
-                            .font(AppFont.label)
-                            .foregroundStyle(colors.onSurfaceVariant)
-                        }
-                    }
-                }
-
-                Spacer(minLength: 0)
-
-                Menu {
-                    Button(note.pinned ? "memo.unpin" : "memo.pin") { onTogglePin() }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(colors.onSurfaceVariant)
-                        .frame(width: 32, height: 36)
-                        .contentShape(Rectangle())
-                }
-            }
-
-            if checklist.hasItems {
-                VStack(spacing: 0) {
-                    let lines = note.body.components(separatedBy: "\n")
-                    ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
-                        if let parsed = MemoChecklist.parseLine(line) {
-                            Button {
-                                onToggleChecklist(parsed.text)
-                            } label: {
-                                HStack(spacing: 8) {
-                                    Image(systemName: parsed.checked ? "checkmark.square.fill" : "square")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(parsed.checked ? colors.primary : colors.outline)
-                                    Text(parsed.text)
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(parsed.checked ? colors.onSurfaceVariant : colors.onSurface)
-                                        .strikethrough(parsed.checked, color: colors.onSurfaceVariant)
-                                    Spacer(minLength: 0)
-                                }
-                                .padding(.vertical, 5)
-                                .contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
-                .padding(.leading, 36)
-            } else {
-                Text(plainPreview)
-                    .font(.system(size: 13))
-                    .foregroundStyle(colors.onSurfaceVariant)
-                    .lineLimit(2)
-                    .padding(.leading, 36)
-            }
-        }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(colors.surface)
-        )
-        .overlay(alignment: .leading) {
+
             if note.priority != .none {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(priorityColor(note.priority, colors: colors))
                     .frame(width: 4)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 12)
             }
+
+            HStack(alignment: .top, spacing: 10) {
+                Button {
+                    onToggleComplete()
+                } label: {
+                    Image(systemName: note.completed ? "checkmark.circle.fill" : "circle")
+                        .font(.system(size: 22))
+                        .foregroundStyle(note.completed ? colors.primary : colors.outline)
+                }
+                .buttonStyle(.plain)
+                .frame(width: 32, height: 32)
+                .contentShape(Rectangle())
+                .accessibilityLabel("memo.toggleComplete")
+
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 6) {
+                        if note.pinned && !note.completed {
+                            Image(systemName: "pin.fill")
+                                .font(.system(size: 12))
+                                .foregroundStyle(colors.onSurfaceVariant)
+                        }
+                        Text(note.displayTitle)
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(note.completed ? colors.onSurfaceVariant : colors.onSurface)
+                            .strikethrough(note.completed, color: colors.onSurfaceVariant)
+                            .lineLimit(2)
+
+                        Spacer(minLength: 0)
+
+                        Menu {
+                            Button(note.pinned ? "memo.unpin" : "memo.pin") { onTogglePin() }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(colors.onSurfaceVariant)
+                                .frame(width: 30, height: 30)
+                                .contentShape(Rectangle())
+                        }
+                    }
+
+                    if !note.courseTitle.isEmpty || note.priority != .none || dueChipText(due) != nil {
+                        VStack(alignment: .leading, spacing: 5) {
+                            HStack(spacing: 6) {
+                                if !note.courseTitle.isEmpty {
+                                    Text(note.courseTitle)
+                                        .font(.system(size: 11, weight: .medium))
+                                        .foregroundStyle(widgetBlueText)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 2)
+                                        .background(Capsule().fill(widgetBlueFill))
+                                }
+                                if note.priority != .none {
+                                    Text(LocalizedStringKey(note.priority.localizationKey))
+                                        .font(.system(size: 11, weight: .semibold))
+                                        .foregroundStyle(priorityColor(note.priority, colors: colors))
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 2)
+                                        .background(Capsule().fill(priorityColor(note.priority, colors: colors).opacity(0.14)))
+                                }
+                                Spacer(minLength: 0)
+                            }
+
+                            if let dueText = dueChipText(due) {
+                                HStack(spacing: 5) {
+                                    Image(systemName: "clock")
+                                        .font(.system(size: 10))
+                                    Text(dueText)
+                                        .font(.system(size: 11, weight: due == .overdue ? .semibold : .regular))
+                                }
+                                .foregroundStyle(due == .overdue ? colors.error : colors.onSurfaceVariant)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Capsule().fill(colors.surfaceVariant.opacity(0.7)))
+                            }
+                        }
+                    }
+
+                    if !plainPreview.isEmpty {
+                        Text(plainPreview)
+                            .font(.system(size: 14))
+                            .foregroundStyle(colors.onSurface)
+                            .lineLimit(2)
+                    }
+
+                    if checklist.hasItems {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(Array(checklistLines.enumerated()), id: \.offset) { _, item in
+                                Button {
+                                    onToggleChecklist(item.text)
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: item.checked ? "checkmark.square.fill" : "square")
+                                            .font(.system(size: 17))
+                                            .foregroundStyle(item.checked ? colors.primary : colors.outline)
+                                        Text(item.text)
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(item.checked ? colors.onSurfaceVariant : colors.onSurface)
+                                            .strikethrough(item.checked, color: colors.onSurfaceVariant)
+                                        Spacer(minLength: 0)
+                                    }
+                                    .padding(.vertical, 3)
+                                    .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+                            }
+
+                            HStack(spacing: 8) {
+                                GeometryReader { proxy in
+                                    ZStack(alignment: .leading) {
+                                        Capsule().fill(colors.surfaceVariant)
+                                        Capsule()
+                                            .fill(colors.primary)
+                                            .frame(width: max(proxy.size.width * checklist.fraction, 4))
+                                    }
+                                }
+                                .frame(height: 5)
+
+                                Text(String(
+                                    format: String(localized: "memo.checklistProgress"),
+                                    checklist.done,
+                                    checklist.total
+                                ))
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundStyle(colors.onSurfaceVariant)
+                                .monospacedDigit()
+                            }
+                            .padding(.top, 4)
+                        }
+                    }
+                }
+            }
+            .padding(14)
         }
-        .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .onTapGesture(perform: action)
+    }
+
+    private var checklistLines: [(checked: Bool, text: String)] {
+        note.body.components(separatedBy: "\n").compactMap { MemoChecklist.parseLine($0) }.prefix(5).map { $0 }
     }
 
     private var plainPreview: String {
@@ -366,22 +468,40 @@ struct MemoCard: View {
         return lines.prefix(2).joined(separator: "\n")
     }
 
-    private func dueBadgeText(_ state: MemoDueState) -> String? {
+    private func dueChipText(_ state: MemoDueState) -> String? {
+        guard let due = note.dueDateTime() else { return nil }
+        if note.completed { return nil }
+        let clock = TimeOfDay(date: due).text
+        let day = due.formatted(.dateTime.month().day())
         switch state {
-        case .overdue: String(localized: "memo.due.overdue")
-        case .today: String(localized: "memo.due.today")
-        case .soon: String(localized: "memo.due.soon")
-        case .none, .later: nil
+        case .overdue:
+            return String(
+                format: String(localized: "memo.due.overdueRelative"),
+                relativeText(from: due),
+                "\(day) \(clock)"
+            )
+        case .today:
+            return String(format: String(localized: "memo.due.todayAt"), clock)
+        case .soon:
+            return String(format: String(localized: "memo.due.soonAt"), "\(day) \(clock)")
+        case .later:
+            return "\(day) \(clock)"
+        case .none:
+            return nil
         }
     }
 
-    private func dueColor(_ state: MemoDueState, colors: AppColors) -> Color {
-        switch state {
-        case .overdue: colors.error
-        case .today: .orange
-        case .soon: colors.primary
-        case .none, .later: colors.onSurfaceVariant
+    private func relativeText(from due: Date) -> String {
+        let seconds = max(0, now.timeIntervalSince(due))
+        let minutes = Int(seconds / 60)
+        if minutes < 60 {
+            return String(format: String(localized: "memo.relative.minutes"), max(minutes, 1))
         }
+        let hours = minutes / 60
+        if hours < 24 {
+            return String(format: String(localized: "memo.relative.hours"), hours)
+        }
+        return String(format: String(localized: "memo.relative.days"), hours / 24)
     }
 
     private func priorityColor(_ priority: MemoPriority, colors: AppColors) -> Color {
@@ -391,5 +511,13 @@ struct MemoCard: View {
         case .low: colors.primary
         case .none: .clear
         }
+    }
+
+    private var widgetBlueFill: Color {
+        Color(.sRGB, red: 0.867, green: 0.922, blue: 0.980, opacity: 1)
+    }
+
+    private var widgetBlueText: Color {
+        Color(.sRGB, red: 0.173, green: 0.333, blue: 0.529, opacity: 1)
     }
 }

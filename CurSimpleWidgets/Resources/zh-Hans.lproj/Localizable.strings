@@ -9,3 +9,21 @@
 "widget.holiday" = "假期";
 "widget.noData" = "打开课简以同步课表";
 "widget.courseCount" = "%d 门课";
+
+"widget.todayLabel" = "今天";
+"widget.periodSingle" = "%d 节";
+"widget.periodRange" = "%d-%d 节";
+"widget.nextTitle" = "下一节课";
+"widget.startingNow" = "即将开始";
+"widget.inMinutes" = "%d 分钟后";
+"widget.inHours" = "%d 小时后";
+"widget.noMore" = "最近没有更多课程";
+"widget.moreCourses" = "还有 %d 门课";
+"widget.shiftDay" = "切换日期";
+"widget.displayNameToday" = "今日课表";
+"widget.descriptionToday" = "像课表一样查看今天的课程，可左右翻页。";
+"widget.displayNameNext" = "下一节课";
+"widget.descriptionNext" = "显示最近一节课和倒计时。";
+
+"widget.inMinutesShort" = "%d分后";
+"widget.inHoursShort" = "%d时后";
