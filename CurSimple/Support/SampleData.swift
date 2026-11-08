@@ -71,6 +71,27 @@ enum SampleData {
         return try? ShareCodec.encode(payload)
     }
 
+    static func alarms() -> [Alarm] {
+        [
+            Alarm(
+                id: "alarm-1",
+                hour: 6, minute: 50,
+                weekdays: [1, 2, 3, 4, 5],
+                label: "早八起床",
+                snoozeMinutes: 10,
+                createdAtMillis: 1
+            ),
+            Alarm(
+                id: "alarm-2",
+                hour: 22, minute: 30,
+                weekdays: [],
+                label: "睡前提醒",
+                enabled: false,
+                createdAtMillis: 2
+            ),
+        ]
+    }
+
     static func holidayCalendar() -> HolidayCalendarSettings {
         let friday = Calendar.current.date(byAdding: .day, value: 11, to: mondayOfCurrentWeek()) ?? .now
         var settings = HolidayCalendarSettings()

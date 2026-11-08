@@ -57,6 +57,7 @@ public struct AppState: Codable, Equatable, Sendable {
     public var memos: [MemoNote]
     public var holidayCalendar: HolidayCalendarSettings
     public var overrides: [TemporaryScheduleOverride]
+    public var alarms: [Alarm]
 
     public init(
         schemaVersion: Int = AppState.currentSchemaVersion,
@@ -67,7 +68,8 @@ public struct AppState: Codable, Equatable, Sendable {
         preferences: AppPreferences = .init(),
         memos: [MemoNote] = [],
         holidayCalendar: HolidayCalendarSettings = .init(),
-        overrides: [TemporaryScheduleOverride] = []
+        overrides: [TemporaryScheduleOverride] = [],
+        alarms: [Alarm] = []
     ) {
         self.schemaVersion = schemaVersion
         self.terms = terms
@@ -78,10 +80,11 @@ public struct AppState: Codable, Equatable, Sendable {
         self.memos = memos
         self.holidayCalendar = holidayCalendar
         self.overrides = overrides
+        self.alarms = alarms
     }
 
     private enum CodingKeys: String, CodingKey {
-        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences, memos, holidayCalendar, overrides
+        case schemaVersion, terms, activeTermID, timingProfiles, activeTimingProfileID, preferences, memos, holidayCalendar, overrides, alarms
     }
 
     public init(from decoder: Decoder) throws {
@@ -95,6 +98,7 @@ public struct AppState: Codable, Equatable, Sendable {
         memos = try container.decodeIfPresent([MemoNote].self, forKey: .memos) ?? []
         holidayCalendar = (try? container.decodeIfPresent(HolidayCalendarSettings.self, forKey: .holidayCalendar)) ?? .init()
         overrides = try container.decodeIfPresent([TemporaryScheduleOverride].self, forKey: .overrides) ?? []
+        alarms = try container.decodeIfPresent([Alarm].self, forKey: .alarms) ?? []
     }
 
     public var activeTerm: Term? {

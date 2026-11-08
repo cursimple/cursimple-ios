@@ -21,6 +21,9 @@ struct CurSimpleApp: App {
                 sampleStore.upsertMemo(memo)
             }
             sampleStore.setHolidayCalendar(SampleData.holidayCalendar())
+            for alarm in SampleData.alarms() {
+                sampleStore.upsertAlarm(alarm)
+            }
             for override in SampleData.overrides(courses: SampleData.courses()) {
                 sampleStore.upsertOverride(override)
             }

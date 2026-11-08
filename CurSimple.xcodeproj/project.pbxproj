@@ -15,6 +15,7 @@
 		3BA6EBCE0D5618C5DC9CD773 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4489954EE5F0BA7EFEC93779 /* SettingsView.swift */; };
 		42BA3842525D10B5DF59B193 /* WidgetPreviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4829698613AADDDF26D7F1F /* WidgetPreviewScreen.swift */; };
 		4526408118082F4FFFFEAC82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C36A1EE854AE9D1DD9B47D04 /* Assets.xcassets */; };
+		57BCB43C8904492B69CA2EC4 /* AlarmListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC9396497AF4A316ABBE5AC /* AlarmListView.swift */; };
 		58FCFE52617BC29A66FA8B05 /* CurSimpleCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5006869A61BDAF7C34BD35B3 /* CurSimpleCore */; };
 		5B66C3FEE62A0F3B749445EF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE911850AD46FD58A90C8B2 /* RootView.swift */; };
 		5DD3D1AF52A6BC5AFBDB67F4 /* WidgetUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA31C585DEB918A08164919 /* WidgetUpdater.swift */; };
@@ -45,6 +46,7 @@
 		E6475D64675D32A6F49C1614 /* CurSimpleWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E87AD76DA8E1A3D2352C11B9 /* ShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AF6C192FBC8A7ABFFFB239 /* ShareSettingsView.swift */; };
 		EFF91A62BAC278413FFA345F /* WeekGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032528DFD7F4FF568A829119 /* WeekGridView.swift */; };
+		F82256C2CBC5476D70735598 /* AlarmEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BF90DD029C784D0D00509F /* AlarmEditorView.swift */; };
 		FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +94,7 @@
 		44DB2401B3538EDD36BC8114 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		47FC7CF166759869D8EB5A95 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		4875FD9192BCBC81B4B40D78 /* CourseEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseEditorView.swift; sourceTree = "<group>"; };
+		49BF90DD029C784D0D00509F /* AlarmEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditorView.swift; sourceTree = "<group>"; };
 		4B9C8F282947882D37215BAB /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
 		52E948661C5E7D256C4E0AFE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedStore.swift; sourceTree = "<group>"; };
@@ -125,6 +128,7 @@
 		E5CF569DF0CDC4EAE526D7D6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ECF8C51DA927278567942CDB /* HolidaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySettingsView.swift; sourceTree = "<group>"; };
 		FA515E1B187B2DED636688D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FDC9396497AF4A316ABBE5AC /* AlarmListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,15 @@
 				B16E4226C318EA5AF922B253 /* CurSimpleCore */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		2317DFAC95C66C54C6F6A134 /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				49BF90DD029C784D0D00509F /* AlarmEditorView.swift */,
+				FDC9396497AF4A316ABBE5AC /* AlarmListView.swift */,
+			);
+			path = Alarm;
 			sourceTree = "<group>";
 		};
 		42CFA6B77F4860B418DB3602 /* Resources */ = {
@@ -269,6 +282,7 @@
 				C0C69FE2D169ABAAAE9CAC0B /* CurSimple.entitlements */,
 				97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */,
 				7FE911850AD46FD58A90C8B2 /* RootView.swift */,
+				2317DFAC95C66C54C6F6A134 /* Alarm */,
 				6A9E40879D4CAF215CC5E05E /* Memo */,
 				08C955CB4F17AB3C38217722 /* Resources */,
 				780D1743A52D67CD470B1BEA /* Schedule */,
@@ -446,6 +460,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F82256C2CBC5476D70735598 /* AlarmEditorView.swift in Sources */,
+				57BCB43C8904492B69CA2EC4 /* AlarmListView.swift in Sources */,
 				BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */,
 				C96509CBFEDD18396B207106 /* BackupSettingsView.swift in Sources */,
 				61F54FD0AA97ECF0EF655E13 /* CourseDetailView.swift in Sources */,

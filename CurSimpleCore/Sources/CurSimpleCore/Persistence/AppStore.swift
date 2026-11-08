@@ -182,6 +182,35 @@ public final class AppStore {
         commit(next)
     }
 
+    // MARK: - Alarms
+
+    public func upsertAlarm(_ alarm: Alarm) {
+        var next = state
+        if let index = next.alarms.firstIndex(where: { $0.id == alarm.id }) {
+            next.alarms[index] = alarm
+        } else {
+            next.alarms.append(alarm)
+        }
+        commit(next)
+    }
+
+    public func deleteAlarm(id: String) {
+        var next = state
+        next.alarms.removeAll { $0.id == id }
+        commit(next)
+    }
+
+    public func setAlarmEnabled(id: String, enabled: Bool) {
+        guard let index = state.alarms.firstIndex(where: { $0.id == id }) else { return }
+        var next = state
+        next.alarms[index].enabled = enabled
+        commit(next)
+    }
+
+    public func alarmsSorted(now: Date = .init(), calendar: Calendar = .current) -> [Alarm] {
+        CurSimpleCore.sortedAlarms(state.alarms, now: now, calendar: calendar)
+    }
+
     // MARK: - Memos
 
     public func upsertMemo(_ note: MemoNote) {

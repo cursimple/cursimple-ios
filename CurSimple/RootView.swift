@@ -5,6 +5,7 @@ enum AppScreen: String, CaseIterable {
     case schedule
     case library
     case memo
+    case alarm
     case settings
 
     var titleKey: LocalizedStringKey {
@@ -12,6 +13,7 @@ enum AppScreen: String, CaseIterable {
         case .schedule: "tab.schedule"
         case .library: "tab.library"
         case .memo: "tab.memo"
+        case .alarm: "tab.alarm"
         case .settings: "tab.settings"
         }
     }
@@ -21,6 +23,7 @@ enum AppScreen: String, CaseIterable {
         case .schedule: "calendar"
         case .library: "list.bullet.rectangle"
         case .memo: "checklist"
+        case .alarm: "alarm"
         case .settings: "gearshape"
         }
     }
@@ -37,8 +40,10 @@ struct RootView: View {
         let arguments = ProcessInfo.processInfo.arguments
         if arguments.contains("-startSettings") { return .settings }
         if arguments.contains("-startLibrary") { return .library }
+        if arguments.contains("-startAlarm") { return .alarm }
         if arguments.contains("-startMemo") { return .memo }
         if arguments.contains("-startLibrary") { return .library }
+        if arguments.contains("-startAlarm") { return .alarm }
         if arguments.contains("-startMemo") { return .memo }
         return .schedule
     }()
@@ -62,6 +67,8 @@ struct RootView: View {
                     CourseLibraryView(onOpenDrawer: openDrawer)
                 case .memo:
                     MemoView(onOpenDrawer: openDrawer)
+                case .alarm:
+                    AlarmListView(onOpenDrawer: openDrawer)
                 case .settings:
                     SettingsView(onOpenDrawer: openDrawer)
                 }
@@ -85,15 +92,22 @@ struct RootView: View {
             WidgetUpdater.refresh(store: store)
             await reminders.refreshStatus()
             await reminders.reschedule(store: store)
+            await reminders.rescheduleAlarms(store: store)
         }
         .onChange(of: scenePhase) { _, phase in
             guard phase == .active else { return }
             WidgetUpdater.refresh(store: store)
-            Task { await reminders.reschedule(store: store) }
+            Task {
+                await reminders.reschedule(store: store)
+                await reminders.rescheduleAlarms(store: store)
+            }
         }
         .onChange(of: store.state) { _, _ in
             WidgetUpdater.refresh(store: store)
-            Task { await reminders.reschedule(store: store) }
+            Task {
+                await reminders.reschedule(store: store)
+                await reminders.rescheduleAlarms(store: store)
+            }
         }
     }
 

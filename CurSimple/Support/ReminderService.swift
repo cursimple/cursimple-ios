@@ -21,6 +21,9 @@ final class ReminderService {
 
     private let center = UNUserNotificationCenter.current()
     private let identifierPrefix = "cursimple.class."
+    private let alarmPrefix = "cursimple.alarm."
+    /// Keep the alarm share of the 64-request budget bounded.
+    private let maxAlarmNotifications = 24
 
     var isAuthorized: Bool {
         authorizationStatus == .authorized || authorizationStatus == .provisional
@@ -93,6 +96,55 @@ final class ReminderService {
         await refreshScheduledCount()
     }
 
+    /// Schedule manual alarms as local notifications, one per firing inside the
+    /// rolling window. Alarms share the pending budget with class reminders.
+    func rescheduleAlarms(store: AppStore) async {
+        await refreshStatus()
+
+        let pending = await center.pendingNotificationRequests()
+        let ours = pending.map(\.identifier).filter { $0.hasPrefix(alarmPrefix) }
+        if !ours.isEmpty {
+            center.removePendingNotificationRequests(withIdentifiers: ours)
+        }
+
+        guard isAuthorized else {
+            await refreshScheduledCount()
+            return
+        }
+
+        var budget = maxAlarmNotifications
+        for alarm in store.alarmsSorted() where alarm.enabled {
+            for fire in nextAlarmFires(alarm, after: .now, count: 4) {
+                guard budget > 0 else { break }
+                let interval = fire.timeIntervalSinceNow
+                guard interval > 0 else { continue }
+
+                let content = UNMutableNotificationContent()
+                content.title = alarm.displayLabel
+                content.body = alarm.snoozeMinutes > 1
+                    ? String(format: String(localized: "alarm.notification.body"), alarm.time.text)
+                    : String(format: String(localized: "alarm.notification.bodyNoSnooze"), alarm.time.text)
+                content.sound = .default
+                content.userInfo = ["alarmID": alarm.id]
+
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+                let request = UNNotificationRequest(
+                    identifier: alarmPrefix + alarm.id + "-" + String(Int(fire.timeIntervalSince1970)),
+                    content: content,
+                    trigger: trigger
+                )
+                do {
+                    try await center.add(request)
+                    budget -= 1
+                } catch {
+                    lastError = error.localizedDescription
+                }
+            }
+        }
+
+        await refreshScheduledCount()
+    }
+
     func cancelAll() {
         let center = self.center
         Task {
@@ -132,7 +184,9 @@ final class ReminderService {
 
     private func refreshScheduledCount() async {
         let pending = await center.pendingNotificationRequests()
-        scheduledCount = pending.filter { $0.identifier.hasPrefix(identifierPrefix) }.count
+        scheduledCount = pending.filter {
+            $0.identifier.hasPrefix(identifierPrefix) || $0.identifier.hasPrefix(alarmPrefix)
+        }.count
     }
 
     // MARK: - Presentation helpers
