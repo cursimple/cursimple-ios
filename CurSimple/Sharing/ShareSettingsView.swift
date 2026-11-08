@@ -12,7 +12,9 @@ struct ShareSettingsView: View {
     @State private var codeSheet: ShareCodePayload?
     @State private var importText = ""
     @State private var importError: String?
-    @State private var preview: SharePreview?
+    @State private var preview: ImportPreviewData?
+    @State private var errorMessage: String?
+    @State private var imagePreview: UIImage?
 
     var body: some View {
         let colors = AppColors.resolve(accent: store.preferences.accent, dark: colorScheme == .dark)
@@ -26,6 +28,7 @@ struct ShareSettingsView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 12) {
                         exportCard(colors: colors)
+                        imageCard(colors: colors)
                         importCard(colors: colors)
                         infoCard(colors: colors)
                     }
@@ -42,6 +45,9 @@ struct ShareSettingsView: View {
             }
             if arguments.contains("-openShareCode") {
                 generateCode()
+            }
+            if arguments.contains("-openShareImage") {
+                exportImage()
             }
             if arguments.contains("-openImportPreview") {
                 parseCode()
@@ -85,6 +91,55 @@ struct ShareSettingsView: View {
                 }
                 .buttonStyle(.plain)
                 .padding(.top, 10)
+            }
+        }
+    }
+
+    private func imageCard(colors: AppColors) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            SettingsSectionLabel(title: "share.image.title", colors: colors)
+
+            SettingsCard(colors: colors) {
+                Text("share.image.footer")
+                    .font(AppFont.bodySmall)
+                    .foregroundStyle(colors.onSurfaceVariant)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Button(action: exportImage) {
+                    HStack {
+                        Image(systemName: "photo")
+                        Text("share.image.action")
+                        Spacer()
+                    }
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(colors.onPrimary)
+                    .padding(.horizontal, 14)
+                    .frame(height: 42)
+                    .background(Capsule().fill(colors.primary))
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 10)
+
+                if let imagePreview {
+                    Image(uiImage: imagePreview)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 260)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .padding(.top, 10)
+
+                    ShareLink(
+                        item: ScheduleImageTransfer(image: imagePreview),
+                        preview: SharePreview("share.image.title", image: Image(uiImage: imagePreview))
+                    ) {
+                        Text("share.image.share")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(colors.primary)
+                            .frame(maxWidth: .infinity, minHeight: 36)
+                            .overlay(Capsule().stroke(colors.primary.opacity(0.5), lineWidth: 1))
+                    }
+                    .padding(.top, 8)
+                }
             }
         }
     }
@@ -171,6 +226,30 @@ struct ShareSettingsView: View {
 
     // MARK: - Actions
 
+    private func exportImage() {
+        guard let term = store.activeTerm else { return }
+        let weekStart = ScheduleCalendar.startOfDisplayWeek(
+            containing: .now,
+            weekStart: store.preferences.weekStart
+        )
+        let week = term.startDateValue.map {
+            displayWeekTermIndex(termStart: $0, displayWeekStart: weekStart)
+        } ?? 0
+        imagePreview = ScheduleImageRenderer.render(
+            term: term,
+            profile: store.timingProfile,
+            preferences: store.preferences,
+            holidayCalendar: store.state.holidayCalendar,
+            overrides: store.state.overrides,
+            weekStart: weekStart,
+            weekNumber: week,
+            dark: colorScheme == .dark
+        )
+        if imagePreview == nil {
+            errorMessage = String(localized: "share.image.failed")
+        }
+    }
+
     private func generateCode() {
         guard let term = store.activeTerm else { return }
         let payload = makeSharePayload(term: term, profile: store.timingProfile)
@@ -193,7 +272,7 @@ struct ShareSettingsView: View {
                 importError = String(localized: "share.import.invalid")
                 return
             }
-            preview = SharePreview(
+            preview = ImportPreviewData(
                 payload: payload,
                 imported: imported,
                 code: importText
@@ -203,7 +282,7 @@ struct ShareSettingsView: View {
         }
     }
 
-    private func applyImport(_ preview: SharePreview) {
+    private func applyImport(_ preview: ImportPreviewData) {
         if !preview.imported.timingSlots.isEmpty,
            preview.imported.timingSlots != store.timingProfile.slots {
             let profile = TimingProfile(
@@ -368,7 +447,7 @@ private struct QRCodeView: View {
 
 // MARK: - Import preview
 
-struct SharePreview: Identifiable {
+struct ImportPreviewData: Identifiable {
     let id = UUID()
     let payload: ScheduleSharePayload
     let imported: ImportedTimetable
@@ -377,7 +456,7 @@ struct SharePreview: Identifiable {
 
 private struct ImportPreviewSheet: View {
 
-    let preview: SharePreview
+    let preview: ImportPreviewData
     let onConfirm: () -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -469,5 +548,19 @@ private struct ImportPreviewSheet: View {
                 .multilineTextAlignment(.trailing)
         }
         .frame(minHeight: 36)
+    }
+}
+
+
+/// Wraps a rendered timetable so it can be shared as a PNG file.
+struct ScheduleImageTransfer: Transferable {
+
+    let image: UIImage
+
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .png) { item in
+            item.image.pngData() ?? Data()
+        }
+        .suggestedFileName("cursimple-timetable.png")
     }
 }

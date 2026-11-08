@@ -456,3 +456,22 @@
 "memo.course.all" = "全部課程";
 
 "schedule.resetZoom" = "恢復比例";
+
+"display.preview" = "預覽";
+"display.textSize" = "課程文字大小";
+"display.cardHeight" = "卡片高度";
+"display.cornerRadius" = "卡片圓角";
+"display.opacity" = "卡片底色不透明度";
+"display.gridSection" = "格線";
+"display.grid.solid" = "實線";
+"display.grid.dashed" = "虛線";
+"display.grid.none" = "不顯示";
+"display.showTeacher" = "卡片顯示教師";
+"display.dimInactive" = "淡化非本週課程";
+"display.dimInactive.footer" = "不是本週上課的課程會變淡。";
+
+"share.image.title" = "分享為圖片";
+"share.image.footer" = "把本週課表渲染成一張圖片，可直接傳給同學。";
+"share.image.action" = "產生課表圖片";
+"share.image.share" = "分享圖片";
+"share.image.failed" = "圖片產生失敗";

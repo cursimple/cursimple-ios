@@ -5,6 +5,7 @@ enum SettingsRoute: Hashable {
     case term
     case timing
     case appearance
+    case display
     case reminders
     case holidays
     case overrides
@@ -30,6 +31,7 @@ struct SettingsView: View {
         if arguments.contains("-openOverrides") { return [.overrides] }
         if arguments.contains("-openShare") { return [.share] }
         if arguments.contains("-openBackup") { return [.backup] }
+        if arguments.contains("-openDisplay") { return [.display] }
         if arguments.contains("-openAbout") { return [.about] }
         return []
     }()
@@ -67,6 +69,8 @@ struct SettingsView: View {
                     TimingSettingsView()
                 case .appearance:
                     AppearanceSettingsView()
+                case .display:
+                    DisplaySettingsView()
                 case .reminders:
                     ReminderSettingsView()
                 case .holidays:
@@ -238,7 +242,7 @@ struct SettingsView: View {
                         colors: colors
                     )
                 }
-                NavigationLink(value: SettingsRoute.appearance) {
+                NavigationLink(value: SettingsRoute.display) {
                     sectionTile(
                         icon: "slider.horizontal.3",
                         title: "settings.display",

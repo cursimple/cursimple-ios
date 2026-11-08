@@ -456,3 +456,22 @@
 "memo.course.all" = "全部课程";
 
 "schedule.resetZoom" = "恢复比例";
+
+"display.preview" = "预览";
+"display.textSize" = "课程文字大小";
+"display.cardHeight" = "卡片高度";
+"display.cornerRadius" = "卡片圆角";
+"display.opacity" = "卡片底色不透明度";
+"display.gridSection" = "网格线";
+"display.grid.solid" = "实线";
+"display.grid.dashed" = "虚线";
+"display.grid.none" = "不显示";
+"display.showTeacher" = "卡片显示教师";
+"display.dimInactive" = "淡化非本周课程";
+"display.dimInactive.footer" = "不是本周上课的课程会变淡。";
+
+"share.image.title" = "分享为图片";
+"share.image.footer" = "把本周课表渲染成一张图片，可直接发给同学。";
+"share.image.action" = "生成课表图片";
+"share.image.share" = "分享图片";
+"share.image.failed" = "图片生成失败";

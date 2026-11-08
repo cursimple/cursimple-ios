@@ -453,3 +453,22 @@
 "memo.course.all" = "All courses";
 
 "schedule.resetZoom" = "Reset";
+
+"display.preview" = "Preview";
+"display.textSize" = "Course text size";
+"display.cardHeight" = "Card height";
+"display.cornerRadius" = "Card corner radius";
+"display.opacity" = "Card fill opacity";
+"display.gridSection" = "Grid lines";
+"display.grid.solid" = "Solid";
+"display.grid.dashed" = "Dashed";
+"display.grid.none" = "Hidden";
+"display.showTeacher" = "Show teacher on cards";
+"display.dimInactive" = "Fade courses not held this week";
+"display.dimInactive.footer" = "Courses outside the current week appear lighter.";
+
+"share.image.title" = "Share as image";
+"share.image.footer" = "Render this week’s timetable as one image you can send.";
+"share.image.action" = "Generate image";
+"share.image.share" = "Share image";
+"share.image.failed" = "Could not render the image";

@@ -8,6 +8,7 @@ public struct AppPreferences: Codable, Hashable, Sendable {
     public var showWeekend: Bool
     public var showSaturday: Bool
     public var reminders: ReminderPreferences
+    public var display: ScheduleDisplayPreferences
 
     public init(
         accent: AccentTheme = .green,
@@ -15,7 +16,8 @@ public struct AppPreferences: Codable, Hashable, Sendable {
         weekStart: WeekStartDay = .monday,
         showWeekend: Bool = true,
         showSaturday: Bool = true,
-        reminders: ReminderPreferences = .init()
+        reminders: ReminderPreferences = .init(),
+        display: ScheduleDisplayPreferences = .init()
     ) {
         self.accent = accent
         self.paletteStyle = paletteStyle
@@ -23,10 +25,11 @@ public struct AppPreferences: Codable, Hashable, Sendable {
         self.showWeekend = showWeekend
         self.showSaturday = showSaturday
         self.reminders = reminders
+        self.display = display
     }
 
     private enum CodingKeys: String, CodingKey {
-        case accent, paletteStyle, weekStart, showWeekend, showSaturday, reminders
+        case accent, paletteStyle, weekStart, showWeekend, showSaturday, reminders, display
     }
 
     public init(from decoder: Decoder) throws {
@@ -37,6 +40,7 @@ public struct AppPreferences: Codable, Hashable, Sendable {
         showWeekend = try container.decodeIfPresent(Bool.self, forKey: .showWeekend) ?? true
         showSaturday = try container.decodeIfPresent(Bool.self, forKey: .showSaturday) ?? true
         reminders = (try? container.decodeIfPresent(ReminderPreferences.self, forKey: .reminders)) ?? .init()
+        display = (try? container.decodeIfPresent(ScheduleDisplayPreferences.self, forKey: .display)) ?? .init()
     }
 }
 

@@ -16,13 +16,17 @@ struct WeekGridView: View {
     @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
 
+    private var displayPrefs: ScheduleDisplayPreferences {
+        store.preferences.display.normalized
+    }
+
     @State private var overlapCluster: GridCourseCluster?
     /// Pinch-to-zoom scale applied to the whole grid, mirroring the shared app.
     @State private var zoom: CGFloat = 1
     @State private var pinchStart: CGFloat = 1
 
     private let gutterWidth: CGFloat = 42
-    private let rowHeight: CGFloat = 64
+    private var rowHeight: CGFloat { CGFloat(displayPrefs.cardHeight) }
     private let innerPadding: CGFloat = 8
 
     var body: some View {
@@ -248,9 +252,11 @@ struct WeekGridView: View {
                         .fill(Color.clear)
                         .frame(width: width, height: rowHeight)
                         .overlay(alignment: .bottom) {
-                            Rectangle()
-                                .fill(colors.gridLine)
-                                .frame(height: 0.5)
+                            if displayPrefs.gridStyle != .none {
+                                Rectangle()
+                                    .fill(colors.gridLine)
+                                    .frame(height: 0.5)
+                            }
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
@@ -292,7 +298,7 @@ struct WeekGridView: View {
         return ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(course.title)
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: CGFloat(displayPrefs.textSize), weight: .semibold))
                     .foregroundStyle(entry.onContainer.color)
                     .lineLimit(span > 1 ? 5 : 3)
                     .multilineTextAlignment(.leading)
@@ -300,9 +306,16 @@ struct WeekGridView: View {
 
                 if showLocation {
                     Text("@\(course.location)")
-                        .font(.system(size: 8.5))
+                        .font(.system(size: CGFloat(max(displayPrefs.textSize - 3, 8))))
                         .foregroundStyle(entry.onContainer.color.opacity(0.72))
-                        .lineLimit(3)
+                        .lineLimit(2)
+                }
+
+                if displayPrefs.showTeacherInGrid, !course.teacher.isEmpty, height > 80 {
+                    Text(course.teacher)
+                        .font(.system(size: CGFloat(max(displayPrefs.textSize - 3, 8))))
+                        .foregroundStyle(entry.onContainer.color.opacity(0.72))
+                        .lineLimit(1)
                 }
 
                 Spacer(minLength: 0)
@@ -310,10 +323,12 @@ struct WeekGridView: View {
             .padding(5)
             .frame(width: columnWidth - 4, height: height, alignment: .topLeading)
             .background(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(entry.container.color)
+                RoundedRectangle(cornerRadius: CGFloat(displayPrefs.cornerRadius), style: .continuous)
+                    .fill(entry.container.color.opacity(displayPrefs.cardOpacity))
             )
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .clipShape(
+                RoundedRectangle(cornerRadius: CGFloat(displayPrefs.cornerRadius), style: .continuous)
+            )
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .onTapGesture { onTapCourse(course.id) }
             .onLongPressGesture(minimumDuration: 0.45) { onLongPressCourse(course.id) }
