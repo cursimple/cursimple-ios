@@ -567,3 +567,9 @@
 "share.scan.hint" = "对准课简分享二维码";
 "share.scan.unsupported" = "这台设备不支持扫码，请改用粘贴分享码。";
 "weekPicker.jump" = "跳转到周次";
+
+"course.action.edit" = "编辑课程";
+"course.action.detail" = "课程详情";
+"course.action.cancelToday" = "今天停课一次";
+"course.action.hide" = "从课表隐藏";
+"course.action.restore" = "恢复到课表";

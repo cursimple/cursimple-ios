@@ -255,3 +255,66 @@ final class CourseMoveTests: XCTestCase {
         )
     }
 }
+
+/// Long-press on a course opens quick actions.
+final class CourseActionTests: XCTestCase {
+
+    private func launch() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments += [
+            "-AppleLanguages", "(zh-Hans)", "-AppleLocale", "zh_CN",
+            "-seedSampleCourses",
+        ]
+        app.launch()
+        return app
+    }
+
+    func testLongPressShowsActions() {
+        let app = launch()
+
+        let course = app.staticTexts["高等数学"].firstMatch
+        XCTAssertTrue(course.waitForExistence(timeout: 20))
+        course.press(forDuration: 0.9)
+
+        for action in ["编辑课程", "课程详情", "今天停课一次", "从课表隐藏", "删除课程"] {
+            XCTAssertTrue(
+                app.buttons[action].waitForExistence(timeout: 5),
+                "missing action: \(action)"
+            )
+        }
+    }
+
+    func testCancelTodayWritesOverride() {
+        let app = launch()
+
+        let course = app.staticTexts["高等数学"].firstMatch
+        XCTAssertTrue(course.waitForExistence(timeout: 20))
+        course.press(forDuration: 0.9)
+
+        let cancel = app.buttons["今天停课一次"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 5))
+        cancel.tap()
+
+        // The override is recorded even when today is not a class day, so the
+        // list under Settings → 临时调课 must show a cancellation entry.
+        let menu = app.buttons["打开菜单"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 10))
+        menu.tap()
+        app.buttons["设置"].tap()
+
+        let overrides = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label CONTAINS '临时调课'")
+        ).firstMatch
+        XCTAssertTrue(overrides.waitForExistence(timeout: 10))
+        if !overrides.isHittable {
+            app.swipeUp()
+        }
+        overrides.tap()
+
+        XCTAssertTrue(
+            app.staticTexts.matching(NSPredicate(format: "label CONTAINS '停课'")).firstMatch
+                .waitForExistence(timeout: 8),
+            "no cancellation override recorded"
+        )
+    }
+}

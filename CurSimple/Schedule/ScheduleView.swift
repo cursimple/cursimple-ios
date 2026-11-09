@@ -35,6 +35,8 @@ struct ScheduleView: View {
         : nil
     @State private var showTermPicker = false
     @State private var showWeekPicker = ProcessInfo.processInfo.arguments.contains("-openWeekPicker")
+    /// Course targeted by the long-press action sheet.
+    @State private var actionCourse: CourseItem?
 
     /// QA hook: `-weekOffset N` opens N weeks from the current one.
     private static func initialDisplayWeekStart() -> Date {
@@ -96,6 +98,52 @@ struct ScheduleView: View {
         .sheet(isPresented: $showTermPicker) {
             TermPickerView()
                 .presentationDetents([.medium, .large])
+        }
+        .confirmationDialog(
+            actionCourse?.title ?? "",
+            isPresented: Binding(
+                get: { actionCourse != nil },
+                set: { if !$0 { actionCourse = nil } }
+            ),
+            titleVisibility: .visible,
+            presenting: actionCourse
+        ) { course in
+            Button("course.action.edit") {
+                actionCourse = nil
+                editorTarget = CourseEditorTarget(course: course, slot: course.time)
+            }
+            Button("course.action.detail") {
+                actionCourse = nil
+                detailCourseID = course.id
+            }
+            Button("course.action.cancelToday") {
+                cancelToday(course)
+                actionCourse = nil
+            }
+            if course.hidden {
+                Button("course.action.restore") {
+                    var copy = course
+                    copy.hidden = false
+                    store.updateCourse(copy)
+                    actionCourse = nil
+                }
+            } else {
+                Button("course.action.hide") {
+                    var copy = course
+                    copy.hidden = true
+                    store.updateCourse(copy)
+                    actionCourse = nil
+                }
+            }
+            Button("course.delete", role: .destructive) {
+                store.deleteCourse(id: course.id)
+                actionCourse = nil
+            }
+            Button("common.cancel", role: .cancel) { actionCourse = nil }
+        } message: { course in
+            Text(course.time.dayOfWeek >= 1
+                ? "\(Format.weekday(course.time.dayOfWeek)) · \(Format.periodRange(course.time.startNode, course.time.endNode))"
+                : "")
         }
         .sheet(isPresented: $showWeekPicker) {
             if let term {
@@ -270,7 +318,7 @@ struct ScheduleView: View {
                         onTapCourse: { detailCourseID = $0 },
                         onLongPressCourse: { id in
                             guard let course = term.courses.first(where: { $0.id == id }) else { return }
-                            editorTarget = CourseEditorTarget(course: course, slot: course.time)
+                            actionCourse = course
                         },
                         onTapEmpty: { slot in
                             editorTarget = CourseEditorTarget(course: nil, slot: slot)
@@ -414,6 +462,17 @@ struct ScheduleView: View {
     }
 
     // MARK: - Editing
+
+    /// Cancel only today's occurrence through a temporary override.
+    private func cancelToday(_ course: CourseItem) {
+        store.upsertOverride(TemporaryScheduleOverride(
+            type: .cancelCourse,
+            targetDate: DateOnly.string(from: .now),
+            cancelStartNode: course.time.startNode,
+            cancelEndNode: course.time.endNode,
+            cancelCourseId: course.id
+        ))
+    }
 
     /// Drag-and-drop moves create a move override for the displayed week only,
     /// so the rest of the term keeps the original slot.

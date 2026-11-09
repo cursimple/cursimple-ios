@@ -567,3 +567,9 @@
 "share.scan.hint" = "對準課簡分享二維碼";
 "share.scan.unsupported" = "這台裝置不支援掃碼，請改用貼上分享碼。";
 "weekPicker.jump" = "跳轉到週次";
+
+"course.action.edit" = "編輯課程";
+"course.action.detail" = "課程詳情";
+"course.action.cancelToday" = "今天停課一次";
+"course.action.hide" = "從課表隱藏";
+"course.action.restore" = "恢復到課表";

@@ -564,3 +564,9 @@
 "share.scan.hint" = "Point at a CurSimple share QR code";
 "share.scan.unsupported" = "This device cannot scan. Paste the code instead.";
 "weekPicker.jump" = "Jump to week";
+
+"course.action.edit" = "Edit course";
+"course.action.detail" = "Course details";
+"course.action.cancelToday" = "Cancel today only";
+"course.action.hide" = "Hide from schedule";
+"course.action.restore" = "Restore to schedule";
