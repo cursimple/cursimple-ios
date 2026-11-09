@@ -45,7 +45,7 @@ struct ShareCodeScannerView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(.white)
                     .frame(width: 40, height: 40)
                     .background(Circle().fill(.black.opacity(0.45)))
@@ -64,7 +64,7 @@ struct ShareCodeScannerView: View {
                 .frame(width: 240, height: 240)
             Spacer()
             Text("share.scan.hint")
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -76,10 +76,10 @@ struct ShareCodeScannerView: View {
     private func unsupported(_ colors: AppColors) -> some View {
         VStack(spacing: 12) {
             Image(systemName: "camera.metering.unknown")
-                .font(.system(size: 28))
+                .appFont(28)
                 .foregroundStyle(.white)
             Text("share.scan.unsupported")
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)

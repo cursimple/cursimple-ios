@@ -64,13 +64,13 @@ struct PluginRunnerView: View {
     private func header(colors: AppColors) -> some View {
         ZStack {
             Text(manifest.name)
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
                 .lineLimit(1)
 
             HStack {
                 Button("common.cancel") { dismiss() }
-                    .font(.system(size: 14))
+                    .appFont(14)
                     .foregroundStyle(colors.primary)
 
                 Spacer()
@@ -79,7 +79,7 @@ struct PluginRunnerView: View {
                     showLog = true
                 } label: {
                     Image(systemName: "text.alignleft")
-                        .font(.system(size: 15))
+                        .appFont(15)
                         .foregroundStyle(colors.primary)
                 }
                 .buttonStyle(.plain)
@@ -97,7 +97,7 @@ struct PluginRunnerView: View {
                 .frame(width: 8, height: 8)
 
             Text(statusText)
-                .font(.system(size: 12))
+                .appFont(12)
                 .foregroundStyle(colors.onSurfaceVariant)
                 .lineLimit(2)
 
@@ -121,7 +121,7 @@ struct PluginRunnerView: View {
                     }
                 } label: {
                     Text(String(format: String(localized: "plugin.import"), count))
-                        .font(.system(size: 15, weight: .semibold))
+                        .appFont(15, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .frame(maxWidth: .infinity, minHeight: 48)
                         .background(Capsule().fill(colors.primary))
@@ -134,7 +134,7 @@ struct PluginRunnerView: View {
                     runner?.reload()
                 } label: {
                     Label("plugin.reload", systemImage: "arrow.clockwise")
-                        .font(.system(size: 13, weight: .medium))
+                        .appFont(13, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .frame(maxWidth: .infinity, minHeight: 42)
                         .overlay(Capsule().stroke(colors.primary.opacity(0.45), lineWidth: 1))
@@ -151,7 +151,7 @@ struct PluginRunnerView: View {
             colors.background.ignoresSafeArea()
             VStack(spacing: 0) {
                 Text("plugin.log")
-                    .font(.system(size: 16, weight: .semibold))
+                    .appFont(16, weight: .semibold)
                     .foregroundStyle(colors.onBackground)
                     .frame(height: 52)
 

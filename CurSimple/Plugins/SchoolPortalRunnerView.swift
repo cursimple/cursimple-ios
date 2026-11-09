@@ -47,14 +47,14 @@ struct SchoolPortalRunnerView: View {
     private func header(_ colors: AppColors) -> some View {
         ZStack {
             Text(school.name)
-                .font(.system(size: 15, weight: .semibold))
+                .appFont(15, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
                 .lineLimit(1)
                 .padding(.horizontal, 60)
 
             HStack {
                 Button("common.cancel") { dismiss() }
-                    .font(.system(size: 14))
+                    .appFont(14)
                     .foregroundStyle(colors.primary)
                 Spacer()
             }
@@ -69,7 +69,7 @@ struct SchoolPortalRunnerView: View {
                 .fill(statusColor(colors))
                 .frame(width: 8, height: 8)
             Text(statusText)
-                .font(.system(size: 12))
+                .appFont(12)
                 .foregroundStyle(colors.onSurfaceVariant)
                 .lineLimit(2)
             Spacer()
@@ -100,7 +100,7 @@ struct SchoolPortalRunnerView: View {
                     dismiss()
                 } label: {
                     Text(String(format: String(localized: "plugin.import"), courses.count))
-                        .font(.system(size: 15, weight: .semibold))
+                        .appFont(15, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .frame(maxWidth: .infinity, minHeight: 48)
                         .background(Capsule().fill(colors.primary))
@@ -112,7 +112,7 @@ struct SchoolPortalRunnerView: View {
                 controller?.extractTimetable()
             } label: {
                 Label("school.extract", systemImage: "tablecells")
-                    .font(.system(size: 14, weight: .medium))
+                    .appFont(14, weight: .medium)
                     .foregroundStyle(colors.primary)
                     .frame(maxWidth: .infinity, minHeight: 44)
                     .overlay(Capsule().stroke(colors.primary.opacity(0.45), lineWidth: 1))

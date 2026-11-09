@@ -57,13 +57,13 @@ struct SchoolImportView: View {
     private func titleBar(_ colors: AppColors) -> some View {
         ZStack {
             Text("school.pageTitle")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
                 Button(action: onOpenDrawer) {
                     Image(systemName: "line.3.horizontal")
-                        .font(.system(size: 21, weight: .medium))
+                        .appFont(21, weight: .medium)
                         .foregroundStyle(colors.onBackground)
                         .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
@@ -80,7 +80,7 @@ struct SchoolImportView: View {
     private func searchField(_ colors: AppColors) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.onSurfaceVariant)
             TextField("school.search", text: $query)
                 .font(AppFont.body)
@@ -90,7 +90,7 @@ struct SchoolImportView: View {
                     query = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 14))
+                        .appFont(14)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .buttonStyle(.plain)
@@ -115,19 +115,19 @@ struct SchoolImportView: View {
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "graduationcap")
-                    .font(.system(size: 14))
+                    .appFont(14)
                     .foregroundStyle(colors.primary)
                     .frame(width: 30, height: 30)
                     .background(Circle().fill(colors.primaryContainer))
 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(school.name)
-                        .font(.system(size: 14, weight: .medium))
+                        .appFont(14, weight: .medium)
                         .foregroundStyle(colors.onSurface)
                         .lineLimit(1)
                     if let host = school.host {
                         Text(host)
-                            .font(.system(size: 10))
+                            .appFont(10)
                             .foregroundStyle(colors.onSurfaceVariant)
                             .lineLimit(1)
                     }
@@ -136,7 +136,7 @@ struct SchoolImportView: View {
                 Spacer(minLength: 6)
 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 11, weight: .semibold))
+                    .appFont(11, weight: .semibold)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
             .padding(.horizontal, 12)
@@ -152,7 +152,7 @@ struct SchoolImportView: View {
     private func emptyState(_ colors: AppColors) -> some View {
         VStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 22))
+                .appFont(22)
                 .foregroundStyle(colors.primary)
                 .frame(width: 48, height: 48)
                 .background(Circle().fill(colors.primaryContainer))

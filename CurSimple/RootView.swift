@@ -179,7 +179,7 @@ struct DrawerView: View {
 
             HStack(spacing: 8) {
                 Image(systemName: "info.circle")
-                    .font(.system(size: 14))
+                    .appFont(14)
                 Text("app.version")
                     .font(AppFont.label)
             }
@@ -203,10 +203,10 @@ struct DrawerView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: item.icon)
-                    .font(.system(size: 17, weight: .medium))
+                    .appFont(17, weight: .medium)
                     .frame(width: 22)
                 Text(item.titleKey)
-                    .font(.system(size: 14, weight: .medium))
+                    .appFont(14, weight: .medium)
                 Spacer()
             }
             .foregroundStyle(selected ? colors.onPrimaryContainer : colors.onSurface)

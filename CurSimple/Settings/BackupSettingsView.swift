@@ -89,7 +89,7 @@ struct BackupSettingsView: View {
         .overlay(alignment: .bottom) {
             if restored {
                 Text("backup.restored")
-                    .font(.system(size: 13, weight: .medium))
+                    .appFont(13, weight: .medium)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 18)
                     .frame(height: 40)
@@ -122,7 +122,7 @@ struct BackupSettingsView: View {
     private func stat(value: Int, label: LocalizedStringKey, colors: AppColors) -> some View {
         VStack(spacing: 3) {
             Text("\(value)")
-                .font(.system(size: 20, weight: .bold))
+                .appFont(20, weight: .bold)
                 .foregroundStyle(colors.primary)
             Text(label)
                 .font(AppFont.label)
@@ -153,7 +153,7 @@ struct BackupSettingsView: View {
                         Text("backup.export.action")
                         Spacer()
                     }
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 14)
                     .frame(height: 42)
@@ -183,7 +183,7 @@ struct BackupSettingsView: View {
                         Text("backup.import.action")
                         Spacer()
                     }
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.primary)
                     .padding(.horizontal, 14)
                     .frame(height: 42)
@@ -199,7 +199,7 @@ struct BackupSettingsView: View {
         SettingsCard(colors: colors) {
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 12))
+                    .appFont(12)
                     .foregroundStyle(colors.error)
                 Text("backup.warning")
                     .font(AppFont.label)

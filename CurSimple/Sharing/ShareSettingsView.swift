@@ -90,7 +90,7 @@ struct ShareSettingsView: View {
                         Text("share.export.action")
                         Spacer()
                     }
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 14)
                     .frame(height: 42)
@@ -118,7 +118,7 @@ struct ShareSettingsView: View {
                         Text("share.image.action")
                         Spacer()
                     }
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 14)
                     .frame(height: 42)
@@ -140,7 +140,7 @@ struct ShareSettingsView: View {
                         preview: SharePreview("share.image.title", image: Image(uiImage: imagePreview))
                     ) {
                         Text("share.image.share")
-                            .font(.system(size: 12, weight: .medium))
+                            .appFont(12, weight: .medium)
                             .foregroundStyle(colors.primary)
                             .frame(maxWidth: .infinity, minHeight: 36)
                             .overlay(Capsule().stroke(colors.primary.opacity(0.5), lineWidth: 1))
@@ -192,7 +192,7 @@ struct ShareSettingsView: View {
                             Image(systemName: "qrcode.viewfinder")
                             Text("share.import.scan")
                         }
-                        .font(.system(size: 12, weight: .medium))
+                        .appFont(12, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .padding(.horizontal, 12)
                         .frame(height: 36)
@@ -210,7 +210,7 @@ struct ShareSettingsView: View {
                             Image(systemName: "doc.on.clipboard")
                             Text("share.import.paste")
                         }
-                        .font(.system(size: 12, weight: .medium))
+                        .appFont(12, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .padding(.horizontal, 12)
                         .frame(height: 36)
@@ -222,7 +222,7 @@ struct ShareSettingsView: View {
 
                     Button(action: parseCode) {
                         Text("share.import.action")
-                            .font(.system(size: 13, weight: .semibold))
+                            .appFont(13, weight: .semibold)
                             .foregroundStyle(colors.onPrimary)
                             .padding(.horizontal, 16)
                             .frame(height: 36)
@@ -350,14 +350,14 @@ private struct ShareCodeSheet: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("share.code.title")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
                     HStack {
                         Button {
                             dismiss()
                         } label: {
                             Image(systemName: "xmark")
-                                .font(.system(size: 15, weight: .semibold))
+                                .appFont(15, weight: .semibold)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -373,7 +373,7 @@ private struct ShareCodeSheet: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 12) {
                         Text(payload.termName)
-                            .font(.system(size: 15, weight: .semibold))
+                            .appFont(15, weight: .semibold)
                             .foregroundStyle(colors.onSurface)
                         Text(String(format: String(localized: "share.code.summary"), payload.courseCount))
                             .font(AppFont.bodySmall)
@@ -415,7 +415,7 @@ private struct ShareCodeSheet: View {
                                     copied ? "share.code.copied" : "share.code.copy",
                                     systemImage: copied ? "checkmark" : "doc.on.doc"
                                 )
-                                .font(.system(size: 13, weight: .semibold))
+                                .appFont(13, weight: .semibold)
                                 .foregroundStyle(colors.onPrimary)
                                 .frame(maxWidth: .infinity, minHeight: 44)
                                 .background(Capsule().fill(colors.primary))
@@ -424,7 +424,7 @@ private struct ShareCodeSheet: View {
 
                             ShareLink(item: payload.code) {
                                 Label("share.code.share", systemImage: "square.and.arrow.up")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .appFont(13, weight: .semibold)
                                     .foregroundStyle(colors.primary)
                                     .frame(maxWidth: .infinity, minHeight: 44)
                                     .background(Capsule().stroke(colors.primary.opacity(0.5), lineWidth: 1))
@@ -494,11 +494,11 @@ private struct ImportPreviewSheet: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("share.preview.title")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
                     HStack {
                         Button("common.cancel") { dismiss() }
-                            .font(.system(size: 14))
+                            .appFont(14)
                             .foregroundStyle(colors.primary)
                         Spacer()
                     }
@@ -543,7 +543,7 @@ private struct ImportPreviewSheet: View {
 
                         Button(action: onConfirm) {
                             Text("share.preview.confirm")
-                                .font(.system(size: 14, weight: .semibold))
+                                .appFont(14, weight: .semibold)
                                 .foregroundStyle(colors.onPrimary)
                                 .frame(maxWidth: .infinity, minHeight: 46)
                                 .background(Capsule().fill(colors.primary))
@@ -565,7 +565,7 @@ private struct ImportPreviewSheet: View {
                 .foregroundStyle(colors.onSurfaceVariant)
             Spacer()
             Text(value)
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(colors.onSurface)
                 .multilineTextAlignment(.trailing)
         }

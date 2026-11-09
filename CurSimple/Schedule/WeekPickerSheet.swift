@@ -52,7 +52,7 @@ struct WeekPickerSheet: View {
                 shiftMonth(-1)
             } label: {
                 Image(systemName: "chevron.left")
-                    .font(.system(size: 14, weight: .semibold))
+                    .appFont(14, weight: .semibold)
                     .foregroundStyle(colors.primary)
                     .frame(width: 36, height: 36)
                     .background(Circle().fill(colors.primaryContainer))
@@ -63,10 +63,10 @@ struct WeekPickerSheet: View {
 
             VStack(spacing: 1) {
                 Text(month.formatted(.dateTime.year().month(.wide)))
-                    .font(.system(size: 17, weight: .semibold))
+                    .appFont(17, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                 Text(weekRangeText)
-                    .font(.system(size: 11))
+                    .appFont(11)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
 
@@ -76,7 +76,7 @@ struct WeekPickerSheet: View {
                 shiftMonth(1)
             } label: {
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .semibold))
+                    .appFont(14, weight: .semibold)
                     .foregroundStyle(colors.primary)
                     .frame(width: 36, height: 36)
                     .background(Circle().fill(colors.primaryContainer))
@@ -90,7 +90,7 @@ struct WeekPickerSheet: View {
         HStack(spacing: 0) {
             ForEach(1...7, id: \.self) { day in
                 Text(Format.weekdayNarrow(day))
-                    .font(.system(size: 11, weight: .medium))
+                    .appFont(11, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
                     .frame(maxWidth: .infinity)
             }
@@ -131,7 +131,7 @@ struct WeekPickerSheet: View {
                             )
                         if let week = weekNumber(date), inTerm {
                             Text("\(week)")
-                                .font(.system(size: 8))
+                                .appFont(8)
                                 .foregroundStyle(inWeek ? colors.onPrimary.opacity(0.8) : colors.primary.opacity(0.7))
                         }
                     }
@@ -166,10 +166,10 @@ struct WeekPickerSheet: View {
                         } label: {
                             VStack(spacing: 2) {
                                 Text(String(format: String(localized: "week.number"), week))
-                                    .font(.system(size: 12, weight: .semibold))
+                                    .appFont(12, weight: .semibold)
                                 if let start {
                                     Text(Format.monthDay(start))
-                                        .font(.system(size: 9))
+                                        .appFont(9)
                                         .opacity(0.75)
                                 }
                             }

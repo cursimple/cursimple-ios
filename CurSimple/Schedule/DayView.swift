@@ -97,10 +97,10 @@ struct DayView: View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 Text(date.formatted(.dateTime.month().day()))
-                    .font(.system(size: 26, weight: .bold))
+                    .appFont(26, weight: .bold)
                     .foregroundStyle(colors.onSurface)
                 Text(Format.weekday(ScheduleCalendar.isoDayOfWeek(date)))
-                    .font(.system(size: 20, weight: .semibold))
+                    .appFont(20, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
             }
             if Calendar.current.isDateInToday(date) {
@@ -122,9 +122,9 @@ struct DayView: View {
     private func holidayBanner(_ name: String?, colors: AppColors) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "tree.fill")
-                .font(.system(size: 13))
+                .appFont(13)
             Text(name.flatMap { $0.isEmpty ? nil : $0 } ?? String(localized: "day.holiday.generic"))
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
             Spacer()
         }
         .foregroundStyle(colors.primary)
@@ -138,9 +138,9 @@ struct DayView: View {
     private func makeUpBanner(colors: AppColors) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "arrow.triangle.swap")
-                .font(.system(size: 12))
+                .appFont(12)
             Text("day.makeUpWorkday")
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
             Spacer()
         }
         .foregroundStyle(colors.primary)
@@ -175,13 +175,17 @@ struct DayView: View {
             // Left clock column
             VStack(spacing: 2) {
                 Text(item.start.map { TimeOfDay(date: $0).text } ?? Format.period(item.course.time.startNode))
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
+                    .lineLimit(1)
                     .foregroundStyle(isCurrent ? colors.primary : colors.onSurface)
                 Text(item.end.map { TimeOfDay(date: $0).text } ?? " ")
-                    .font(.system(size: 12))
+                    .appFont(12)
+                    .lineLimit(1)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
-            .frame(width: 54, alignment: .trailing)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+            .frame(minWidth: 54, alignment: .trailing)
             .padding(.top, 14)
 
             // Dot + rail
@@ -206,16 +210,16 @@ struct DayView: View {
             } label: {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(statusTitle(status))
-                        .font(.system(size: 11, weight: .semibold))
+                        .appFont(11, weight: .semibold)
                         .foregroundStyle(statusColor(status, colors: colors))
 
                     Text(item.title)
-                        .font(.system(size: 17, weight: .semibold))
+                        .appFont(17, weight: .semibold)
                         .foregroundStyle(colors.onSurface)
                         .lineLimit(2)
 
                     Text(detailLine(item))
-                        .font(.system(size: 13))
+                        .appFont(13)
                         .foregroundStyle(colors.onSurfaceVariant)
                         .lineLimit(1)
 
@@ -308,13 +312,13 @@ struct DayView: View {
     private func emptyState(colors: AppColors) -> some View {
         VStack(spacing: 10) {
             Image(systemName: "cup.and.saucer")
-                .font(.system(size: 24))
+                .appFont(24)
                 .foregroundStyle(colors.primary)
                 .frame(width: 52, height: 52)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text("day.empty.title")
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
             Text("day.empty.message")
                 .font(AppFont.bodySmall)
@@ -427,12 +431,12 @@ private struct TodayOverviewCard: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(state.statusTitleKey)
-                        .font(.system(size: 12, weight: .semibold))
+                        .appFont(12, weight: .semibold)
                         .foregroundStyle(colors.primary)
 
                     if let focus {
                         Text(focus.title)
-                            .font(.system(size: 17, weight: .semibold))
+                            .appFont(17, weight: .semibold)
                             .foregroundStyle(content)
                             .lineLimit(1)
 
@@ -442,7 +446,7 @@ private struct TodayOverviewCard: View {
                             .lineLimit(1)
                     } else {
                         Text(moodLine(for: state, date: date))
-                            .font(.system(size: 16, weight: .semibold))
+                            .appFont(16, weight: .semibold)
                             .foregroundStyle(content)
                             .lineLimit(2)
                     }
@@ -537,10 +541,10 @@ private struct TodayOverviewCard: View {
 
             HStack(alignment: .bottom, spacing: 0) {
                 Text("\(state.doneCount)")
-                    .font(.system(size: 17, weight: .bold))
+                    .appFont(17, weight: .bold)
                     .foregroundStyle(content)
                 Text("/\(total)")
-                    .font(.system(size: 11, weight: .medium))
+                    .appFont(11, weight: .medium)
                     .foregroundStyle(content.opacity(0.7))
                     .padding(.bottom, 2)
             }

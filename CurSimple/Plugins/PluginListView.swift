@@ -55,13 +55,13 @@ struct PluginListView: View {
     private func titleBar(_ colors: AppColors) -> some View {
         ZStack {
             Text("plugin.pageTitle")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
                 Button(action: onOpenDrawer) {
                     Image(systemName: "line.3.horizontal")
-                        .font(.system(size: 21, weight: .medium))
+                        .appFont(21, weight: .medium)
                         .foregroundStyle(colors.onBackground)
                         .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
@@ -102,7 +102,7 @@ struct PluginListView: View {
     private func noticeBadge(_ colors: AppColors) -> some View {
         if let text = installedNotice {
             Text(text)
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(colors.onPrimary)
                 .padding(.horizontal, 18)
                 .frame(height: 40)
@@ -120,14 +120,14 @@ struct PluginListView: View {
     private func installCard(_ colors: AppColors) -> some View {
         HStack(spacing: 12) {
             Image(systemName: "shippingbox")
-                .font(.system(size: 17, weight: .medium))
+                .appFont(17, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .frame(width: 38, height: 38)
                 .background(Circle().fill(colors.primaryContainer))
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("plugin.install")
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                 Text("plugin.install.footer")
                     .font(AppFont.label)
@@ -141,7 +141,7 @@ struct PluginListView: View {
                 showImporter = true
             } label: {
                 Text("plugin.install.action")
-                    .font(.system(size: 12, weight: .semibold))
+                    .appFont(12, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 14)
                     .frame(height: 34)
@@ -175,11 +175,11 @@ struct PluginListView: View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 6) {
                 Text(plugin.manifest.name)
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                     .lineLimit(1)
                 Text("v" + plugin.manifest.version)
-                    .font(.system(size: 10, weight: .medium))
+                    .appFont(10, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
 
@@ -195,7 +195,7 @@ struct PluginListView: View {
             running = plugin
         } label: {
             Text("plugin.run")
-                .font(.system(size: 12, weight: .semibold))
+                .appFont(12, weight: .semibold)
                 .foregroundStyle(colors.onPrimary)
                 .padding(.horizontal, 14)
                 .frame(height: 34)
@@ -209,7 +209,7 @@ struct PluginListView: View {
             pluginStore.uninstall(id: plugin.id)
         } label: {
             Image(systemName: "trash")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.error)
                 .frame(width: 32, height: 34)
                 .contentShape(Rectangle())
@@ -221,12 +221,12 @@ struct PluginListView: View {
     private func emptyState(_ colors: AppColors) -> some View {
         VStack(spacing: 10) {
             Image(systemName: "puzzlepiece.extension")
-                .font(.system(size: 24))
+                .appFont(24)
                 .foregroundStyle(colors.primary)
                 .frame(width: 52, height: 52)
                 .background(Circle().fill(colors.primaryContainer))
             Text("plugin.empty.title")
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
             Text("plugin.empty.message")
                 .font(AppFont.bodySmall)

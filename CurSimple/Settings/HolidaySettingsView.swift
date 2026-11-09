@@ -99,7 +99,7 @@ struct HolidaySettingsView: View {
 
                 Button(action: addEntry) {
                     Text("common.add")
-                        .font(.system(size: 13, weight: .semibold))
+                        .appFont(13, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .frame(maxWidth: .infinity, minHeight: 40)
                         .background(Capsule().fill(colors.primary))
@@ -139,13 +139,13 @@ struct HolidaySettingsView: View {
     private func entryRow(_ entry: HolidayCalendarEntry, colors: AppColors) -> some View {
         HStack(spacing: 10) {
             Image(systemName: entry.kind == .holiday ? "sun.max" : "briefcase")
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(colors.primary)
                 .frame(width: 26)
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(entry.name.isEmpty ? String(localized: "holiday.name.generic") : entry.name)
-                    .font(.system(size: 14, weight: .medium))
+                    .appFont(14, weight: .medium)
                     .foregroundStyle(colors.onSurface)
                 Text(entry.date)
                     .font(AppFont.label)
@@ -155,7 +155,7 @@ struct HolidaySettingsView: View {
             Spacer()
 
             Text(entry.kind == .holiday ? "holiday.kind.holiday" : "holiday.kind.workday")
-                .font(.system(size: 10, weight: .semibold))
+                .appFont(10, weight: .semibold)
                 .foregroundStyle(entry.kind == .holiday ? colors.primary : colors.onSurfaceVariant)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 2)
@@ -165,7 +165,7 @@ struct HolidaySettingsView: View {
                 store.removeHolidayEntry(date: entry.date)
             } label: {
                 Image(systemName: "trash")
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(colors.error)
                     .frame(width: 34, height: 34)
                     .contentShape(Rectangle())
@@ -191,7 +191,7 @@ struct HolidaySettingsView: View {
             newKind = kind
         } label: {
             Text(kind == .holiday ? "holiday.kind.holiday" : "holiday.kind.workday")
-                .font(.system(size: 12, weight: .medium))
+                .appFont(12, weight: .medium)
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .padding(.horizontal, 12)
                 .frame(height: 30)

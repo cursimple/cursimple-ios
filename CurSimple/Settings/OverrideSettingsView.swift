@@ -26,7 +26,7 @@ struct OverrideSettingsView: View {
                             isAdding = true
                         } label: {
                             Image(systemName: "plus")
-                                .font(.system(size: 16, weight: .medium))
+                                .appFont(16, weight: .medium)
                                 .foregroundStyle(colors.primary)
                                 .frame(width: 40, height: 40)
                                 .contentShape(Rectangle())
@@ -81,21 +81,21 @@ struct OverrideSettingsView: View {
     private func overrideRow(_ override: TemporaryScheduleOverride, colors: AppColors) -> some View {
         HStack(spacing: 10) {
             Image(systemName: icon(for: override.type))
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(colors.primary)
                 .frame(width: 26)
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text(typeLabel(override.type))
-                        .font(.system(size: 10, weight: .semibold))
+                        .appFont(10, weight: .semibold)
                         .foregroundStyle(colors.primary)
                         .padding(.horizontal, 7)
                         .padding(.vertical, 1)
                         .background(Capsule().fill(colors.primaryContainer))
 
                     Text(courseTitle(for: override))
-                        .font(.system(size: 13, weight: .medium))
+                        .appFont(13, weight: .medium)
                         .foregroundStyle(colors.onSurface)
                         .lineLimit(1)
                 }
@@ -112,7 +112,7 @@ struct OverrideSettingsView: View {
                 store.deleteOverride(id: override.id)
             } label: {
                 Image(systemName: "trash")
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(colors.error)
                     .frame(width: 34, height: 34)
                     .contentShape(Rectangle())

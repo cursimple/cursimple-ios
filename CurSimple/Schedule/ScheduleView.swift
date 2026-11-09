@@ -121,7 +121,7 @@ struct ScheduleView: View {
             HStack {
                 Button(action: onOpenDrawer) {
                     Image(systemName: "line.3.horizontal")
-                        .font(.system(size: 21, weight: .medium))
+                        .appFont(21, weight: .medium)
                         .foregroundStyle(colors.onBackground)
                         .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
@@ -160,12 +160,12 @@ struct ScheduleView: View {
         } label: {
             HStack(spacing: 6) {
                 Text(weekLabelText)
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(isCurrent ? colors.onPrimaryContainer : colors.onSurface)
 
                 if isCurrent {
                     Text("week.thisWeek")
-                        .font(.system(size: 10, weight: .semibold))
+                        .appFont(10, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 1)
@@ -173,7 +173,7 @@ struct ScheduleView: View {
                 }
 
                 Image(systemName: "chevron.down")
-                    .font(.system(size: 10, weight: .bold))
+                    .appFont(10, weight: .bold)
                     .foregroundStyle(isCurrent ? colors.onPrimaryContainer : colors.onSurfaceVariant)
             }
             .padding(.horizontal, 14)
@@ -204,7 +204,7 @@ struct ScheduleView: View {
             }
         } label: {
             Text(viewMode == .week ? "schedule.weekShort" : "schedule.dayShort")
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
                 .frame(width: 40, height: 36)
                 .background(
@@ -228,7 +228,7 @@ struct ScheduleView: View {
             )
         } label: {
             Image(systemName: "plus")
-                .font(.system(size: 18, weight: .medium))
+                .appFont(18, weight: .medium)
                 .foregroundStyle(colors.onSurface)
                 .frame(width: 40, height: 40)
                 .background(Circle().fill(colors.surface))
@@ -322,13 +322,13 @@ struct ScheduleView: View {
     private func emptyOverlay(colors: AppColors) -> some View {
         VStack(spacing: 12) {
             Image(systemName: "calendar.badge.plus")
-                .font(.system(size: 26, weight: .regular))
+                .appFont(26, weight: .regular)
                 .foregroundStyle(colors.primary)
                 .frame(width: 58, height: 58)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text("schedule.empty.title")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
 
             Text("schedule.empty.message")
@@ -343,7 +343,7 @@ struct ScheduleView: View {
                 )
             } label: {
                 Text("schedule.addFirst")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 18)
                     .frame(height: 40)

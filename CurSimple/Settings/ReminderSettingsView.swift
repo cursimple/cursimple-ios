@@ -51,14 +51,14 @@ struct ReminderSettingsView: View {
         SettingsCard(colors: colors) {
             HStack(spacing: 12) {
                 Image(systemName: "bell.badge")
-                    .font(.system(size: 17, weight: .medium))
+                    .appFont(17, weight: .medium)
                     .foregroundStyle(colors.primary)
                     .frame(width: 38, height: 38)
                     .background(Circle().fill(colors.primaryContainer))
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("reminder.enabled")
-                        .font(.system(size: 15, weight: .semibold))
+                        .appFont(15, weight: .semibold)
                         .foregroundStyle(colors.onSurface)
                     Text("reminder.enabled.footer")
                         .font(AppFont.label)
@@ -96,7 +96,7 @@ struct ReminderSettingsView: View {
                             save()
                         } label: {
                             Text(advanceLabel(minutes))
-                                .font(.system(size: 12, weight: .semibold))
+                                .appFont(12, weight: .semibold)
                                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                                 .frame(maxWidth: .infinity, minHeight: 38)
                                 .background(
@@ -139,7 +139,7 @@ struct ReminderSettingsView: View {
                     .foregroundStyle(colors.onSurface)
                 Spacer()
                 Text(reminders.statusTextKey)
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(reminders.permissionDenied ? colors.error : colors.primary)
                     .accessibilityIdentifier("reminder-permission-status")
             }
@@ -153,7 +153,7 @@ struct ReminderSettingsView: View {
                     .foregroundStyle(colors.onSurface)
                 Spacer()
                 Text(String(format: String(localized: "reminder.scheduled.count"), reminders.scheduledCount))
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onSurfaceVariant)
                     .accessibilityIdentifier("reminder-scheduled-count")
             }
@@ -168,7 +168,7 @@ struct ReminderSettingsView: View {
                         Text("reminder.permission.openSettings")
                         Spacer()
                     }
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 14)
                     .frame(height: 40)
@@ -194,7 +194,7 @@ struct ReminderSettingsView: View {
                     Text("reminder.reschedule")
                     Spacer()
                 }
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)

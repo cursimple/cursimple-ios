@@ -74,7 +74,7 @@ struct CourseEditorView: View {
                                     Text("course.delete")
                                     Spacer()
                                 }
-                                .font(.system(size: 14, weight: .medium))
+                                .appFont(14, weight: .medium)
                                 .foregroundStyle(colors.error)
                                 .padding(14)
                                 .background(
@@ -112,7 +112,7 @@ struct CourseEditorView: View {
 
     private func dialogHeader(colors: AppColors) -> some View {
         Text(editing == nil ? "course.new" : "course.edit")
-            .font(.system(size: 24, weight: .bold))
+            .appFont(24, weight: .bold)
             .foregroundStyle(colors.onBackground)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
@@ -128,7 +128,7 @@ struct CourseEditorView: View {
                 dismiss()
             } label: {
                 Text("common.cancel")
-                    .font(.system(size: 15, weight: .medium))
+                    .appFont(15, weight: .medium)
                     .foregroundStyle(colors.primary)
                     .padding(.horizontal, 26)
                     .frame(height: 44)
@@ -138,7 +138,7 @@ struct CourseEditorView: View {
 
             Button(action: save) {
                 Text("common.save")
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 30)
                     .frame(height: 44)
@@ -193,7 +193,7 @@ struct CourseEditorView: View {
             category = value
         } label: {
             Text(LocalizedStringKey(value.localizationKey))
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .padding(.horizontal, 18)
                 .frame(height: 36)
@@ -210,7 +210,7 @@ struct CourseEditorView: View {
         required: Bool = false
     ) -> some View {
         TextField(placeholder, text: text)
-            .font(.system(size: 15))
+            .appFont(15)
             .foregroundStyle(colors.onSurface)
             .padding(.horizontal, 14)
             .frame(height: 50)
@@ -260,7 +260,7 @@ struct CourseEditorView: View {
     ) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(selected ? colors.primary : colors.onSurfaceVariant)
                 .padding(.horizontal, 18)
                 .frame(height: 36)
@@ -277,7 +277,7 @@ struct CourseEditorView: View {
     private func periodsRow(colors: AppColors) -> some View {
         HStack(spacing: 10) {
             Text("course.field.periods")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.onSurfaceVariant)
             Spacer()
             periodMenu(startNode, colors: colors) { value in
@@ -309,11 +309,11 @@ struct CourseEditorView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.system(size: 12))
+                .appFont(12)
                 .foregroundStyle(colors.onSurfaceVariant)
             TimePickerField(time: time, label: title)
                 .labelsHidden()
-                .font(.system(size: 17, weight: .medium))
+                .appFont(17, weight: .medium)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 10)
                 .frame(height: 46)
@@ -327,7 +327,7 @@ struct CourseEditorView: View {
 
     private func sectionTitle(_ key: LocalizedStringKey, colors: AppColors) -> some View {
         Text(key)
-            .font(.system(size: 13, weight: .semibold))
+            .appFont(13, weight: .semibold)
             .foregroundStyle(colors.primary)
             .padding(.leading, 2)
     }
@@ -357,7 +357,7 @@ struct CourseEditorView: View {
         action: @escaping (Int) -> Void = { _ in }
     ) -> some View {
         Text(text)
-            .font(.system(size: 14, weight: .medium))
+            .appFont(14, weight: .medium)
             .foregroundStyle(colors.primary)
             .padding(.horizontal, 16)
             .frame(height: 36)
@@ -377,7 +377,7 @@ struct CourseEditorView: View {
             }
         } label: {
             Text(Format.period(value))
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .padding(.horizontal, 14)
                 .frame(height: 34)
@@ -456,7 +456,7 @@ struct CourseEditorView: View {
             }
         } label: {
             Text("\(week)")
-                .font(.system(size: 12, weight: .semibold))
+                .appFont(12, weight: .semibold)
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .frame(maxWidth: .infinity, minHeight: 34)
                 .background(
@@ -475,7 +475,7 @@ struct CourseEditorView: View {
     ) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 11, weight: .medium))
+                .appFont(11, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .padding(.horizontal, 10)
                 .frame(height: 28)
@@ -516,7 +516,7 @@ struct CourseEditorView: View {
                 Circle()
                     .strokeBorder(colors.outline, style: StrokeStyle(lineWidth: 1, dash: [3]))
                 Image(systemName: "wand.and.stars")
-                    .font(.system(size: 12))
+                    .appFont(12)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
             .frame(width: 34, height: 34)
@@ -641,12 +641,12 @@ private struct ConflictCard: View {
         let other = conflict.second
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(colors.error)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("course.conflict.title")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                 Text(String(
                     format: String(localized: "course.conflict.message"),

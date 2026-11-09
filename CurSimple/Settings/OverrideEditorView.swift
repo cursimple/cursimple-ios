@@ -58,7 +58,7 @@ struct OverrideEditorView: View {
     private func topBar(colors: AppColors) -> some View {
         ZStack {
             Text("override.add")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
@@ -66,7 +66,7 @@ struct OverrideEditorView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 15, weight: .semibold))
+                        .appFont(15, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
                         .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
@@ -78,7 +78,7 @@ struct OverrideEditorView: View {
 
                 Button(action: save) {
                     Text("common.save")
-                        .font(.system(size: 13, weight: .semibold))
+                        .appFont(13, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .padding(.horizontal, 16)
                         .frame(height: 34)
@@ -104,7 +104,7 @@ struct OverrideEditorView: View {
                         }
                     } label: {
                         Text(LocalizedStringKey(value.localizationKey))
-                            .font(.system(size: 12, weight: .semibold))
+                            .appFont(12, weight: .semibold)
                             .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                             .frame(maxWidth: .infinity, minHeight: 34)
                             .background(
@@ -144,7 +144,7 @@ struct OverrideEditorView: View {
                         .font(AppFont.bodySmall)
                         .foregroundStyle(selectedCourse == nil ? colors.onSurfaceVariant : colors.primary)
                     Image(systemName: "chevron.up.chevron.down")
-                        .font(.system(size: 10, weight: .semibold))
+                        .appFont(10, weight: .semibold)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .frame(minHeight: 44)
@@ -220,7 +220,7 @@ struct OverrideEditorView: View {
             }
         } label: {
             Text(Format.period(value))
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .padding(.horizontal, 12)
                 .frame(height: 32)

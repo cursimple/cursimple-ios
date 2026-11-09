@@ -364,9 +364,9 @@ struct MemoView: View {
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "plus")
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                 Text("memo.addShort")
-                    .font(.system(size: 14, weight: .semibold))
+                    .appFont(14, weight: .semibold)
             }
             .foregroundStyle(colors.onPrimaryContainer)
             .padding(.horizontal, 18)

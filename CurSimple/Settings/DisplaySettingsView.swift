@@ -172,7 +172,7 @@ struct DisplaySettingsView: View {
                             update { $0.gridStyle = style }
                         } label: {
                             Text(LocalizedStringKey(style.localizationKey))
-                                .font(.system(size: 13, weight: .medium))
+                                .appFont(13, weight: .medium)
                                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                                 .frame(maxWidth: .infinity, minHeight: 36)
                                 .background(
