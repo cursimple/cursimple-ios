@@ -559,3 +559,8 @@
 "school.error.invalid" = "The detected timetable is invalid";
 "school.error.extract" = "Could not read a timetable (%@)";
 "school.error.noCourses" = "No courses detected";
+
+"share.import.scan" = "Scan";
+"share.scan.hint" = "Point at a CurSimple share QR code";
+"share.scan.unsupported" = "This device cannot scan. Paste the code instead.";
+"weekPicker.jump" = "Jump to week";

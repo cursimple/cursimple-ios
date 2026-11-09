@@ -34,6 +34,7 @@ struct ScheduleView: View {
         ? ProcessInfo.processInfo.environment["COURSE_ID"]
         : nil
     @State private var showTermPicker = false
+    @State private var showWeekPicker = ProcessInfo.processInfo.arguments.contains("-openWeekPicker")
 
     /// QA hook: `-weekOffset N` opens N weeks from the current one.
     private static func initialDisplayWeekStart() -> Date {
@@ -96,6 +97,15 @@ struct ScheduleView: View {
             TermPickerView()
                 .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: $showWeekPicker) {
+            if let term {
+                WeekPickerSheet(term: term, currentWeekStart: displayWeekStart) { start in
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        displayWeekStart = start
+                    }
+                }
+            }
+        }
         .onChange(of: term?.id) { _, _ in
             displayWeekStart = ScheduleCalendar.startOfDisplayWeek(
                 containing: .now,
@@ -145,22 +155,8 @@ struct ScheduleView: View {
         let current = currentWeekNumber
         let isCurrent = displayed != nil && displayed == current
 
-        return Menu {
-            if let term {
-                ForEach(1...max(term.weekCount, 1), id: \.self) { week in
-                    Button {
-                        jump(to: week, term: term)
-                    } label: {
-                        if week == displayed {
-                            Label(String(format: String(localized: "week.number"), week), systemImage: "checkmark")
-                        } else {
-                            Text(String(format: String(localized: "week.number"), week))
-                        }
-                    }
-                }
-                Divider()
-            }
-            Button("term.picker") { showTermPicker = true }
+        return Button {
+            showWeekPicker = true
         } label: {
             HStack(spacing: 6) {
                 Text(weekLabelText)

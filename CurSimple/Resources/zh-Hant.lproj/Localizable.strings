@@ -562,3 +562,8 @@
 "school.error.invalid" = "辨識到的課表資料不合法";
 "school.error.extract" = "未能辨識課表（%@）";
 "school.error.noCourses" = "沒有辨識到課程";
+
+"share.import.scan" = "掃碼";
+"share.scan.hint" = "對準課簡分享二維碼";
+"share.scan.unsupported" = "這台裝置不支援掃碼，請改用貼上分享碼。";
+"weekPicker.jump" = "跳轉到週次";

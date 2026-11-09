@@ -562,3 +562,8 @@
 "school.error.invalid" = "识别到的课表数据不合法";
 "school.error.extract" = "未能识别课表（%@）";
 "school.error.noCourses" = "没有识别到课程";
+
+"share.import.scan" = "扫码";
+"share.scan.hint" = "对准课简分享二维码";
+"share.scan.unsupported" = "这台设备不支持扫码，请改用粘贴分享码。";
+"weekPicker.jump" = "跳转到周次";

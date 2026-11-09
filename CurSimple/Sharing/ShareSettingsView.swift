@@ -14,6 +14,7 @@ struct ShareSettingsView: View {
     @State private var importError: String?
     @State private var preview: ImportPreviewData?
     @State private var errorMessage: String?
+    @State private var showScanner = false
     @State private var imagePreview: UIImage?
 
     var body: some View {
@@ -56,6 +57,12 @@ struct ShareSettingsView: View {
         .sheet(item: $codeSheet) { payload in
             ShareCodeSheet(payload: payload)
                 .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showScanner) {
+            ShareCodeScannerView { code in
+                importText = code
+                parseCode()
+            }
         }
         .sheet(item: $preview) { preview in
             ImportPreviewSheet(preview: preview) {
@@ -178,6 +185,21 @@ struct ShareSettingsView: View {
                 }
 
                 HStack(spacing: 10) {
+                    Button {
+                        showScanner = true
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "qrcode.viewfinder")
+                            Text("share.import.scan")
+                        }
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(colors.primary)
+                        .padding(.horizontal, 12)
+                        .frame(height: 36)
+                        .background(Capsule().stroke(colors.primary.opacity(0.5), lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
+
                     Button {
                         if let string = UIPasteboard.general.string {
                             importText = string
