@@ -12,6 +12,8 @@ struct WeekGridView: View {
     let onLongPressCourse: (String) -> Void
     let onTapEmpty: (CourseTimeSlot) -> Void
     let onSelectDay: (Date) -> Void
+    /// Called when a course card is dropped on another day/period.
+    let onMoveCourse: (CourseItem, Int, Int) -> Void
 
     @Environment(AppStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
@@ -23,11 +25,17 @@ struct WeekGridView: View {
     @State private var overlapCluster: GridCourseCluster?
     /// Pinch-to-zoom scale applied to the whole grid, mirroring the shared app.
     @State private var zoom: CGFloat = 1
+    /// Course being dragged and its live translation.
+    @State private var draggingCourseID: String?
+    @State private var dragTranslation: CGSize = .zero
+    @State private var dropTarget: (day: Int, node: Int)?
     @State private var pinchStart: CGFloat = 1
 
     private let gutterWidth: CGFloat = 42
     private var rowHeight: CGFloat { CGFloat(displayPrefs.cardHeight) }
     private let innerPadding: CGFloat = 8
+    /// Height of the sticky day header above the scrolling grid.
+    private let headerHeight: CGFloat = 62
 
     var body: some View {
         let colors = AppColors.resolve(accent: preferences.accent, dark: colorScheme == .dark)
@@ -54,6 +62,7 @@ struct WeekGridView: View {
             }
             .padding(.horizontal, innerPadding)
             .scaleEffect(x: 1, y: 1, anchor: .topLeading)
+            .coordinateSpace(name: "weekGrid")
         }
         .simultaneousGesture(
             MagnificationGesture()
@@ -280,6 +289,15 @@ struct WeekGridView: View {
         .frame(width: width, alignment: .topLeading)
     }
 
+    /// Map a drag location inside the grid to the day column and period row.
+    private func target(for location: CGPoint, columnWidth: CGFloat) -> (day: Int, node: Int)? {
+        let columnIndex = Int((location.x - innerPadding - gutterWidth) / max(columnWidth, 1))
+        guard columnIndex >= 0, columnIndex < days.count else { return nil }
+        let row = Int((location.y - headerHeight) / max(rowHeight, 1))
+        guard row >= 0, row < nodeCount else { return nil }
+        return (days[columnIndex], row + 1)
+    }
+
     private func clusterCard(
         _ cluster: GridCourseCluster,
         columnWidth: CGFloat,
@@ -332,6 +350,30 @@ struct WeekGridView: View {
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .onTapGesture { onTapCourse(course.id) }
             .onLongPressGesture(minimumDuration: 0.45) { onLongPressCourse(course.id) }
+            .offset(
+                x: draggingCourseID == course.id ? dragTranslation.width : 0,
+                y: draggingCourseID == course.id ? dragTranslation.height : 0
+            )
+            .zIndex(draggingCourseID == course.id ? 10 : 0)
+            .gesture(
+                DragGesture(minimumDistance: 12, coordinateSpace: .named("weekGrid"))
+                    .onChanged { value in
+                        draggingCourseID = course.id
+                        dragTranslation = value.translation
+                        dropTarget = target(for: value.location, columnWidth: columnWidth)
+                    }
+                    .onEnded { value in
+                        defer {
+                            draggingCourseID = nil
+                            dragTranslation = .zero
+                            dropTarget = nil
+                        }
+                        guard let target = target(for: value.location, columnWidth: columnWidth) else { return }
+                        let span = course.time.nodeRange.count
+                        let start = min(target.node, max(1, nodeCount - span + 1))
+                        onMoveCourse(course, target.day, start)
+                    }
+            )
 
             if cluster.count > 1 {
                 Button {

@@ -209,3 +209,49 @@ final class FeatureRegressionTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["高等数学"].waitForExistence(timeout: 5))
     }
 }
+
+/// Drag-to-move writes a temporary override for the displayed week only.
+final class CourseMoveTests: XCTestCase {
+
+    private func launch() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments += [
+            "-AppleLanguages", "(zh-Hans)", "-AppleLocale", "zh_CN",
+            "-seedSampleCourses",
+        ]
+        app.launch()
+        return app
+    }
+
+    func testDraggingCourseMovesItToAnotherDay() {
+        let app = launch()
+
+        // Monday's 高等数学 starts at the first period.
+        let course = app.staticTexts["高等数学"].firstMatch
+        XCTAssertTrue(course.waitForExistence(timeout: 20))
+
+        let start = course.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        // Drag two columns right (roughly two day widths).
+        let target = start.withOffset(CGVector(dx: 150, dy: 0))
+        start.press(forDuration: 0.1, thenDragTo: target)
+
+        // The override list records exactly one move.
+        let menu = app.buttons["打开菜单"]
+        XCTAssertTrue(menu.waitForExistence(timeout: 10))
+        menu.tap()
+        app.buttons["设置"].tap()
+
+        // The tile is a NavigationLink; match any element type carrying its label.
+        let overrides = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label CONTAINS '临时调课'")
+        ).firstMatch
+        XCTAssertTrue(overrides.waitForExistence(timeout: 10))
+        overrides.tap()
+
+        XCTAssertTrue(
+            app.staticTexts.matching(NSPredicate(format: "label CONTAINS '调课'")).firstMatch
+                .waitForExistence(timeout: 8),
+            "no move override was recorded"
+        )
+    }
+}

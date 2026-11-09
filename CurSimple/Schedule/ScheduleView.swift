@@ -280,6 +280,9 @@ struct ScheduleView: View {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 viewMode = .day
                             }
+                        },
+                        onMoveCourse: { course, day, startNode in
+                            moveCourse(course, toDay: day, startNode: startNode, term: term)
                         }
                     )
                     .overlay {
@@ -411,6 +414,44 @@ struct ScheduleView: View {
     }
 
     // MARK: - Editing
+
+    /// Drag-and-drop moves create a move override for the displayed week only,
+    /// so the rest of the term keeps the original slot.
+    private func moveCourse(_ course: CourseItem, toDay day: Int, startNode: Int, term: Term) {
+        let span = course.time.nodeRange.count
+        let sourceDate = columnDate(
+            displayWeekStart: displayWeekStart,
+            dayOfWeek: course.time.dayOfWeek,
+            weekStart: preferences.weekStart
+        )
+        let targetDate = columnDate(
+            displayWeekStart: displayWeekStart,
+            dayOfWeek: day,
+            weekStart: preferences.weekStart
+        )
+        guard !Calendar.current.isDate(sourceDate, inSameDayAs: targetDate)
+                || startNode != course.time.nodeRange.lowerBound else {
+            return
+        }
+
+        let plan = planCourseMove(
+            overrides: store.state.overrides,
+            courseId: course.id,
+            from: sourceDate,
+            to: targetDate,
+            toStartNode: startNode,
+            toEndNode: startNode + span - 1,
+            naturalStartNode: course.time.startNode,
+            naturalEndNode: course.time.endNode,
+            newId: { UUID().uuidString }
+        )
+        for id in plan.removeIds {
+            store.deleteOverride(id: id)
+        }
+        if let upsert = plan.upsert {
+            store.upsertOverride(upsert)
+        }
+    }
 
     private func commit(_ result: CourseEditorResult, target: CourseEditorTarget) {
         if let course = result.course {
