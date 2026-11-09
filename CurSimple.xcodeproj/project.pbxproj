@@ -26,6 +26,7 @@
 		6DD32FEFE82127ACDEF40C3C /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D250DC8810011B778F5306FF /* DayView.swift */; };
 		70DEA4AEA388976515E844ED /* OverrideSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352E7492FDBCF4DD5A652139 /* OverrideSettingsView.swift */; };
 		832AC02B516AA0886C1D28A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC76F11676E394BABC294EE3 /* Localizable.strings */; };
+		852C9A8F72624A693EB7AFC8 /* PluginListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25A84C33DCA24A3CF7A890B /* PluginListView.swift */; };
 		875E4C04182D221648D387BA /* MemoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B672A77F2A4D505A77241EB2 /* MemoEditorView.swift */; };
 		8C3F92DBC92F82EDAB2AB7E3 /* TermViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680296327FD3F14CB418B01D /* TermViews.swift */; };
 		945BA644C68468CE898C68DE /* CourseLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB6E85BB72AFC0F6360150 /* CourseLibraryView.swift */; };
@@ -35,11 +36,14 @@
 		B0B2F5CBA8D35DABDA784E33 /* ScheduleImageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95AE51947284DD39B988EF2 /* ScheduleImageRenderer.swift */; };
 		B7085EEA7D33C27367A82D2E /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
 		B7C43852C5D120BE4459DAFF /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC7CF166759869D8EB5A95 /* SampleData.swift */; };
+		B85BD6F5B394406253BD6349 /* PluginWebRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C6EE8CF566BEAF2433FF3D /* PluginWebRunner.swift */; };
 		B8CCE189B23A562790BE6F0D /* CurSimpleCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7979333141DC1395F95F6B12 /* CurSimpleCore */; };
 		B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AD21690DCC4C3D7AFC9537 /* Formatting.swift */; };
 		BFC046A9D89F34115502EE74 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41487E213E081342EEEBBF17 /* AppTheme.swift */; };
 		C4CDA60E6E30DBE81C4305A3 /* CurSimpleWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DBC5AEBCEB5961389550C1 /* CurSimpleWidgets.swift */; };
 		C96509CBFEDD18396B207106 /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B1FD38841CE6AE2E9CD004 /* BackupSettingsView.swift */; };
+		CF610387EEFDE4DE17EAC39F /* PluginRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6A672728218A79C9DB82D7 /* PluginRunnerView.swift */; };
+		D4C6D9B1A91E951329277135 /* PluginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F4CDE4EEC4AFF2A08ACF96 /* PluginStore.swift */; };
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
 		E043A987EF7FADBEFF396429 /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
@@ -102,10 +106,13 @@
 		5F2B40BFEB9AE879BCB324A4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		680296327FD3F14CB418B01D /* TermViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViews.swift; sourceTree = "<group>"; };
 		68F05D43516DCF0657746A5A /* CurSimpleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleUITests.swift; sourceTree = "<group>"; };
+		68F4CDE4EEC4AFF2A08ACF96 /* PluginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginStore.swift; sourceTree = "<group>"; };
 		69A659BF2CE573367AE65F8D /* CurSimpleUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CurSimpleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F6A672728218A79C9DB82D7 /* PluginRunnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginRunnerView.swift; sourceTree = "<group>"; };
 		76AD21690DCC4C3D7AFC9537 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		7FE911850AD46FD58A90C8B2 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		84123CDE6684A9A6BFFE0880 /* OverrideEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideEditorView.swift; sourceTree = "<group>"; };
+		88C6EE8CF566BEAF2433FF3D /* PluginWebRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginWebRunner.swift; sourceTree = "<group>"; };
 		8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
 		97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = CurSimpleWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +128,7 @@
 		C8C0738E13A158C3913D279C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CED10D375A5003703B53B49D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D250DC8810011B778F5306FF /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		D25A84C33DCA24A3CF7A890B /* PluginListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginListView.swift; sourceTree = "<group>"; };
 		D4829698613AADDDF26D7F1F /* WidgetPreviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPreviewScreen.swift; sourceTree = "<group>"; };
 		DBA31C585DEB918A08164919 /* WidgetUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetUpdater.swift; sourceTree = "<group>"; };
 		DFF2888AE16996BEB160CA8E /* SettingsPages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPages.swift; sourceTree = "<group>"; };
@@ -183,6 +191,17 @@
 				4F2DBE2C47231D402DDFC675 /* Localizable.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		491A2395C72321FA9E18FB36 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				D25A84C33DCA24A3CF7A890B /* PluginListView.swift */,
+				6F6A672728218A79C9DB82D7 /* PluginRunnerView.swift */,
+				68F4CDE4EEC4AFF2A08ACF96 /* PluginStore.swift */,
+				88C6EE8CF566BEAF2433FF3D /* PluginWebRunner.swift */,
+			);
+			path = Plugins;
 			sourceTree = "<group>";
 		};
 		49C2C3B4C1629880B0369A4B /* CurSimpleWidgets */ = {
@@ -284,6 +303,7 @@
 				7FE911850AD46FD58A90C8B2 /* RootView.swift */,
 				2317DFAC95C66C54C6F6A134 /* Alarm */,
 				6A9E40879D4CAF215CC5E05E /* Memo */,
+				491A2395C72321FA9E18FB36 /* Plugins */,
 				08C955CB4F17AB3C38217722 /* Resources */,
 				780D1743A52D67CD470B1BEA /* Schedule */,
 				8C6C8576CBD20919D63333F8 /* Settings */,
@@ -476,6 +496,10 @@
 				5FED940AC3EFC8D5424A7102 /* MemoView.swift in Sources */,
 				ACE87AA3F3C3389CCD64B269 /* OverrideEditorView.swift in Sources */,
 				70DEA4AEA388976515E844ED /* OverrideSettingsView.swift in Sources */,
+				852C9A8F72624A693EB7AFC8 /* PluginListView.swift in Sources */,
+				CF610387EEFDE4DE17EAC39F /* PluginRunnerView.swift in Sources */,
+				D4C6D9B1A91E951329277135 /* PluginStore.swift in Sources */,
+				B85BD6F5B394406253BD6349 /* PluginWebRunner.swift in Sources */,
 				DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */,
 				D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */,
 				5B66C3FEE62A0F3B749445EF /* RootView.swift in Sources */,
