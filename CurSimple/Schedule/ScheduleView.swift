@@ -189,7 +189,14 @@ struct ScheduleView: View {
             )
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("schedule.switchWeek")
+        .accessibilityLabel(Text(weekAccessibilityLabel))
+    }
+
+    /// VoiceOver must hear the current week, not just the action name.
+    private var weekAccessibilityLabel: String {
+        let week = weekLabelText
+        let hint = String(localized: "schedule.switchWeek")
+        return "\(week)，\(hint)"
     }
 
     private func viewModeButton(colors: AppColors) -> some View {
