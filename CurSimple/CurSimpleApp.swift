@@ -27,6 +27,9 @@ struct CurSimpleApp: App {
             for override in SampleData.overrides(courses: SampleData.courses()) {
                 sampleStore.upsertOverride(override)
             }
+            if ProcessInfo.processInfo.arguments.contains("-sundayWeekStart") {
+                sampleStore.setPreferences(SampleData.sundayWeekStartPreferences())
+            }
             if ProcessInfo.processInfo.arguments.contains("-enableReminders") {
                 var preferences = sampleStore.preferences
                 preferences.reminders.enabled = true

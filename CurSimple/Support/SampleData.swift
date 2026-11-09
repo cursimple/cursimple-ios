@@ -71,6 +71,12 @@ enum SampleData {
         return try? ShareCodec.encode(payload)
     }
 
+    static func sundayWeekStartPreferences() -> AppPreferences {
+        var preferences = AppPreferences()
+        preferences.weekStart = .sunday
+        return preferences
+    }
+
     static func alarms() -> [Alarm] {
         [
             Alarm(

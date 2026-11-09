@@ -99,7 +99,11 @@ struct ScheduleView: View {
         }
         .sheet(isPresented: $showWeekPicker) {
             if let term {
-                WeekPickerSheet(term: term, currentWeekStart: displayWeekStart) { start in
+                WeekPickerSheet(
+                    term: term,
+                    currentWeekStart: displayWeekStart,
+                    weekStartDay: preferences.weekStart
+                ) { start in
                     withAnimation(.easeOut(duration: 0.2)) {
                         displayWeekStart = start
                     }
@@ -401,18 +405,6 @@ struct ScheduleView: View {
             columnDate(
                 displayWeekStart: displayWeekStart,
                 dayOfWeek: $0,
-                weekStart: preferences.weekStart
-            )
-        }
-    }
-
-    private func jump(to week: Int, term: Term) {
-        guard let start = term.startDateValue else { return }
-        let termMonday = ScheduleCalendar.startOfTeachingWeek(containing: start)
-        let targetMonday = ScheduleCalendar.addWeeks(week - 1, to: termMonday)
-        withAnimation(.easeOut(duration: 0.2)) {
-            displayWeekStart = ScheduleCalendar.startOfDisplayWeek(
-                containing: targetMonday,
                 weekStart: preferences.weekStart
             )
         }

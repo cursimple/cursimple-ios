@@ -6,6 +6,7 @@ struct WeekPickerSheet: View {
 
     let term: Term
     let currentWeekStart: Date
+    let weekStartDay: WeekStartDay
     let onPick: (Date) -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -13,16 +14,22 @@ struct WeekPickerSheet: View {
 
     @State private var month: Date
 
-    init(term: Term, currentWeekStart: Date, onPick: @escaping (Date) -> Void) {
+    init(
+        term: Term,
+        currentWeekStart: Date,
+        weekStartDay: WeekStartDay,
+        onPick: @escaping (Date) -> Void
+    ) {
         self.term = term
         self.currentWeekStart = currentWeekStart
+        self.weekStartDay = weekStartDay
         self.onPick = onPick
         _month = State(initialValue: currentWeekStart)
     }
 
     private var calendar: Calendar {
         var cal = Calendar.current
-        cal.firstWeekday = 2
+        cal.firstWeekday = weekStartDay.firstWeekday
         return cal
     }
 
@@ -88,7 +95,7 @@ struct WeekPickerSheet: View {
 
     private func weekdayHeader(_ colors: AppColors) -> some View {
         HStack(spacing: 0) {
-            ForEach(1...7, id: \.self) { day in
+            ForEach(columnDayOfWeeks(weekStart: weekStartDay, showWeekend: true, showSaturday: true), id: \.self) { day in
                 Text(Format.weekdayNarrow(day))
                     .appFont(11, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
@@ -119,7 +126,7 @@ struct WeekPickerSheet: View {
                 let inWeek = isInCurrentWeek(date)
                 let inTerm = isInTerm(date)
                 Button {
-                    onPick(ScheduleCalendar.startOfDisplayWeek(containing: date, weekStart: .monday))
+                    onPick(ScheduleCalendar.startOfDisplayWeek(containing: date, weekStart: weekStartDay))
                     dismiss()
                 } label: {
                     VStack(spacing: 1) {
@@ -206,7 +213,8 @@ struct WeekPickerSheet: View {
               let range = calendar.range(of: .day, in: .month, for: first) else {
             return []
         }
-        let leading = (ScheduleCalendar.isoDayOfWeek(first, calendar: calendar) + 6) % 7
+        let leading = (ScheduleCalendar.isoDayOfWeek(first, calendar: calendar)
+            - weekStartDay.isoDayOfWeek + 7) % 7
         var days: [Date?] = Array(repeating: nil, count: leading)
         for offset in 0..<range.count {
             days.append(ScheduleCalendar.addDays(offset, to: first, calendar: calendar))
@@ -216,7 +224,7 @@ struct WeekPickerSheet: View {
     }
 
     private func isInCurrentWeek(_ date: Date) -> Bool {
-        let start = ScheduleCalendar.startOfDisplayWeek(containing: date, weekStart: .monday, calendar: calendar)
+        let start = ScheduleCalendar.startOfDisplayWeek(containing: date, weekStart: weekStartDay, calendar: calendar)
         return calendar.isDate(start, inSameDayAs: currentWeekStart)
     }
 
