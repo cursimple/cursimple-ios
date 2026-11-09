@@ -45,7 +45,7 @@ struct AlarmEditorView: View {
                                     Text("alarm.delete")
                                     Spacer()
                                 }
-                                .font(.system(size: 14, weight: .medium))
+                                .appFont(14, weight: .medium)
                                 .foregroundStyle(colors.error)
                                 .padding(14)
                                 .background(
@@ -75,19 +75,19 @@ struct AlarmEditorView: View {
     private func header(colors: AppColors) -> some View {
         ZStack {
             Text(isNew ? "alarm.new" : "alarm.edit")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
                 Button("common.cancel") { dismiss() }
-                    .font(.system(size: 14))
+                    .appFont(14)
                     .foregroundStyle(colors.primary)
 
                 Spacer()
 
                 Button(action: save) {
                     Text("common.save")
-                        .font(.system(size: 13, weight: .semibold))
+                        .appFont(13, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .padding(.horizontal, 16)
                         .frame(height: 34)
@@ -132,7 +132,7 @@ struct AlarmEditorView: View {
                             }
                         } label: {
                             Text(Format.weekdayNarrow(day))
-                                .font(.system(size: 13, weight: .semibold))
+                                .appFont(13, weight: .semibold)
                                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                                 .frame(maxWidth: .infinity, minHeight: 38)
                                 .background(
@@ -166,7 +166,7 @@ struct AlarmEditorView: View {
     ) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 12, weight: .medium))
+                .appFont(12, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .padding(.horizontal, 12)
                 .frame(height: 30)
@@ -208,7 +208,7 @@ struct AlarmEditorView: View {
                     Text(snoozeMinutes <= 1 && snoozeMinutes != 0
                         ? String(localized: "alarm.snooze.off")
                         : String(format: String(localized: "alarm.snooze.minutes"), snoozeMinutes))
-                    .font(.system(size: 13, weight: .medium))
+                    .appFont(13, weight: .medium)
                     .foregroundStyle(colors.primary)
                     .padding(.horizontal, 12)
                     .frame(height: 32)

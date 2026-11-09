@@ -46,13 +46,13 @@ struct MemoView: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("tab.memo")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
 
                     HStack {
                         Button(action: onOpenDrawer) {
                             Image(systemName: "line.3.horizontal")
-                                .font(.system(size: 21, weight: .medium))
+                                .appFont(21, weight: .medium)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -69,7 +69,7 @@ struct MemoView: View {
                             }
                         } label: {
                             Image(systemName: "magnifyingglass")
-                                .font(.system(size: 18, weight: .medium))
+                                .appFont(18, weight: .medium)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -229,23 +229,23 @@ struct MemoView: View {
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "square.grid.2x2.fill")
-                    .font(.system(size: 14))
+                    .appFont(14)
                     .foregroundStyle(colors.primary)
 
                 Text(filter.titleKey)
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
 
                 Spacer()
 
                 Text("\(count(filter))")
-                    .font(.system(size: 12, weight: .semibold))
+                    .appFont(12, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .frame(minWidth: 24, minHeight: 24)
                     .background(Circle().fill(colors.primary))
 
                 Image(systemName: "chevron.down")
-                    .font(.system(size: 11, weight: .semibold))
+                    .appFont(11, weight: .semibold)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
             .padding(.horizontal, 14)
@@ -261,7 +261,7 @@ struct MemoView: View {
     private func searchField(colors: AppColors) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.onSurfaceVariant)
             TextField("memo.search", text: $searchText)
                 .font(AppFont.body)
@@ -271,7 +271,7 @@ struct MemoView: View {
                     searchText = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 14))
+                        .appFont(14)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .buttonStyle(.plain)
@@ -286,15 +286,14 @@ struct MemoView: View {
     }
 
     private func courseFilterRow(colors: AppColors) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                courseChip(nil, title: String(localized: "memo.course.all"), colors: colors)
-                ForEach(courseKeys, id: \.key) { item in
-                    courseChip(item.key, title: item.title, colors: colors)
-                }
+        // Wrap onto multiple lines so large text sizes never clip a chip.
+        FlowLayout(spacing: 8) {
+            courseChip(nil, title: String(localized: "memo.course.all"), colors: colors)
+            ForEach(courseKeys, id: \.key) { item in
+                courseChip(item.key, title: item.title, colors: colors)
             }
-            .padding(.vertical, 1)
         }
+        .padding(.vertical, 1)
     }
 
     private func courseChip(_ key: String?, title: String, colors: AppColors) -> some View {
@@ -305,7 +304,7 @@ struct MemoView: View {
             }
         } label: {
             Text(title)
-                .font(.system(size: 12, weight: .medium))
+                .appFont(12, weight: .medium)
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .padding(.horizontal, 12)
                 .frame(height: 30)
@@ -337,10 +336,10 @@ struct MemoView: View {
         } label: {
             VStack(alignment: .leading, spacing: 4) {
                 Text("\(count)")
-                    .font(.system(size: 24, weight: .bold))
+                    .appFont(24, weight: .bold)
                     .foregroundStyle(color)
                 Text(title)
-                    .font(.system(size: 12, weight: .medium))
+                    .appFont(12, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
             .padding(12)
@@ -384,13 +383,13 @@ struct MemoView: View {
     private func emptyState(colors: AppColors) -> some View {
         VStack(spacing: 10) {
             Image(systemName: "square.and.pencil")
-                .font(.system(size: 24))
+                .appFont(24)
                 .foregroundStyle(colors.primary)
                 .frame(width: 52, height: 52)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text("memo.empty.title")
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
             Text("memo.empty.message")
                 .font(AppFont.bodySmall)
@@ -437,7 +436,7 @@ struct MemoCard: View {
                     onToggleComplete()
                 } label: {
                     Image(systemName: note.completed ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 22))
+                        .appFont(22)
                         .foregroundStyle(note.completed ? colors.primary : colors.outline)
                 }
                 .buttonStyle(.plain)
@@ -449,11 +448,11 @@ struct MemoCard: View {
                     HStack(spacing: 6) {
                         if note.pinned && !note.completed {
                             Image(systemName: "pin.fill")
-                                .font(.system(size: 12))
+                                .appFont(12)
                                 .foregroundStyle(colors.onSurfaceVariant)
                         }
                         Text(note.displayTitle)
-                            .font(.system(size: 17, weight: .semibold))
+                            .appFont(17, weight: .semibold)
                             .foregroundStyle(note.completed ? colors.onSurfaceVariant : colors.onSurface)
                             .strikethrough(note.completed, color: colors.onSurfaceVariant)
                             .lineLimit(2)
@@ -464,7 +463,7 @@ struct MemoCard: View {
                             Button(note.pinned ? "memo.unpin" : "memo.pin") { onTogglePin() }
                         } label: {
                             Image(systemName: "ellipsis")
-                                .font(.system(size: 14, weight: .medium))
+                                .appFont(14, weight: .medium)
                                 .foregroundStyle(colors.onSurfaceVariant)
                                 .frame(width: 30, height: 30)
                                 .contentShape(Rectangle())
@@ -476,15 +475,15 @@ struct MemoCard: View {
                             HStack(spacing: 6) {
                                 if !note.courseTitle.isEmpty {
                                     Text(note.courseTitle)
-                                        .font(.system(size: 11, weight: .medium))
-                                        .foregroundStyle(widgetBlueText)
+                                        .appFont(11, weight: .medium)
+                                        .foregroundStyle(courseChipText)
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 2)
-                                        .background(Capsule().fill(widgetBlueFill))
+                                        .background(Capsule().fill(courseChipFill))
                                 }
                                 if note.priority != .none {
                                     Text(LocalizedStringKey(note.priority.localizationKey))
-                                        .font(.system(size: 11, weight: .semibold))
+                                        .appFont(11, weight: .semibold)
                                         .foregroundStyle(priorityColor(note.priority, colors: colors))
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 2)
@@ -496,7 +495,7 @@ struct MemoCard: View {
                             if let dueText = dueChipText(due) {
                                 HStack(spacing: 5) {
                                     Image(systemName: "clock")
-                                        .font(.system(size: 10))
+                                        .appFont(10)
                                     Text(dueText)
                                         .font(.system(size: 11, weight: due == .overdue ? .semibold : .regular))
                                 }
@@ -510,7 +509,7 @@ struct MemoCard: View {
 
                     if !plainPreview.isEmpty {
                         Text(plainPreview)
-                            .font(.system(size: 14))
+                            .appFont(14)
                             .foregroundStyle(colors.onSurface)
                             .lineLimit(2)
                     }
@@ -523,10 +522,10 @@ struct MemoCard: View {
                                 } label: {
                                     HStack(spacing: 8) {
                                         Image(systemName: item.checked ? "checkmark.square.fill" : "square")
-                                            .font(.system(size: 17))
+                                            .appFont(17)
                                             .foregroundStyle(item.checked ? colors.primary : colors.outline)
                                         Text(item.text)
-                                            .font(.system(size: 14))
+                                            .appFont(14)
                                             .foregroundStyle(item.checked ? colors.onSurfaceVariant : colors.onSurface)
                                             .strikethrough(item.checked, color: colors.onSurfaceVariant)
                                         Spacer(minLength: 0)
@@ -553,7 +552,7 @@ struct MemoCard: View {
                                     checklist.done,
                                     checklist.total
                                 ))
-                                .font(.system(size: 10, weight: .medium))
+                                .appFont(10, weight: .medium)
                                 .foregroundStyle(colors.onSurfaceVariant)
                                 .monospacedDigit()
                             }
@@ -624,11 +623,16 @@ struct MemoCard: View {
         }
     }
 
-    private var widgetBlueFill: Color {
-        Color(.sRGB, red: 0.867, green: 0.922, blue: 0.980, opacity: 1)
+    /// Course chip uses the shared blue pair, darkening in dark mode.
+    private var courseChipFill: Color {
+        colorScheme == .dark
+            ? Color(.sRGB, red: 0.145, green: 0.227, blue: 0.322, opacity: 1)
+            : Color(.sRGB, red: 0.867, green: 0.922, blue: 0.980, opacity: 1)
     }
 
-    private var widgetBlueText: Color {
-        Color(.sRGB, red: 0.173, green: 0.333, blue: 0.529, opacity: 1)
+    private var courseChipText: Color {
+        colorScheme == .dark
+            ? Color(.sRGB, red: 0.710, green: 0.827, blue: 0.941, opacity: 1)
+            : Color(.sRGB, red: 0.173, green: 0.333, blue: 0.529, opacity: 1)
     }
 }

@@ -28,13 +28,13 @@ struct AlarmListView: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("alarm.pageTitle")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
 
                     HStack {
                         Button(action: onOpenDrawer) {
                             Image(systemName: "line.3.horizontal")
-                                .font(.system(size: 21, weight: .medium))
+                                .appFont(21, weight: .medium)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -94,7 +94,7 @@ struct AlarmListView: View {
     private func nextCard(alarm: Alarm, fire: Date, colors: AppColors) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("alarm.next")
-                .font(.system(size: 12, weight: .semibold))
+                .appFont(12, weight: .semibold)
                 .foregroundStyle(colors.onPrimaryContainer.opacity(0.75))
 
             HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -102,13 +102,13 @@ struct AlarmListView: View {
                     .font(.system(size: 34, weight: .bold).monospacedDigit())
                     .foregroundStyle(colors.onPrimaryContainer)
                 Text(relativeTime(fire))
-                    .font(.system(size: 13, weight: .medium))
+                    .appFont(13, weight: .medium)
                     .foregroundStyle(colors.onPrimaryContainer.opacity(0.8))
                 Spacer()
             }
 
             Text(alarm.displayLabel)
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(colors.onPrimaryContainer.opacity(0.75))
         }
         .padding(16)
@@ -122,17 +122,17 @@ struct AlarmListView: View {
     private func permissionCard(colors: AppColors) -> some View {
         HStack(spacing: 10) {
             Image(systemName: "bell.slash")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.error)
             Text("alarm.permissionNeeded")
-                .font(.system(size: 12))
+                .appFont(12)
                 .foregroundStyle(colors.onSurfaceVariant)
             Spacer()
             Button {
                 Task { await reminders.requestAuthorization() }
             } label: {
                 Text("alarm.enable")
-                    .font(.system(size: 12, weight: .semibold))
+                    .appFont(12, weight: .semibold)
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
@@ -155,11 +155,11 @@ struct AlarmListView: View {
                             .font(.system(size: 30, weight: .semibold).monospacedDigit())
                             .foregroundStyle(alarm.enabled ? colors.onSurface : colors.onSurfaceVariant)
                         Text(repeatText(alarm))
-                            .font(.system(size: 12))
+                            .appFont(12)
                             .foregroundStyle(colors.onSurfaceVariant)
                     }
                     Text(alarm.displayLabel)
-                        .font(.system(size: 13))
+                        .appFont(13)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -190,9 +190,9 @@ struct AlarmListView: View {
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "plus")
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                 Text("alarm.addShort")
-                    .font(.system(size: 14, weight: .semibold))
+                    .appFont(14, weight: .semibold)
             }
             .foregroundStyle(colors.onPrimaryContainer)
             .padding(.horizontal, 18)
@@ -207,12 +207,12 @@ struct AlarmListView: View {
     private func emptyState(colors: AppColors) -> some View {
         VStack(spacing: 10) {
             Image(systemName: "alarm")
-                .font(.system(size: 24))
+                .appFont(24)
                 .foregroundStyle(colors.primary)
                 .frame(width: 52, height: 52)
                 .background(Circle().fill(colors.primaryContainer))
             Text("alarm.empty.title")
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
             Text("alarm.empty.message")
                 .font(AppFont.bodySmall)

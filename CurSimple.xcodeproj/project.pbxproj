@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04A47BAFFCF66E50D0127007 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FE79352A4A6F3819E26E62 /* FlowLayout.swift */; };
 		15E2353393BC518FBB06D0F7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F2DBE2C47231D402DDFC675 /* Localizable.strings */; };
 		17B9F75AEC88012993F048DE /* generic-timetable.js in Resources */ = {isa = PBXBuildFile; fileRef = B922F128AD6CA25021311781 /* generic-timetable.js */; };
 		2247B1A90D36563B6FE8D46A /* SchoolPortalRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E513B85A9C5DEF40F366BDDD /* SchoolPortalRunnerView.swift */; };
@@ -49,6 +50,7 @@
 		C96509CBFEDD18396B207106 /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B1FD38841CE6AE2E9CD004 /* BackupSettingsView.swift */; };
 		CF610387EEFDE4DE17EAC39F /* PluginRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6A672728218A79C9DB82D7 /* PluginRunnerView.swift */; };
 		D4C6D9B1A91E951329277135 /* PluginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F4CDE4EEC4AFF2A08ACF96 /* PluginStore.swift */; };
+		D5A129561CDFA24027AF013D /* DynamicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD6F70B34FCFF3ECEE87BD7 /* DynamicFont.swift */; };
 		D7016595D4465F6F45DE203D /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306933F35E744A606294930 /* ReminderSettingsView.swift */; };
 		DB1ECA13DAEFB9266778AC26 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */; };
 		E043A987EF7FADBEFF396429 /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BA60A4A58B34AA04DE4AB8 /* TodayWidgetView.swift */; };
@@ -106,6 +108,7 @@
 		4875FD9192BCBC81B4B40D78 /* CourseEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseEditorView.swift; sourceTree = "<group>"; };
 		49BF90DD029C784D0D00509F /* AlarmEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditorView.swift; sourceTree = "<group>"; };
 		4B9C8F282947882D37215BAB /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		4CD6F70B34FCFF3ECEE87BD7 /* DynamicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFont.swift; sourceTree = "<group>"; };
 		52E948661C5E7D256C4E0AFE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		545A9E6BF6761AA941456EDA /* WidgetSharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedStore.swift; sourceTree = "<group>"; };
 		5BB083E223825C9490272E8B /* CurSimpleWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CurSimpleWidgets.entitlements; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 		96C92B0483C2A2EA7D600897 /* WeekPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPickerSheet.swift; sourceTree = "<group>"; };
 		97DC780612EEE84CCE323D03 /* CurSimpleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurSimpleApp.swift; sourceTree = "<group>"; };
 		97F15975BEF2C627881ADC9E /* CurSimpleWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = CurSimpleWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FE79352A4A6F3819E26E62 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		A95AE51947284DD39B988EF2 /* ScheduleImageRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleImageRenderer.swift; sourceTree = "<group>"; };
 		AC447912F5614D5CA611A1D8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B16E4226C318EA5AF922B253 /* CurSimpleCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CurSimpleCore; path = CurSimpleCore; sourceTree = SOURCE_ROOT; };
@@ -300,6 +304,8 @@
 			isa = PBXGroup;
 			children = (
 				41487E213E081342EEEBBF17 /* AppTheme.swift */,
+				4CD6F70B34FCFF3ECEE87BD7 /* DynamicFont.swift */,
+				A8FE79352A4A6F3819E26E62 /* FlowLayout.swift */,
 				76AD21690DCC4C3D7AFC9537 /* Formatting.swift */,
 				8A1275BFE7A95FC6D7EF6CD3 /* ReminderService.swift */,
 				47FC7CF166759869D8EB5A95 /* SampleData.swift */,
@@ -514,6 +520,8 @@
 				6CE1D848C55C36A9E0764A35 /* CurSimpleApp.swift in Sources */,
 				6DD32FEFE82127ACDEF40C3C /* DayView.swift in Sources */,
 				61F2A28BBFB0374C95A5874B /* DisplaySettingsView.swift in Sources */,
+				D5A129561CDFA24027AF013D /* DynamicFont.swift in Sources */,
+				04A47BAFFCF66E50D0127007 /* FlowLayout.swift in Sources */,
 				B8ECB1FF751DA55AEB774A78 /* Formatting.swift in Sources */,
 				FBB5E870D03C7FFF6E8CDADC /* HolidaySettingsView.swift in Sources */,
 				875E4C04182D221648D387BA /* MemoEditorView.swift in Sources */,

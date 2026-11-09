@@ -73,7 +73,7 @@ struct TermSettingsView: View {
                                     .foregroundStyle(colors.onSurface)
                                 Spacer()
                                 Text(currentWeekText)
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .appFont(14, weight: .semibold)
                                     .foregroundStyle(colors.primary)
                             }
                             divider(colors)
@@ -197,7 +197,7 @@ struct TimingSettingsView: View {
                                 Text("timing.reset")
                                 Spacer()
                             }
-                            .font(.system(size: 14, weight: .medium))
+                            .appFont(14, weight: .medium)
                             .foregroundStyle(colors.error)
                             .padding(14)
                             .background(
@@ -229,7 +229,7 @@ struct TimingSettingsView: View {
                 format: String(localized: "schedule.periodCompact"),
                 slot.wrappedValue.startNode
             ))
-            .font(.system(size: 13, weight: .semibold))
+            .appFont(13, weight: .semibold)
             .foregroundStyle(colors.onSurface)
             .frame(width: 52, alignment: .leading)
 
@@ -305,7 +305,7 @@ struct AppearanceSettingsView: View {
     private func accentCard(colors: AppColors) -> some View {
         SettingsCard(colors: colors) {
             Text("appearance.accent")
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
 
             HStack(spacing: 12) {
@@ -338,7 +338,7 @@ struct AppearanceSettingsView: View {
     private func paletteCard(colors: AppColors) -> some View {
         SettingsCard(colors: colors) {
             Text("appearance.palette")
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
 
             VStack(spacing: 2) {
@@ -367,7 +367,7 @@ struct AppearanceSettingsView: View {
                             }
 
                             Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                                .font(.system(size: 16))
+                                .appFont(16)
                                 .foregroundStyle(selected ? colors.primary : colors.outline)
                         }
                         .padding(.vertical, 7)
@@ -382,7 +382,7 @@ struct AppearanceSettingsView: View {
     private func gridCard(colors: AppColors) -> some View {
         SettingsCard(colors: colors) {
             Text("appearance.grid.header")
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
 
             HStack {
@@ -427,7 +427,7 @@ struct AppearanceSettingsView: View {
             store.setPreferences(preferences)
         } label: {
             Text(value == .monday ? "appearance.weekStart.monday" : "appearance.weekStart.sunday")
-                .font(.system(size: 12, weight: .medium))
+                .appFont(12, weight: .medium)
                 .foregroundStyle(selected ? colors.onPrimary : colors.onSurfaceVariant)
                 .padding(.horizontal, 14)
                 .frame(height: 30)
@@ -464,7 +464,7 @@ struct AboutView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
 
                             Text("app.name")
-                                .font(.system(size: 20, weight: .bold))
+                                .appFont(20, weight: .bold)
                                 .foregroundStyle(colors.onSurface)
 
                             Text("about.tagline")
@@ -505,7 +505,7 @@ struct AboutView: View {
     ) -> some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.primary)
                 .frame(width: 22)
             Text(title)

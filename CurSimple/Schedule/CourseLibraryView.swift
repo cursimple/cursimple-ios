@@ -48,13 +48,13 @@ struct CourseLibraryView: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("library.title")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
 
                     HStack {
                         Button(action: onOpenDrawer) {
                             Image(systemName: "line.3.horizontal")
-                                .font(.system(size: 21, weight: .medium))
+                                .appFont(21, weight: .medium)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -92,7 +92,7 @@ struct CourseLibraryView: View {
     private func searchField(colors: AppColors) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.onSurfaceVariant)
 
             TextField("library.search", text: $search)
@@ -104,7 +104,7 @@ struct CourseLibraryView: View {
                     search = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 14))
+                        .appFont(14)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .buttonStyle(.plain)
@@ -131,7 +131,7 @@ struct CourseLibraryView: View {
                 )
             } label: {
                 Text("library.addCourse")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .padding(.horizontal, 16)
                     .frame(height: 38)
@@ -148,7 +148,7 @@ struct CourseLibraryView: View {
                 )
             } label: {
                 Text("library.addEvent")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                     .padding(.horizontal, 16)
                     .frame(height: 38)
@@ -185,7 +185,7 @@ struct CourseLibraryView: View {
     ) -> some View {
         Button(action: action) {
             Text("\(Text(title)) \(count)")
-                .font(.system(size: 13, weight: .medium))
+                .appFont(13, weight: .medium)
                 .foregroundStyle(selected ? colors.primary : colors.onSurfaceVariant)
                 .padding(.horizontal, 16)
                 .frame(height: 36)
@@ -232,18 +232,18 @@ struct CourseLibraryView: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(course.title)
-                    .font(.system(size: 15, weight: .semibold))
+                    .appFont(15, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                     .lineLimit(1)
 
                 Text(detailLine(course))
-                    .font(.system(size: 12))
+                    .appFont(12)
                     .foregroundStyle(colors.onSurfaceVariant)
                     .lineLimit(1)
 
                 if !course.location.isEmpty {
                     Text(course.location)
-                        .font(.system(size: 12))
+                        .appFont(12)
                         .foregroundStyle(colors.onSurfaceVariant)
                         .lineLimit(1)
                 }
@@ -255,7 +255,7 @@ struct CourseLibraryView: View {
                 editorTarget = CourseEditorTarget(course: course, slot: course.time)
             } label: {
                 Image(systemName: "pencil")
-                    .font(.system(size: 15, weight: .medium))
+                    .appFont(15, weight: .medium)
                     .foregroundStyle(colors.onSurface)
                     .frame(width: 34, height: 40)
                     .contentShape(Rectangle())
@@ -267,7 +267,7 @@ struct CourseLibraryView: View {
                 store.deleteCourse(id: course.id)
             } label: {
                 Image(systemName: "trash")
-                    .font(.system(size: 15, weight: .medium))
+                    .appFont(15, weight: .medium)
                     .foregroundStyle(colors.onSurface)
                     .frame(width: 34, height: 40)
                     .contentShape(Rectangle())

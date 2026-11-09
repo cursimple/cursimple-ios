@@ -102,7 +102,7 @@ struct TermPickerView: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("term.picker")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
 
                     HStack {
@@ -110,7 +110,7 @@ struct TermPickerView: View {
                             dismiss()
                         } label: {
                             Image(systemName: "xmark")
-                                .font(.system(size: 15, weight: .semibold))
+                                .appFont(15, weight: .semibold)
                                 .foregroundStyle(colors.onBackground)
                                 .frame(width: 44, height: 44)
                                 .contentShape(Rectangle())
@@ -139,9 +139,9 @@ struct TermPickerView: View {
                             } label: {
                                 HStack(spacing: 8) {
                                     Image(systemName: "plus.circle")
-                                        .font(.system(size: 15))
+                                        .appFont(15)
                                     Text("term.create")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .appFont(14, weight: .medium)
                                     Spacer()
                                 }
                                 .foregroundStyle(colors.primary)
@@ -221,12 +221,12 @@ struct TermPickerView: View {
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 20))
+                        .appFont(20)
                         .foregroundStyle(selected ? colors.primary : colors.outline)
 
                     VStack(alignment: .leading, spacing: 3) {
                         Text(term.name)
-                            .font(.system(size: 15, weight: .semibold))
+                            .appFont(15, weight: .semibold)
                             .foregroundStyle(colors.onSurface)
                             .lineLimit(1)
 
@@ -256,7 +256,7 @@ struct TermPickerView: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 14, weight: .medium))
+                    .appFont(14, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
                     .frame(width: 34, height: 40)
                     .contentShape(Rectangle())
@@ -279,7 +279,7 @@ struct TermPickerView: View {
                 createTerm()
             } label: {
                 Text("term.create")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onPrimary)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     .background(Capsule().fill(colors.primary))

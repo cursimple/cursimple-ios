@@ -76,7 +76,7 @@ struct CourseDetailView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .top) {
                 Text(course.title)
-                    .font(.system(size: 24, weight: .bold))
+                    .appFont(24, weight: .bold)
                     .foregroundStyle(entry.onContainer.color)
                     .multilineTextAlignment(.leading)
 
@@ -84,7 +84,7 @@ struct CourseDetailView: View {
 
                 if course.category != .course {
                     Text(LocalizedStringKey(course.category.localizationKey))
-                        .font(.system(size: 11, weight: .semibold))
+                        .appFont(11, weight: .semibold)
                         .foregroundStyle(entry.onContainer.color)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 3)
@@ -95,7 +95,7 @@ struct CourseDetailView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 13, weight: .semibold))
+                        .appFont(13, weight: .semibold)
                         .foregroundStyle(entry.onContainer.color)
                         .frame(width: 32, height: 32)
                         .background(Circle().fill(entry.onContainer.color.opacity(0.16)))
@@ -106,17 +106,17 @@ struct CourseDetailView: View {
 
             if !course.teacher.isEmpty {
                 Text(course.teacher)
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(entry.onContainer.color.opacity(0.75))
             }
 
             Text(summaryLine)
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(entry.onContainer.color.opacity(0.75))
 
             if let progressLine {
                 Text(progressLine)
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(entry.onContainer.color.opacity(0.75))
             }
         }
@@ -163,16 +163,16 @@ struct CourseDetailView: View {
     ) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 14))
+                .appFont(14)
                 .foregroundStyle(colors.primary)
                 .frame(width: 22)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(colors.onSurfaceVariant)
                 Text(value.isEmpty ? "—" : value)
-                    .font(.system(size: 14, weight: .medium))
+                    .appFont(14, weight: .medium)
                     .foregroundStyle(colors.onSurface)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -192,17 +192,17 @@ struct CourseDetailView: View {
         SettingsCard(colors: colors) {
             HStack {
                 Image(systemName: "square.and.pencil")
-                    .font(.system(size: 13))
+                    .appFont(13)
                     .foregroundStyle(colors.primary)
                 Text("course.detail.note")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onSurfaceVariant)
                 Spacer()
                 Button {
                     showNoteEditor = true
                 } label: {
                     Text(noteText.isEmpty ? "course.detail.noteAdd" : "course.detail.noteEdit")
-                        .font(.system(size: 13, weight: .medium))
+                        .appFont(13, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .padding(.horizontal, 14)
                         .frame(height: 32)
@@ -229,11 +229,11 @@ struct CourseDetailView: View {
     private func conflictCard(_ message: String, colors: AppColors) -> some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 13))
+                .appFont(13)
                 .foregroundStyle(colors.error)
             VStack(alignment: .leading, spacing: 3) {
                 Text("course.conflict.title")
-                    .font(.system(size: 13, weight: .semibold))
+                    .appFont(13, weight: .semibold)
                     .foregroundStyle(colors.onSurface)
                 Text(message)
                     .font(AppFont.bodySmall)
@@ -283,9 +283,9 @@ struct CourseDetailView: View {
         Button(action: action) {
             VStack(spacing: 5) {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
+                    .appFont(16, weight: .medium)
                 Text(title)
-                    .font(.system(size: 11))
+                    .appFont(11)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
             }
@@ -400,18 +400,18 @@ private struct CourseNoteEditor: View {
             VStack(spacing: 0) {
                 ZStack {
                     Text("course.detail.note")
-                        .font(.system(size: 16, weight: .semibold))
+                        .appFont(16, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
                     HStack {
                         Button("common.cancel") { dismiss() }
-                            .font(.system(size: 14))
+                            .appFont(14)
                             .foregroundStyle(colors.primary)
                         Spacer()
                         Button("common.save") {
                             onSave()
                             dismiss()
                         }
-                        .font(.system(size: 14, weight: .semibold))
+                        .appFont(14, weight: .semibold)
                         .foregroundStyle(colors.primary)
                     }
                 }

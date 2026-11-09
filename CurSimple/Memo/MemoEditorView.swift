@@ -55,7 +55,7 @@ struct MemoEditorView: View {
                                     Text("memo.delete")
                                     Spacer()
                                 }
-                                .font(.system(size: 14, weight: .medium))
+                                .appFont(14, weight: .medium)
                                 .foregroundStyle(colors.error)
                                 .padding(14)
                                 .background(
@@ -89,7 +89,7 @@ struct MemoEditorView: View {
     private func topBar(colors: AppColors) -> some View {
         ZStack {
             Text(isNew ? "memo.new" : "memo.edit")
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
@@ -97,7 +97,7 @@ struct MemoEditorView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 15, weight: .semibold))
+                        .appFont(15, weight: .semibold)
                         .foregroundStyle(colors.onBackground)
                         .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
@@ -109,7 +109,7 @@ struct MemoEditorView: View {
 
                 Button(action: save) {
                     Text("common.save")
-                        .font(.system(size: 13, weight: .semibold))
+                        .appFont(13, weight: .semibold)
                         .foregroundStyle(colors.onPrimary)
                         .padding(.horizontal, 16)
                         .frame(height: 34)
@@ -127,7 +127,7 @@ struct MemoEditorView: View {
     private func contentCard(colors: AppColors) -> some View {
         SettingsCard(colors: colors) {
             TextField("memo.titlePlaceholder", text: $title)
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
 
             Divider().overlay(colors.outlineVariant).padding(.vertical, 6)
@@ -149,7 +149,7 @@ struct MemoEditorView: View {
                     addChecklistItem()
                 } label: {
                     Image(systemName: "checklist")
-                        .font(.system(size: 13, weight: .medium))
+                        .appFont(13, weight: .medium)
                         .foregroundStyle(colors.onPrimary)
                         .frame(width: 30, height: 30)
                         .background(Circle().fill(colors.primary))
@@ -211,7 +211,7 @@ struct MemoEditorView: View {
                     .font(AppFont.bodySmall)
                     .foregroundStyle(courseKey == nil ? colors.onSurfaceVariant : colors.primary)
                 Image(systemName: "chevron.up.chevron.down")
-                    .font(.system(size: 10, weight: .semibold))
+                    .appFont(10, weight: .semibold)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
             .frame(minHeight: 44)

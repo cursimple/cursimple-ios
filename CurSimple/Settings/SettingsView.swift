@@ -94,7 +94,7 @@ struct SettingsView: View {
     private func heroCard(colors: AppColors) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("settings.common")
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onPrimary)
                 .padding(.horizontal, 2)
 
@@ -155,13 +155,13 @@ struct SettingsView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Image(systemName: icon)
-                .font(.system(size: 15, weight: .medium))
+                .appFont(15, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .frame(width: 32, height: 32)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text(title)
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
                 .lineLimit(1)
 
@@ -186,13 +186,13 @@ struct SettingsView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Image(systemName: icon)
-                .font(.system(size: 15, weight: .medium))
+                .appFont(15, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .frame(width: 32, height: 32)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text(title)
-                .font(.system(size: 14, weight: .semibold))
+                .appFont(14, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
                 .lineLimit(1)
 
@@ -293,13 +293,13 @@ struct SettingsView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 7) {
             Image(systemName: icon)
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .frame(width: 30, height: 30)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text(title)
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
                 .lineLimit(1)
 
@@ -336,14 +336,14 @@ struct SettingsView: View {
             NavigationLink(value: SettingsRoute.reminders) {
                 HStack(spacing: 12) {
                     Image(systemName: "bell.badge")
-                        .font(.system(size: 15, weight: .medium))
+                        .appFont(15, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .frame(width: 34, height: 34)
                         .background(Circle().fill(colors.primaryContainer))
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("settings.reminders")
-                            .font(.system(size: 14, weight: .semibold))
+                            .appFont(14, weight: .semibold)
                             .foregroundStyle(colors.onSurface)
                         Text(reminderValue)
                             .font(AppFont.label)
@@ -353,7 +353,7 @@ struct SettingsView: View {
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
+                        .appFont(12, weight: .semibold)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .padding(14)
@@ -385,14 +385,14 @@ struct SettingsView: View {
             NavigationLink(value: SettingsRoute.backup) {
                 HStack(spacing: 12) {
                     Image(systemName: "externaldrive")
-                        .font(.system(size: 15, weight: .medium))
+                        .appFont(15, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .frame(width: 34, height: 34)
                         .background(Circle().fill(colors.primaryContainer))
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("settings.backup")
-                            .font(.system(size: 14, weight: .semibold))
+                            .appFont(14, weight: .semibold)
                             .foregroundStyle(colors.onSurface)
                         Text("settings.backup.value")
                             .font(AppFont.label)
@@ -402,7 +402,7 @@ struct SettingsView: View {
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
+                        .appFont(12, weight: .semibold)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .padding(14)
@@ -416,14 +416,14 @@ struct SettingsView: View {
             NavigationLink(value: SettingsRoute.share) {
                 HStack(spacing: 12) {
                     Image(systemName: "qrcode")
-                        .font(.system(size: 15, weight: .medium))
+                        .appFont(15, weight: .medium)
                         .foregroundStyle(colors.primary)
                         .frame(width: 34, height: 34)
                         .background(Circle().fill(colors.primaryContainer))
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("settings.share")
-                            .font(.system(size: 14, weight: .semibold))
+                            .appFont(14, weight: .semibold)
                             .foregroundStyle(colors.onSurface)
                         Text("settings.share.value")
                             .font(AppFont.label)
@@ -433,7 +433,7 @@ struct SettingsView: View {
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
+                        .appFont(12, weight: .semibold)
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
                 .padding(14)
@@ -452,7 +452,7 @@ struct SettingsView: View {
 
             VStack(alignment: .leading, spacing: 14) {
                 Text("appearance.accent")
-                    .font(.system(size: 12, weight: .medium))
+                    .appFont(12, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
 
                 HStack(spacing: 14) {
@@ -482,7 +482,7 @@ struct SettingsView: View {
                 Divider().overlay(colors.outlineVariant)
 
                 Text("appearance.palette")
-                    .font(.system(size: 12, weight: .medium))
+                    .appFont(12, weight: .medium)
                     .foregroundStyle(colors.onSurfaceVariant)
 
                 VStack(spacing: 4) {
@@ -507,13 +507,13 @@ struct SettingsView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 7) {
             Image(systemName: icon)
-                .font(.system(size: 14, weight: .medium))
+                .appFont(14, weight: .medium)
                 .foregroundStyle(colors.primary)
                 .frame(width: 30, height: 30)
                 .background(Circle().fill(colors.primaryContainer))
 
             Text(title)
-                .font(.system(size: 13, weight: .semibold))
+                .appFont(13, weight: .semibold)
                 .foregroundStyle(colors.onSurface)
                 .lineLimit(1)
 
@@ -555,7 +555,7 @@ struct SettingsView: View {
                 }
 
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 16))
+                    .appFont(16)
                     .foregroundStyle(selected ? colors.primary : colors.outline)
             }
             .padding(.vertical, 6)
@@ -599,14 +599,14 @@ struct SettingsHeader: View {
     var body: some View {
         ZStack {
             Text(title)
-                .font(.system(size: 16, weight: .semibold))
+                .appFont(16, weight: .semibold)
                 .foregroundStyle(colors.onBackground)
 
             HStack {
                 if let onBack {
                     Button(action: onBack) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 18, weight: .semibold))
+                            .appFont(18, weight: .semibold)
                             .foregroundStyle(colors.onBackground)
                             .frame(width: 44, height: 44)
                             .contentShape(Rectangle())
@@ -616,7 +616,7 @@ struct SettingsHeader: View {
                 } else if let onMenu {
                     Button(action: onMenu) {
                         Image(systemName: "line.3.horizontal")
-                            .font(.system(size: 21, weight: .medium))
+                            .appFont(21, weight: .medium)
                             .foregroundStyle(colors.onBackground)
                             .frame(width: 44, height: 44)
                             .contentShape(Rectangle())
@@ -640,7 +640,7 @@ struct SettingsSectionLabel: View {
 
     var body: some View {
         Text(title)
-            .font(.system(size: 13, weight: .semibold))
+            .appFont(13, weight: .semibold)
             .foregroundStyle(colors.primary)
             .padding(.leading, 2)
             .padding(.top, 2)
