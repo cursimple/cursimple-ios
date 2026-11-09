@@ -545,3 +545,20 @@
 "plugin.permission.notification.receive" = "接收通知事件";
 "plugin.permission.storage.secure" = "加密存储";
 "plugin.permission.network.proxy" = "受限网络转发";
+
+"tab.school" = "学校导入";
+"school.pageTitle" = "选择学校";
+"school.search" = "搜索学校名称";
+"school.empty" = "没有匹配的学校";
+"school.extract" = "识别课表";
+"school.status.idle" = "准备中";
+"school.status.loading" = "正在打开教务系统…";
+"school.status.ready" = "登录后点「识别课表」";
+"school.status.extracting" = "正在识别课表…";
+"school.status.found" = "已识别 %d 门课程";
+"school.status.failed" = "失败：%@";
+"school.error.noPortal" = "这所学校没有配置教务地址";
+"school.error.noExtractor" = "缺少课表识别脚本";
+"school.error.invalid" = "识别到的课表数据不合法";
+"school.error.extract" = "未能识别课表（%@）";
+"school.error.noCourses" = "没有识别到课程";

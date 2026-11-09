@@ -7,6 +7,7 @@ enum AppScreen: String, CaseIterable {
     case memo
     case alarm
     case plugins
+    case school
     case settings
 
     var titleKey: LocalizedStringKey {
@@ -16,6 +17,7 @@ enum AppScreen: String, CaseIterable {
         case .memo: "tab.memo"
         case .alarm: "tab.alarm"
         case .plugins: "tab.plugins"
+        case .school: "tab.school"
         case .settings: "tab.settings"
         }
     }
@@ -27,6 +29,7 @@ enum AppScreen: String, CaseIterable {
         case .memo: "checklist"
         case .alarm: "alarm"
         case .plugins: "puzzlepiece.extension"
+        case .school: "building.columns"
         case .settings: "gearshape"
         }
     }
@@ -45,10 +48,12 @@ struct RootView: View {
         if arguments.contains("-startLibrary") { return .library }
         if arguments.contains("-startAlarm") { return .alarm }
         if arguments.contains("-startPlugins") { return .plugins }
+        if arguments.contains("-startSchool") { return .school }
         if arguments.contains("-startMemo") { return .memo }
         if arguments.contains("-startLibrary") { return .library }
         if arguments.contains("-startAlarm") { return .alarm }
         if arguments.contains("-startPlugins") { return .plugins }
+        if arguments.contains("-startSchool") { return .school }
         if arguments.contains("-startMemo") { return .memo }
         return .schedule
     }()
@@ -76,6 +81,8 @@ struct RootView: View {
                     AlarmListView(onOpenDrawer: openDrawer)
                 case .plugins:
                     PluginListView(onOpenDrawer: openDrawer)
+                case .school:
+                    SchoolImportView(onOpenDrawer: openDrawer)
                 case .settings:
                     SettingsView(onOpenDrawer: openDrawer)
                 }

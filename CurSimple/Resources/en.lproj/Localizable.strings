@@ -542,3 +542,20 @@
 "plugin.permission.notification.receive" = "Receive notification events";
 "plugin.permission.storage.secure" = "Encrypted storage";
 "plugin.permission.network.proxy" = "Restricted transport";
+
+"tab.school" = "School Import";
+"school.pageTitle" = "Choose School";
+"school.search" = "Search schools";
+"school.empty" = "No matching schools";
+"school.extract" = "Read timetable";
+"school.status.idle" = "Preparing";
+"school.status.loading" = "Opening the portal…";
+"school.status.ready" = "Sign in, then tap Read timetable";
+"school.status.extracting" = "Reading the timetable…";
+"school.status.found" = "%d courses found";
+"school.status.failed" = "Failed: %@";
+"school.error.noPortal" = "This school has no portal URL";
+"school.error.noExtractor" = "Extractor script missing";
+"school.error.invalid" = "The detected timetable is invalid";
+"school.error.extract" = "Could not read a timetable (%@)";
+"school.error.noCourses" = "No courses detected";

@@ -545,3 +545,20 @@
 "plugin.permission.notification.receive" = "接收通知事件";
 "plugin.permission.storage.secure" = "加密儲存";
 "plugin.permission.network.proxy" = "受限網路轉發";
+
+"tab.school" = "學校匯入";
+"school.pageTitle" = "選擇學校";
+"school.search" = "搜尋學校名稱";
+"school.empty" = "沒有符合的學校";
+"school.extract" = "辨識課表";
+"school.status.idle" = "準備中";
+"school.status.loading" = "正在開啟教務系統…";
+"school.status.ready" = "登入後點「辨識課表」";
+"school.status.extracting" = "正在辨識課表…";
+"school.status.found" = "已辨識 %d 門課程";
+"school.status.failed" = "失敗：%@";
+"school.error.noPortal" = "這所學校沒有設定教務位址";
+"school.error.noExtractor" = "缺少課表辨識腳本";
+"school.error.invalid" = "辨識到的課表資料不合法";
+"school.error.extract" = "未能辨識課表（%@）";
+"school.error.noCourses" = "沒有辨識到課程";

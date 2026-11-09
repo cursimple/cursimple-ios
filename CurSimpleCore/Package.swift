@@ -10,6 +10,7 @@ let package = Package(
     targets: [
         .target(
             name: "CurSimpleCore",
+            resources: [.copy("Plugins/Resources/schools.json")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

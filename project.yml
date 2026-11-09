@@ -25,6 +25,8 @@ targets:
     sources:
       - path: CurSimple
       - path: CurSimpleWidgets/TodayWidgetView.swift
+      - path: CurSimple/Plugins/Resources/generic-timetable.js
+        buildPhase: resources
     dependencies:
       - package: CurSimpleCore
       - target: CurSimpleWidgets

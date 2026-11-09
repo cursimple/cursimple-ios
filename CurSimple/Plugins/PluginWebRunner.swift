@@ -89,11 +89,14 @@ final class PluginWebRunner: NSObject {
 
     // MARK: - Bridge
 
-    /// The plugin expects `window.ctx`; every call posts back to the host.
+    /// The plugin entry is an ES module exporting `run(ctx)`; `ctx` exposes the
+    /// documented capabilities and every call posts back to the host.
     private func installBridge() {
         let bridge = """
         (function() {
-          if (window.ctx) { return; }
+          if (window.__csBridgeInstalled) { return; }
+          window.__csBridgeInstalled = true;
+
           function call(name, payload) {
             return new Promise(function(resolve, reject) {
               var id = 'r' + Math.random().toString(36).slice(2);
@@ -104,19 +107,50 @@ final class PluginWebRunner: NSObject {
               });
             });
           }
+
           window.__csResolve = function(id, ok, value) {
             var pending = (window.__csPending || {})[id];
             if (!pending) { return; }
             delete window.__csPending[id];
             if (ok) { pending.resolve(value); } else { pending.reject(new Error(String(value))); }
           };
+
+          var draft = [];
+
           window.ctx = {
+            term: null,
             log: function(text) { call('log', { text: String(text) }); },
             readDOM: function(selector) { return call('read_dom', { selector: selector }); },
             getCookies: function() { return call('read_cookies', {}); },
             setUserAgent: function(value) { return call('set_user_agent', { value: value }); },
             fetch: function(url, options) { return call('fetch', { url: url, options: options || null }); },
-            submitSchedule: function(draft) { return call('schedule_write', draft); }
+            schedule: {
+              addCourse: function(course) { draft.push(course || {}); return draft.length; },
+              reset: function() { draft = []; },
+              commit: function(options) {
+                var payload = {
+                  termId: (options && options.termId) || '',
+                  courses: draft.slice()
+                };
+                return call('schedule_commit', payload);
+              }
+            }
+          };
+
+          window.__csRun = async function(source) {
+            try {
+              var blob = new Blob([source], { type: 'text/javascript' });
+              var url = URL.createObjectURL(blob);
+              var mod = await import(url);
+              URL.revokeObjectURL(url);
+              if (typeof mod.run !== 'function') { throw new Error('entry must export run(ctx)'); }
+              return await mod.run(window.ctx);
+            } catch (error) {
+              window.webkit.messageHandlers.cursimple.postMessage({
+                id: 'run', name: 'run_error', payload: { text: String(error && error.message || error) }
+              });
+              return null;
+            }
           };
         })();
         """
@@ -127,7 +161,9 @@ final class PluginWebRunner: NSObject {
 
     private func runPluginScript() {
         guard !script.isEmpty else { return }
-        webView.evaluateJavaScript(script) { [weak self] _, error in
+        guard let literal = jsonLiteral(script) as String? else { return }
+        let js = "window.__csRun(\(literal));"
+        webView.evaluateJavaScript(js) { [weak self] _, error in
             guard let self, let error else { return }
             self.append("script error: \(error.localizedDescription)")
         }
@@ -222,18 +258,21 @@ extension PluginWebRunner: WKScriptMessageHandler {
                 }
             }.resume()
 
-        case "schedule_write":
+        case "schedule_commit":
             guard manifest.has(.scheduleWrite) else {
                 respond(id: id, ok: false, value: "permission denied")
                 return
             }
-            guard let draftJSON = payload["draft"] as? String
-                    ?? payload["json"] as? String
-                    ?? (payload.isEmpty ? nil : jsonString(payload)) else {
+            guard let draftJSON = jsonString(payload) else {
                 respond(id: id, ok: false, value: "missing draft")
                 return
             }
             handleScheduleDraft(draftJSON, id: id)
+
+        case "run_error":
+            let text = payload["text"] as? String ?? "unknown error"
+            append("run error: \(text)")
+            state = .failed(text)
 
         default:
             append("unknown bridge call: \(name)")
